@@ -1,0 +1,24 @@
+package pe.edu.utp.proyecto.service.ventas_service;
+
+import pe.edu.utp.proyecto.modelo.ventas.DetalleVenta;
+
+import java.util.List;
+import java.util.Optional;
+
+public interface DetalleVentaService {
+
+    // CRUD Básico
+    DetalleVenta guardarDetalle(DetalleVenta detalle);
+    Optional<DetalleVenta> obtenerDetallePorId(Integer id);
+    List<DetalleVenta> obtenerTodosLosDetalles();
+    DetalleVenta actualizarDetalle(Integer id, DetalleVenta detalle);
+    void eliminarDetalle(Integer id);
+
+    // Consultas específicas
+    List<DetalleVenta> obtenerDetallesPorProducto(Integer idProducto);
+    List<DetalleVenta> obtenerDetallesPorRangoSubtotal(Double min, Double max);
+    Double sumarSubtotalPorProducto(Integer idProducto);
+
+    // Lógica de negocio
+    DetalleVenta calcularSubtotal(DetalleVenta detalle);
+}
