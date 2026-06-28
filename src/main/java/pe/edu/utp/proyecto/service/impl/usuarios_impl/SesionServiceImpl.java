@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pe.edu.utp.proyecto.modelo.usuarios.Sesion;
 import pe.edu.utp.proyecto.repository.usuarios_repository.SesionRepository;
 import pe.edu.utp.proyecto.service.usuarios_service.SesionService;
+import pe.edu.utp.proyecto.service.patron.exception.BusinessException;
 
 import java.util.List;
 import java.util.Optional;
@@ -43,7 +44,7 @@ public class SesionServiceImpl implements SesionService {
     public Sesion actualizarSesion(Integer id, Sesion sesion) {
         log.info("Actualizando sesion con ID: {}", id);
         Sesion existente = sesionRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Sesion no encontrada con ID: " + id));
+                .orElseThrow(() -> new BusinessException("Sesion no encontrada con ID: " + id));
         existente.setFechaInicio(sesion.getFechaInicio());
         existente.setFechaFin(sesion.getFechaFin());
         existente.setActiva(sesion.isActiva());

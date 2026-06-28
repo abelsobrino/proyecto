@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pe.edu.utp.proyecto.modelo.inventario.Inventario;
 import pe.edu.utp.proyecto.repository.inventario_repository.InventarioRepository;
 import pe.edu.utp.proyecto.service.inventario_service.InventarioService;
+import pe.edu.utp.proyecto.service.patron.exception.BusinessException;
 
 import java.util.List;
 import java.util.Optional;
@@ -44,7 +45,7 @@ public class InventarioServiceImpl implements InventarioService {
         log.info("Actualizando inventario con ID: {}", id);
 
         Inventario existente = inventarioRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Inventario no encontrado con ID: " + id));
+                .orElseThrow(() -> new BusinessException("Inventario no encontrado con ID: " + id));
 
         existente.setNombre(inventario.getNombre());
         existente.setDescripcion(inventario.getDescripcion());

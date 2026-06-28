@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pe.edu.utp.proyecto.modelo.comprobantes.EnvioSUNAT;
 import pe.edu.utp.proyecto.repository.comprobantes_repository.EnvioSUNATRepository;
 import pe.edu.utp.proyecto.service.comprobantes_service.EnvioSUNATService;
+import pe.edu.utp.proyecto.service.patron.exception.BusinessException;
 
 import java.util.List;
 import java.util.Optional;
@@ -41,11 +42,10 @@ public class EnvioSUNATServiceImpl implements EnvioSUNATService {
     @Override
     @Transactional
     public EnvioSUNAT actualizarEnvioSUNAT(String codigoEnvio, EnvioSUNAT envioSUNAT) {
-
         log.info("Actualizando envío SUNAT con código: {}", codigoEnvio);
 
         EnvioSUNAT existente = envioSUNATRepository.findById(codigoEnvio)
-                .orElseThrow(() -> new RuntimeException("Envío SUNAT no encontrado con código: " + codigoEnvio));
+                .orElseThrow(() -> new BusinessException("Envío SUNAT no encontrado con código: " + codigoEnvio));
 
         existente.setEstadoEnvio(envioSUNAT.getEstadoEnvio());
         existente.setFechaEnvio(envioSUNAT.getFechaEnvio());
@@ -56,9 +56,7 @@ public class EnvioSUNATServiceImpl implements EnvioSUNATService {
     @Override
     @Transactional
     public void eliminarEnvioSUNAT(String codigoEnvio) {
-
         log.info("Eliminando envío SUNAT con código: {}", codigoEnvio);
-
         envioSUNATRepository.deleteById(codigoEnvio);
     }
 }

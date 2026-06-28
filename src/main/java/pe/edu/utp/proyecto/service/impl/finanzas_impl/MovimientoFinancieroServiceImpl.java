@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pe.edu.utp.proyecto.modelo.finanzas.MovimientoFinanciero;
 import pe.edu.utp.proyecto.repository.finanzas_repository.MovimientoFinancieroRepository;
 import pe.edu.utp.proyecto.service.finanzas_service.MovimientoFinancieroService;
+import pe.edu.utp.proyecto.service.patron.exception.BusinessException;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -45,7 +46,7 @@ public class MovimientoFinancieroServiceImpl implements MovimientoFinancieroServ
         log.info("Actualizando movimiento con ID: {}", id);
 
         MovimientoFinanciero existente = movimientoFinancieroRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Movimiento no encontrado con ID: " + id));
+                .orElseThrow(() -> new BusinessException("Movimiento no encontrado con ID: " + id));
 
         existente.setTipo(movimiento.getTipo());
         existente.setMonto(movimiento.getMonto());

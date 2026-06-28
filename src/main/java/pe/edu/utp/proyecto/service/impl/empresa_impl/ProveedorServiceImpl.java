@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pe.edu.utp.proyecto.modelo.empresa.Proveedor;
 import pe.edu.utp.proyecto.repository.empresa_repository.ProveedorRepository;
 import pe.edu.utp.proyecto.service.empresa_service.ProveedorService;
+import pe.edu.utp.proyecto.service.patron.exception.BusinessException;
 
 import java.util.List;
 import java.util.Optional;
@@ -44,7 +45,7 @@ public class ProveedorServiceImpl implements ProveedorService {
         log.info("Actualizando proveedor con ID: {}", id);
 
         Proveedor existente = proveedorRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Proveedor no encontrado con ID: " + id));
+                .orElseThrow(() -> new BusinessException("Proveedor no encontrado con ID: " + id));
 
         existente.setRazonSocial(proveedor.getRazonSocial());
         existente.setRuc(proveedor.getRuc());

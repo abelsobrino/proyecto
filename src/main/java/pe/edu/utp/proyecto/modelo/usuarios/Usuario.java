@@ -26,7 +26,7 @@ public class Usuario {
     private String correo;
 
     @Column(name = "contrasena", length = 255, nullable = false)
-    private String contraseña;
+    private String contrasena;
 
     @Column(name = "estado", nullable = false)
     private boolean estado;

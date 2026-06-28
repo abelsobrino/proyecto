@@ -2,7 +2,9 @@ package pe.edu.utp.proyecto.service.patron.singleton;
 
 import lombok.extern.slf4j.Slf4j;
 
+import java.time.Clock;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
@@ -10,22 +12,19 @@ import java.util.Map;
 @Slf4j
 public class ConfiguracionGlobal {
 
-    // 1. Instancia única
     private static ConfiguracionGlobal instancia;
 
-    // 2. Variables de configuración
     private String nombreSistema;
     private String version;
     private String entorno;
     private LocalDateTime fechaInicio;
     private Map<String, Object> propiedades;
 
-    // 3. Constructor privado
     private ConfiguracionGlobal() {
         this.nombreSistema = "Sistema de Ventas UTP";
         this.version = "1.0.0";
         this.entorno = "DESARROLLO";
-        this.fechaInicio = LocalDateTime.now();
+        this.fechaInicio = LocalDateTime.now(Clock.system(ZoneId.of("America/Lima")));
         this.propiedades = new HashMap<>();
 
         cargarPropiedadesDefault();
@@ -37,7 +36,6 @@ public class ConfiguracionGlobal {
         log.info("Inicio: {}", fechaInicio.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")));
     }
 
-    // 4. Método para obtener la instancia
     public static synchronized ConfiguracionGlobal getInstance() {
         if (instancia == null) {
             instancia = new ConfiguracionGlobal();
@@ -45,7 +43,6 @@ public class ConfiguracionGlobal {
         return instancia;
     }
 
-    // 5. Cargar propiedades por defecto
     private void cargarPropiedadesDefault() {
         propiedades.put("impuesto.igv", 18.0);
         propiedades.put("moneda.defecto", "PEN");
@@ -55,7 +52,6 @@ public class ConfiguracionGlobal {
         log.info("Propiedades por defecto cargadas: {}", propiedades.size());
     }
 
-    // 6. Getters
     public String getNombreSistema() {
         return nombreSistema;
     }
@@ -72,7 +68,6 @@ public class ConfiguracionGlobal {
         return fechaInicio.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"));
     }
 
-    // 7. Métodos para manejar propiedades
     public void setPropiedad(String clave, Object valor) {
         propiedades.put(clave, valor);
         log.info("Propiedad actualizada: {} = {}", clave, valor);
@@ -89,15 +84,20 @@ public class ConfiguracionGlobal {
 
     public Double getDoublePropiedad(String clave) {
         Object valor = propiedades.get(clave);
-        return valor instanceof Double ? (Double) valor : null;
+        if (valor instanceof Double doubleVal) {
+            return doubleVal;
+        }
+        return null;
     }
 
     public Integer getIntegerPropiedad(String clave) {
         Object valor = propiedades.get(clave);
-        return valor instanceof Integer ? (Integer) valor : null;
+        if (valor instanceof Integer intVal) {
+            return intVal;
+        }
+        return null;
     }
 
-    // 8. Métodos de utilidad
     public void mostrarConfiguracion() {
         log.info("=== CONFIGURACIÓN ACTUAL ===");
         log.info("Sistema: {}", nombreSistema);
@@ -109,7 +109,6 @@ public class ConfiguracionGlobal {
         log.info("=============================");
     }
 
-    // 9. Método para resetear (útil en pruebas)
     public static synchronized void resetInstance() {
         instancia = null;
         log.info("Singleton reseteado");

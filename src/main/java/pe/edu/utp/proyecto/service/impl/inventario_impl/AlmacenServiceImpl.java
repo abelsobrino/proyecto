@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pe.edu.utp.proyecto.modelo.inventario.Almacen;
 import pe.edu.utp.proyecto.repository.inventario_repository.AlmacenRepository;
 import pe.edu.utp.proyecto.service.inventario_service.AlmacenService;
+import pe.edu.utp.proyecto.service.patron.exception.BusinessException;
 
 import java.util.List;
 import java.util.Optional;
@@ -44,7 +45,7 @@ public class AlmacenServiceImpl implements AlmacenService {
         log.info("Actualizando almacén con ID: {}", id);
 
         Almacen existente = almacenRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Almacén no encontrado con ID: " + id));
+                .orElseThrow(() -> new BusinessException("Almacén no encontrado con ID: " + id));
 
         existente.setNombre(almacen.getNombre());
         existente.setDireccion(almacen.getDireccion());

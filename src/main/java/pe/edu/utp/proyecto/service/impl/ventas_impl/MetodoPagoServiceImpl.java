@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pe.edu.utp.proyecto.modelo.ventas.MetodoPago;
 import pe.edu.utp.proyecto.repository.ventas_repository.MetodoPagoRepository;
 import pe.edu.utp.proyecto.service.ventas_service.MetodoPagoService;
+import pe.edu.utp.proyecto.service.patron.exception.BusinessException;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,7 +26,7 @@ public class MetodoPagoServiceImpl implements MetodoPagoService {
         log.info("Guardando nuevo método de pago: {}", metodoPago.getNombreMetodo());
 
         if (metodoPagoRepository.findByNombreMetodo(metodoPago.getNombreMetodo()).isPresent()) {
-            throw new RuntimeException("Ya existe un método de pago con el nombre: " + metodoPago.getNombreMetodo());
+            throw new BusinessException("Ya existe un método de pago con el nombre: " + metodoPago.getNombreMetodo());
         }
 
         return metodoPagoRepository.save(metodoPago);
@@ -49,13 +50,12 @@ public class MetodoPagoServiceImpl implements MetodoPagoService {
         log.info("Actualizando método de pago con ID: {}", id);
 
         MetodoPago existente = metodoPagoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Método de pago no encontrado con ID: " + id));
+                .orElseThrow(() -> new BusinessException("Método de pago no encontrado con ID: " + id));
 
-        // Verificar nombre único
         if (!existente.getNombreMetodo().equals(metodoPago.getNombreMetodo())) {
             Optional<MetodoPago> conNombre = metodoPagoRepository.findByNombreMetodo(metodoPago.getNombreMetodo());
             if (conNombre.isPresent() && conNombre.get().getIdMetodo() != id) {
-                throw new RuntimeException("Ya existe otro método con el nombre: " + metodoPago.getNombreMetodo());
+                throw new BusinessException("Ya existe otro método con el nombre: " + metodoPago.getNombreMetodo());
             }
         }
 

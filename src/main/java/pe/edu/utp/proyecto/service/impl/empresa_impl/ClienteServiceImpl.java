@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pe.edu.utp.proyecto.modelo.empresa.Cliente;
 import pe.edu.utp.proyecto.repository.empresa_repository.ClienteRepository;
 import pe.edu.utp.proyecto.service.empresa_service.ClienteService;
+import pe.edu.utp.proyecto.service.patron.exception.BusinessException;
 
 import java.util.List;
 import java.util.Optional;
@@ -40,11 +41,10 @@ public class ClienteServiceImpl implements ClienteService {
     @Override
     @Transactional
     public Cliente actualizarCliente(Integer id, Cliente cliente) {
-
         log.info("Actualizando cliente con ID: {}", id);
 
         Cliente existente = clienteRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Cliente no encontrado con ID: " + id));
+                .orElseThrow(() -> new BusinessException("Cliente no encontrado con ID: " + id));
 
         existente.setNombres(cliente.getNombres());
         existente.setDocumento(cliente.getDocumento());
@@ -56,9 +56,7 @@ public class ClienteServiceImpl implements ClienteService {
     @Override
     @Transactional
     public void eliminarCliente(Integer id) {
-
         log.info("Eliminando cliente con ID: {}", id);
-
         clienteRepository.deleteById(id);
     }
 }

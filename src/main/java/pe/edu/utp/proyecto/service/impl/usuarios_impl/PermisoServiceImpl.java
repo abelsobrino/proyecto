@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pe.edu.utp.proyecto.modelo.usuarios.Permiso;
 import pe.edu.utp.proyecto.repository.usuarios_repository.PermisoRepository;
 import pe.edu.utp.proyecto.service.usuarios_service.PermisoService;
+import pe.edu.utp.proyecto.service.patron.exception.BusinessException;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,7 +25,7 @@ public class PermisoServiceImpl implements PermisoService {
     public Permiso guardarPermiso(Permiso permiso) {
         log.info("Guardando permiso: {}", permiso.getNombrePermiso());
         if (permisoRepository.findByNombrePermiso(permiso.getNombrePermiso()).isPresent()) {
-            throw new RuntimeException("Ya existe un permiso con el nombre: " + permiso.getNombrePermiso());
+            throw new BusinessException("Ya existe un permiso con el nombre: " + permiso.getNombrePermiso());
         }
         return permisoRepository.save(permiso);
     }
@@ -46,7 +47,7 @@ public class PermisoServiceImpl implements PermisoService {
     public Permiso actualizarPermiso(Integer id, Permiso permiso) {
         log.info("Actualizando permiso con ID: {}", id);
         Permiso existente = permisoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Permiso no encontrado con ID: " + id));
+                .orElseThrow(() -> new BusinessException("Permiso no encontrado con ID: " + id));
         existente.setNombrePermiso(permiso.getNombrePermiso());
         existente.setDescripcion(permiso.getDescripcion());
         return permisoRepository.save(existente);

@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pe.edu.utp.proyecto.modelo.empresa.Sucursal;
 import pe.edu.utp.proyecto.repository.empresa_repository.SucursalRepository;
 import pe.edu.utp.proyecto.service.empresa_service.SucursalService;
+import pe.edu.utp.proyecto.service.patron.exception.BusinessException;
 
 import java.util.List;
 import java.util.Optional;
@@ -44,7 +45,7 @@ public class SucursalServiceImpl implements SucursalService {
         log.info("Actualizando sucursal con ID: {}", id);
 
         Sucursal existente = sucursalRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Sucursal no encontrada con ID: " + id));
+                .orElseThrow(() -> new BusinessException("Sucursal no encontrada con ID: " + id));
 
         existente.setNombre(sucursal.getNombre());
         existente.setDireccion(sucursal.getDireccion());

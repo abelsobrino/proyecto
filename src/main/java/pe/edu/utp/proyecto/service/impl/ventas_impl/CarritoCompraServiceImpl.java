@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pe.edu.utp.proyecto.modelo.ventas.CarritoCompra;
 import pe.edu.utp.proyecto.repository.ventas_repository.CarritoCompraRepository;
 import pe.edu.utp.proyecto.service.ventas_service.CarritoCompraService;
+import pe.edu.utp.proyecto.service.patron.exception.BusinessException;
 
 import java.util.List;
 import java.util.Optional;
@@ -43,7 +44,7 @@ public class CarritoCompraServiceImpl implements CarritoCompraService {
     public CarritoCompra actualizarCarrito(Integer id, CarritoCompra carrito) {
         log.info("Actualizando carrito con ID: {}", id);
         CarritoCompra existente = carritoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Carrito no encontrado con ID: " + id));
+                .orElseThrow(() -> new BusinessException("Carrito no encontrado con ID: " + id));
         existente.setFechaCreacion(carrito.getFechaCreacion());
         existente.setEstado(carrito.getEstado());
         return carritoRepository.save(existente);

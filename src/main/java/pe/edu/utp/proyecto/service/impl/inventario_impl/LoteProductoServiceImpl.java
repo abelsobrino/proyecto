@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pe.edu.utp.proyecto.modelo.inventario.LoteProducto;
 import pe.edu.utp.proyecto.repository.inventario_repository.LoteProductoRepository;
 import pe.edu.utp.proyecto.service.inventario_service.LoteProductoService;
+import pe.edu.utp.proyecto.service.patron.exception.BusinessException;
 
 import java.util.Date;
 import java.util.List;
@@ -45,7 +46,7 @@ public class LoteProductoServiceImpl implements LoteProductoService {
         log.info("Actualizando lote con ID: {}", id);
 
         LoteProducto existente = loteProductoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Lote no encontrado con ID: " + id));
+                .orElseThrow(() -> new BusinessException("Lote no encontrado con ID: " + id));
 
         existente.setCodigoLote(lote.getCodigoLote());
         existente.setCantidad(lote.getCantidad());

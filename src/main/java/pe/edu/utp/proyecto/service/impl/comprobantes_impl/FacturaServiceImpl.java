@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pe.edu.utp.proyecto.modelo.comprobantes.Factura;
 import pe.edu.utp.proyecto.repository.comprobantes_repository.FacturaRepository;
 import pe.edu.utp.proyecto.service.comprobantes_service.FacturaService;
+import pe.edu.utp.proyecto.service.patron.exception.BusinessException;
 
 import java.util.List;
 import java.util.Optional;
@@ -41,11 +42,10 @@ public class FacturaServiceImpl implements FacturaService {
     @Override
     @Transactional
     public Factura actualizarFactura(Long id, Factura factura) {
-
         log.info("Actualizando factura con ID: {}", id);
 
         Factura existente = facturaRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Factura no encontrada con ID: " + id));
+                .orElseThrow(() -> new BusinessException("Factura no encontrada con ID: " + id));
 
         existente.setRucCliente(factura.getRucCliente());
 
@@ -55,9 +55,7 @@ public class FacturaServiceImpl implements FacturaService {
     @Override
     @Transactional
     public void eliminarFactura(Long id) {
-
         log.info("Eliminando factura con ID: {}", id);
-
         facturaRepository.deleteById(id);
     }
 }

@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pe.edu.utp.proyecto.modelo.usuarios.Auditoria;
 import pe.edu.utp.proyecto.repository.usuarios_repository.AuditoriaRepository;
 import pe.edu.utp.proyecto.service.usuarios_service.AuditoriaService;
+import pe.edu.utp.proyecto.service.patron.exception.BusinessException;
 
 import java.util.List;
 import java.util.Optional;
@@ -43,7 +44,7 @@ public class AuditoriaServiceImpl implements AuditoriaService {
     public Auditoria actualizarAuditoria(Integer id, Auditoria auditoria) {
         log.info("Actualizando auditoria con ID: {}", id);
         Auditoria existente = auditoriaRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Auditoria no encontrada con ID: " + id));
+                .orElseThrow(() -> new BusinessException("Auditoria no encontrada con ID: " + id));
         existente.setAccion(auditoria.getAccion());
         existente.setFecha(auditoria.getFecha());
         existente.setDescripcion(auditoria.getDescripcion());

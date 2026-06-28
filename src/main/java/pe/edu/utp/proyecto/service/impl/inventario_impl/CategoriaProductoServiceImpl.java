@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pe.edu.utp.proyecto.modelo.inventario.CategoriaProducto;
 import pe.edu.utp.proyecto.repository.inventario_repository.CategoriaProductoRepository;
 import pe.edu.utp.proyecto.service.inventario_service.CategoriaProductoService;
+import pe.edu.utp.proyecto.service.patron.exception.BusinessException;
 
 import java.util.List;
 import java.util.Optional;
@@ -44,7 +45,7 @@ public class CategoriaProductoServiceImpl implements CategoriaProductoService {
         log.info("Actualizando categoría con ID: {}", id);
 
         CategoriaProducto existente = categoriaProductoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Categoría no encontrada con ID: " + id));
+                .orElseThrow(() -> new BusinessException("Categoría no encontrada con ID: " + id));
 
         existente.setNombre(categoria.getNombre());
         existente.setDescripcion(categoria.getDescripcion());

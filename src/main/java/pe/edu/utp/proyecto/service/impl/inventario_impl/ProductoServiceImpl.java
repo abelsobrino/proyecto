@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pe.edu.utp.proyecto.modelo.inventario.Producto;
 import pe.edu.utp.proyecto.repository.inventario_repository.ProductoRepository;
 import pe.edu.utp.proyecto.service.inventario_service.ProductoService;
+import pe.edu.utp.proyecto.service.patron.exception.BusinessException;
 
 import java.util.List;
 import java.util.Optional;
@@ -43,7 +44,7 @@ public class ProductoServiceImpl implements ProductoService {
     public Producto actualizarProducto(Integer id, Producto producto) {
         log.info("Actualizando producto con ID: {}", id);
         Producto existente = productoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Producto no encontrado con ID: " + id));
+                .orElseThrow(() -> new BusinessException("Producto no encontrado con ID: " + id));
         existente.setNombre(producto.getNombre());
         existente.setPrecio(producto.getPrecio());
         existente.setStock(producto.getStock());

@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pe.edu.utp.proyecto.modelo.finanzas.Reporte;
 import pe.edu.utp.proyecto.repository.finanzas_repository.ReporteRepository;
 import pe.edu.utp.proyecto.service.finanzas_service.ReporteService;
+import pe.edu.utp.proyecto.service.patron.exception.BusinessException;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -45,7 +46,7 @@ public class ReporteServiceImpl implements ReporteService {
         log.info("Actualizando reporte con ID: {}", id);
 
         Reporte existente = reporteRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Reporte no encontrado con ID: " + id));
+                .orElseThrow(() -> new BusinessException("Reporte no encontrado con ID: " + id));
 
         existente.setTipoReporte(reporte.getTipoReporte());
         existente.setFechaGeneracion(reporte.getFechaGeneracion());

@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pe.edu.utp.proyecto.modelo.comprobantes.Boleta;
 import pe.edu.utp.proyecto.repository.comprobantes_repository.BoletaRepository;
 import pe.edu.utp.proyecto.service.comprobantes_service.BoletaService;
+import pe.edu.utp.proyecto.service.patron.exception.BusinessException;
 
 import java.util.List;
 import java.util.Optional;
@@ -41,11 +42,10 @@ public class BoletaServiceImpl implements BoletaService {
     @Override
     @Transactional
     public Boleta actualizarBoleta(Long id, Boleta boleta) {
-
         log.info("Actualizando boleta con ID: {}", id);
 
         Boleta existente = boletaRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Boleta no encontrada con ID: " + id));
+                .orElseThrow(() -> new BusinessException("Boleta no encontrada con ID: " + id));
 
         existente.setDniCliente(boleta.getDniCliente());
 
@@ -55,9 +55,7 @@ public class BoletaServiceImpl implements BoletaService {
     @Override
     @Transactional
     public void eliminarBoleta(Long id) {
-
         log.info("Eliminando boleta con ID: {}", id);
-
         boletaRepository.deleteById(id);
     }
 }

@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pe.edu.utp.proyecto.modelo.usuarios.Rol;
 import pe.edu.utp.proyecto.repository.usuarios_repository.RolRepository;
 import pe.edu.utp.proyecto.service.usuarios_service.RolService;
+import pe.edu.utp.proyecto.service.patron.exception.BusinessException;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,7 +25,7 @@ public class RolServiceImpl implements RolService {
     public Rol guardarRol(Rol rol) {
         log.info("Guardando rol: {}", rol.getNombreRol());
         if (rolRepository.findByNombreRol(rol.getNombreRol()).isPresent()) {
-            throw new RuntimeException("Ya existe un rol con el nombre: " + rol.getNombreRol());
+            throw new BusinessException("Ya existe un rol con el nombre: " + rol.getNombreRol());
         }
         return rolRepository.save(rol);
     }
@@ -46,7 +47,7 @@ public class RolServiceImpl implements RolService {
     public Rol actualizarRol(Integer id, Rol rol) {
         log.info("Actualizando rol con ID: {}", id);
         Rol existente = rolRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Rol no encontrado con ID: " + id));
+                .orElseThrow(() -> new BusinessException("Rol no encontrado con ID: " + id));
         existente.setNombreRol(rol.getNombreRol());
         existente.setDescripcion(rol.getDescripcion());
         return rolRepository.save(existente);

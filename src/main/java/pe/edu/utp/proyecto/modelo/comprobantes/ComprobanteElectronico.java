@@ -24,10 +24,10 @@ public abstract class ComprobanteElectronico {
 
     protected double total;
 
-    public ComprobanteElectronico() {
+    protected ComprobanteElectronico() {
     }
 
-    public ComprobanteElectronico(String serie, String numero, Date fechaEmision, double total) {
+    protected ComprobanteElectronico(String serie, String numero, Date fechaEmision, double total) {
         this.serie = serie;
         this.numero = numero;
         this.fechaEmision = fechaEmision;

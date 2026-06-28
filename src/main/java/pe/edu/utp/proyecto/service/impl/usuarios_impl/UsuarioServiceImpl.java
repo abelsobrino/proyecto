@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pe.edu.utp.proyecto.modelo.usuarios.Usuario;
 import pe.edu.utp.proyecto.repository.usuarios_repository.UsuarioRepository;
 import pe.edu.utp.proyecto.service.usuarios_service.UsuarioService;
+import pe.edu.utp.proyecto.service.patron.exception.BusinessException;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,7 +25,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     public Usuario guardarUsuario(Usuario usuario) {
         log.info("Guardando usuario: {}", usuario.getCorreo());
         if (usuarioRepository.findByCorreo(usuario.getCorreo()).isPresent()) {
-            throw new RuntimeException("Ya existe un usuario con el correo: " + usuario.getCorreo());
+            throw new BusinessException("Ya existe un usuario con el correo: " + usuario.getCorreo());
         }
         return usuarioRepository.save(usuario);
     }
@@ -46,10 +47,10 @@ public class UsuarioServiceImpl implements UsuarioService {
     public Usuario actualizarUsuario(Integer id, Usuario usuario) {
         log.info("Actualizando usuario con ID: {}", id);
         Usuario existente = usuarioRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado con ID: " + id));
+                .orElseThrow(() -> new BusinessException("Usuario no encontrado con ID: " + id));
         existente.setNombre(usuario.getNombre());
         existente.setCorreo(usuario.getCorreo());
-        existente.setContraseña(usuario.getContraseña());
+        existente.setContrasena(usuario.getContrasena());
         existente.setEstado(usuario.isEstado());
         existente.setRol(usuario.getRol());
         return usuarioRepository.save(existente);

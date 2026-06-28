@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pe.edu.utp.proyecto.modelo.comprobantes.Impuesto;
 import pe.edu.utp.proyecto.repository.comprobantes_repository.ImpuestoRepository;
 import pe.edu.utp.proyecto.service.comprobantes_service.ImpuestoService;
+import pe.edu.utp.proyecto.service.patron.exception.BusinessException;
 
 import java.util.List;
 import java.util.Optional;
@@ -41,11 +42,10 @@ public class ImpuestoServiceImpl implements ImpuestoService {
     @Override
     @Transactional
     public Impuesto actualizarImpuesto(String tipoImpuesto, Impuesto impuesto) {
-
         log.info("Actualizando impuesto: {}", tipoImpuesto);
 
         Impuesto existente = impuestoRepository.findById(tipoImpuesto)
-                .orElseThrow(() -> new RuntimeException("Impuesto no encontrado: " + tipoImpuesto));
+                .orElseThrow(() -> new BusinessException("Impuesto no encontrado: " + tipoImpuesto));
 
         existente.setPorcentaje(impuesto.getPorcentaje());
         existente.setMonto(impuesto.getMonto());
@@ -56,9 +56,7 @@ public class ImpuestoServiceImpl implements ImpuestoService {
     @Override
     @Transactional
     public void eliminarImpuesto(String tipoImpuesto) {
-
         log.info("Eliminando impuesto: {}", tipoImpuesto);
-
         impuestoRepository.deleteById(tipoImpuesto);
     }
 }

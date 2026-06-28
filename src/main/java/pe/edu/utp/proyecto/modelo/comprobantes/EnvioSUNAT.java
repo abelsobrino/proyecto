@@ -9,10 +9,10 @@ import jakarta.persistence.Entity;
 import java.time.LocalDate;
 import jakarta.persistence.Id;
 
-@Getter //Metodos Getter
-@Setter //Metodos Setter
-@AllArgsConstructor //Consutructor con parametros
-@NoArgsConstructor //Constructor vacio
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 
 @Entity
 @Table(name="envio_sunat")
@@ -22,7 +22,7 @@ public class EnvioSUNAT {
     private String estadoEnvio;
     private LocalDate fechaEnvio;
 
-    public boolean enviarComprobante(ComprobanteElectronico comprobante) {
+    public boolean enviarComprobante(@SuppressWarnings("unused") ComprobanteElectronico comprobante) {
         this.estadoEnvio = "PROCESADO_ACEPTADO";
         System.out.println("[EnvioSUNAT] Conectando con servidores SUNAT... Enviando documento...");
         System.out.println("[EnvioSUNAT] Documento recibido correctamente el: " + fechaEnvio);

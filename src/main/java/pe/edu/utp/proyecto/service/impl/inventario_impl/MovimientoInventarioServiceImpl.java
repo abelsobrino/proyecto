@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pe.edu.utp.proyecto.modelo.inventario.MovimientoInventario;
 import pe.edu.utp.proyecto.repository.inventario_repository.MovimientoInventarioRepository;
 import pe.edu.utp.proyecto.service.inventario_service.MovimientoInventarioService;
+import pe.edu.utp.proyecto.service.patron.exception.BusinessException;
 
 import java.util.Date;
 import java.util.List;
@@ -44,7 +45,7 @@ public class MovimientoInventarioServiceImpl implements MovimientoInventarioServ
     public MovimientoInventario actualizarMovimiento(Integer id, MovimientoInventario movimiento) {
         log.info("Actualizando movimiento con ID: {}", id);
         MovimientoInventario existente = movimientoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Movimiento no encontrado con ID: " + id));
+                .orElseThrow(() -> new BusinessException("Movimiento no encontrado con ID: " + id));
         existente.setTipoMovimiento(movimiento.getTipoMovimiento());
         existente.setCantidad(movimiento.getCantidad());
         existente.setFechaMovimiento(movimiento.getFechaMovimiento());

@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pe.edu.utp.proyecto.modelo.comprobantes.NotaCredito;
 import pe.edu.utp.proyecto.repository.comprobantes_repository.NotaCreditoRepository;
 import pe.edu.utp.proyecto.service.comprobantes_service.NotaCreditoService;
+import pe.edu.utp.proyecto.service.patron.exception.BusinessException;
 
 import java.util.List;
 import java.util.Optional;
@@ -41,11 +42,10 @@ public class NotaCreditoServiceImpl implements NotaCreditoService {
     @Override
     @Transactional
     public NotaCredito actualizarNotaCredito(Long id, NotaCredito notaCredito) {
-
         log.info("Actualizando nota de crédito con ID: {}", id);
 
         NotaCredito existente = notaCreditoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Nota de crédito no encontrada con ID: " + id));
+                .orElseThrow(() -> new BusinessException("Nota de crédito no encontrada con ID: " + id));
 
         existente.setMotivo(notaCredito.getMotivo());
 
@@ -55,9 +55,7 @@ public class NotaCreditoServiceImpl implements NotaCreditoService {
     @Override
     @Transactional
     public void eliminarNotaCredito(Long id) {
-
         log.info("Eliminando nota de crédito con ID: {}", id);
-
         notaCreditoRepository.deleteById(id);
     }
 }

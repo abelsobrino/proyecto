@@ -8,6 +8,7 @@ import pe.edu.utp.proyecto.modelo.ventas.Cotizacion;
 import pe.edu.utp.proyecto.repository.ventas_repository.CotizacionRepository;
 import pe.edu.utp.proyecto.service.patron.singleton.ConfiguracionGlobal;
 import pe.edu.utp.proyecto.service.ventas_service.CotizacionService;
+import pe.edu.utp.proyecto.service.patron.exception.BusinessException;
 
 import java.util.Date;
 import java.util.List;
@@ -39,7 +40,7 @@ public class CotizacionServiceImpl implements CotizacionService {
         log.info("Actualizando cotización con ID: {}", id);
 
         Cotizacion existente = cotizacionRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Cotización no encontrada con ID: " + id));
+                .orElseThrow(() -> new BusinessException("Cotización no encontrada con ID: " + id));
 
         existente.setFecha(cotizacion.getFecha());
         existente.setTotalEstimado(cotizacion.getTotalEstimado());
@@ -53,7 +54,7 @@ public class CotizacionServiceImpl implements CotizacionService {
         log.info("Eliminando cotización con ID: {}", id);
 
         Cotizacion cotizacion = cotizacionRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Cotización no encontrada con ID: " + id));
+                .orElseThrow(() -> new BusinessException("Cotización no encontrada con ID: " + id));
 
         cotizacionRepository.delete(cotizacion);
     }
@@ -84,7 +85,6 @@ public class CotizacionServiceImpl implements CotizacionService {
             cotizacion.setFecha(new Date());
         }
 
-        // Obtener configuración del Singleton (opcional)
         ConfiguracionGlobal config = ConfiguracionGlobal.getInstance();
         log.info("Sistema: {}, Versión: {}", config.getNombreSistema(), config.getVersion());
 
