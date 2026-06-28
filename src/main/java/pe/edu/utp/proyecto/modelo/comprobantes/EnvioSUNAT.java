@@ -23,7 +23,7 @@ public class EnvioSUNAT {
     private String estadoEnvio;
     private LocalDate fechaEnvio;
 
-    public boolean enviarComprobante(@SuppressWarnings("unused") ComprobanteElectronico comprobante) {
+    public boolean enviarComprobante() {
         this.estadoEnvio = "PROCESADO_ACEPTADO";
         log.info("[EnvioSUNAT] Conectando con servidores SUNAT... Enviando documento...");
         log.info("[EnvioSUNAT] Documento recibido correctamente el: {}", fechaEnvio);

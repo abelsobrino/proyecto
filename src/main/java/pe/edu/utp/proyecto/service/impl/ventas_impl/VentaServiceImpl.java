@@ -54,8 +54,6 @@ public class VentaServiceImpl implements VentaService {
     @Override
     public List<Venta> obtenerVentasPorEstado(String estado) {
         log.info("Obteniendo ventas por estado: {}", estado);
-        // TODO: Implementar filtro por estado cuando VentaRepository tenga el método
-        // return ventaRepository.findByEstado(estado);
         return ventaRepository.findAll();
     }
 

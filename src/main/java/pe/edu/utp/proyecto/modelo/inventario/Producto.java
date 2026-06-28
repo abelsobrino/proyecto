@@ -27,9 +27,4 @@ public class Producto {
 
     @Column(name = "stock")
     private Integer stock;
-
-    // Relación con CategoriaProducto (descomentar cuando CategoriaProducto tenga @Entity)
-    // @ManyToOne
-    // @JoinColumn(name = "id_categoria")
-    // private CategoriaProducto categoria;
 }

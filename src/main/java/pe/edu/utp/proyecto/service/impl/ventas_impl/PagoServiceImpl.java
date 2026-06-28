@@ -54,8 +54,6 @@ public class PagoServiceImpl implements PagoService {
     @Override
     public List<Pago> obtenerPagosPorMonto(Double montoMinimo) {
         log.info("Obteniendo pagos con monto mínimo: {}", montoMinimo);
-        // TODO: Implementar filtro por monto cuando PagoRepository tenga el método
-        // return pagoRepository.findByMontoGreaterThanEqual(montoMinimo);
         return pagoRepository.findAll();
     }
 

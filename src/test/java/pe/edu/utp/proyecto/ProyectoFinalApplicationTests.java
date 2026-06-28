@@ -8,6 +8,7 @@ class ProyectoFinalApplicationTests {
 
 	@Test
 	void contextLoads() {
+		// El contexto de Spring se carga correctamente
+		// Este test verifica que la aplicación pueda iniciar sin errores
 	}
-
 }
