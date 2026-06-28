@@ -7,14 +7,15 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import lombok.extern.slf4j.Slf4j;
 
-@Getter //Metodos Getter
-@Setter //Metodos Setter
-@AllArgsConstructor //Consutructor con parametros
-@NoArgsConstructor //Constructor vacio
-
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name="impuesto")
+@Slf4j
 public class Impuesto {
     @Id
     private String tipoImpuesto;
@@ -23,12 +24,12 @@ public class Impuesto {
 
     public double calcularMontoImpuesto(double base) {
         this.monto = base * (porcentaje / 100);
-        System.out.println("[Impuesto] Calculando " + tipoImpuesto + " (" + porcentaje + "%) sobre " + base + " = Monto: " + this.monto);
+        log.info("[Impuesto] Calculando {} ({}%) sobre {} = Monto: {}", tipoImpuesto, porcentaje, base, this.monto);
         return this.monto;
     }
 
     public void actualizarPorcentaje(double nuevoPorcentaje) {
         this.porcentaje = nuevoPorcentaje;
-        System.out.println("[Impuesto] Tasa de " + tipoImpuesto + " actualizada a: " + nuevoPorcentaje + "%");
+        log.info("[Impuesto] Tasa de {} actualizada a: {}%", tipoImpuesto, nuevoPorcentaje);
     }
 }

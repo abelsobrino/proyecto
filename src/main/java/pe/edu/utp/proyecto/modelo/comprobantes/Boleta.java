@@ -8,12 +8,14 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import lombok.extern.slf4j.Slf4j;
 import java.util.Date;
 
 @Setter
 @Getter
 @Entity
 @Table(name = "boleta")
+@Slf4j
 public class Boleta extends ComprobanteElectronico {
 
     @Id
@@ -22,12 +24,10 @@ public class Boleta extends ComprobanteElectronico {
 
     private String dniCliente;
 
-    // Constructor vacío
     public Boleta() {
         super();
     }
 
-    // Constructor con parámetros (llama a super)
     public Boleta(String serie, String numero, Date fechaEmision, double total, String dniCliente) {
         super(serie, numero, fechaEmision, total);
         this.dniCliente = dniCliente;
@@ -35,12 +35,12 @@ public class Boleta extends ComprobanteElectronico {
 
     @Override
     public void emitir() {
-        System.out.println("[Boleta] Emitiendo boleta de venta simplificada para el DNI: " + dniCliente);
+        log.info("[Boleta] Emitiendo boleta de venta simplificada para el DNI: {}", dniCliente);
     }
 
     @Override
     public double calcularTotal() {
-        System.out.println("[Boleta] Calculando total final de venta al por menor: " + this.total);
+        log.info("[Boleta] Calculando total final de venta al por menor: {}", this.total);
         return this.total;
     }
 }

@@ -7,13 +7,14 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import lombok.extern.slf4j.Slf4j;
 import java.util.Date;
 
 @Setter
 @Getter
-
 @Entity
 @Table(name = "factura")
+@Slf4j
 public class Factura extends ComprobanteElectronico {
 
     @Id
@@ -22,12 +23,10 @@ public class Factura extends ComprobanteElectronico {
 
     private String rucCliente;
 
-    // Constructor vacío
     public Factura() {
         super();
     }
 
-    // Constructor con parámetros (llama a super)
     public Factura(String serie, String numero, Date fechaEmision, double total, String rucCliente) {
         super(serie, numero, fechaEmision, total);
         this.rucCliente = rucCliente;
@@ -35,7 +34,7 @@ public class Factura extends ComprobanteElectronico {
 
     @Override
     public void emitir() {
-        System.out.println("[Factura] Emitiendo factura legal XML/PDF para el RUC: " + rucCliente);
+        log.info("[Factura] Emitiendo factura legal XML/PDF para el RUC: {}", rucCliente);
     }
 
     @Override
@@ -43,13 +42,13 @@ public class Factura extends ComprobanteElectronico {
         double subtotal = total;
         double igv = subtotal * 0.18;
         double totalConImpuesto = subtotal + igv;
-        System.out.println("[Factura] Calculando total (Subtotal: " + subtotal + " + IGV 18%: " + igv + ") = " + totalConImpuesto);
+        log.info("[Factura] Calculando total (Subtotal: {} + IGV 18%: {}) = {}", subtotal, igv, totalConImpuesto);
         return totalConImpuesto;
     }
 
     public boolean validarRUC() {
         boolean esValido = rucCliente != null && rucCliente.length() == 11;
-        System.out.println("[Factura] Validando formato de RUC (" + rucCliente + "): " + (esValido ? "VÁLIDO" : "INVÁLIDO"));
+        log.info("[Factura] Validando formato de RUC ({}): {}", rucCliente, esValido ? "VÁLIDO" : "INVÁLIDO");
         return esValido;
     }
 }

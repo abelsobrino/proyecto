@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDate;
 
@@ -18,6 +19,7 @@ import java.time.LocalDate;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Slf4j
 public class MovimientoFinanciero {
 
     @Id
@@ -29,14 +31,12 @@ public class MovimientoFinanciero {
     private LocalDate fecha;
 
     public boolean registrarMovimiento() {
-        System.out.println("[Finanzas] Movimiento " + idMovimiento +
-                " registrado. Tipo: " + tipo + " | Monto: S/." + monto);
+        log.info("[Finanzas] Movimiento {} registrado. Tipo: {} | Monto: S/.{}", idMovimiento, tipo, monto);
         return true;
     }
 
     public boolean revertirMovimiento() {
-        System.out.println("[Finanzas] ALERTA: Revirtiendo movimiento " +
-                idMovimiento + " por anulación de transacción.");
+        log.warn("[Finanzas] ALERTA: Revirtiendo movimiento {} por anulación de transacción.", idMovimiento);
         return true;
     }
 }

@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDate;
 import java.util.Date;
@@ -19,6 +20,7 @@ import java.util.Date;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Slf4j
 public class Reporte {
 
     @Id
@@ -29,16 +31,13 @@ public class Reporte {
     private LocalDate fechaGeneracion;
 
     public void generarReporteComercial(Date fechaInicio, Date fechaFin) {
-        System.out.println("[Reporte] Extrayendo base de datos financiera desde "
-                + fechaInicio + " hasta " + fechaFin);
-        System.out.println("[Reporte] Compilando métricas del reporte de tipo: "
-                + tipoReporte);
+        log.info("[Reporte] Extrayendo base de datos financiera desde {} hasta {}", fechaInicio, fechaFin);
+        log.info("[Reporte] Compilando métricas del reporte de tipo: {}", tipoReporte);
     }
 
     public String exportarPDF() {
         String rutaArchivo = "/reportes/comercial_" + idReporte + ".pdf";
-        System.out.println("[Reporte] Documento exportado exitosamente en: "
-                + rutaArchivo);
+        log.info("[Reporte] Documento exportado exitosamente en: {}", rutaArchivo);
         return rutaArchivo;
     }
 }

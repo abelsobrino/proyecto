@@ -8,14 +8,15 @@ import lombok.Setter;
 import jakarta.persistence.Entity;
 import java.time.LocalDate;
 import jakarta.persistence.Id;
+import lombok.extern.slf4j.Slf4j;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-
 @Entity
 @Table(name="envio_sunat")
+@Slf4j
 public class EnvioSUNAT {
     @Id
     private String codigoEnvio;
@@ -24,13 +25,13 @@ public class EnvioSUNAT {
 
     public boolean enviarComprobante(@SuppressWarnings("unused") ComprobanteElectronico comprobante) {
         this.estadoEnvio = "PROCESADO_ACEPTADO";
-        System.out.println("[EnvioSUNAT] Conectando con servidores SUNAT... Enviando documento...");
-        System.out.println("[EnvioSUNAT] Documento recibido correctamente el: " + fechaEnvio);
+        log.info("[EnvioSUNAT] Conectando con servidores SUNAT... Enviando documento...");
+        log.info("[EnvioSUNAT] Documento recibido correctamente el: {}", fechaEnvio);
         return true;
     }
 
     public String obtenerEstadoRespuesta() {
-        System.out.println("[EnvioSUNAT] Consultando respuesta: CDR recibido con estado -> " + this.estadoEnvio);
+        log.info("[EnvioSUNAT] Consultando respuesta: CDR recibido con estado -> {}", this.estadoEnvio);
         return this.estadoEnvio;
     }
 }

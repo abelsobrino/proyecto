@@ -6,11 +6,13 @@ import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.Column;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import lombok.extern.slf4j.Slf4j;
 import java.util.Date;
 
 @Getter
 @Setter
 @MappedSuperclass
+@Slf4j
 public abstract class ComprobanteElectronico {
 
     @Column(nullable = false)
@@ -39,6 +41,6 @@ public abstract class ComprobanteElectronico {
     public abstract double calcularTotal();
 
     public void cambiarEstado(String nuevoEstado) {
-        System.out.println("[Comprobante] Estado cambiado a: " + nuevoEstado);
+        log.info("[Comprobante] Estado cambiado a: {}", nuevoEstado);
     }
 }

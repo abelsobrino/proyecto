@@ -7,12 +7,14 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import lombok.extern.slf4j.Slf4j;
 import java.util.Date;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "nota_credito")
+@Slf4j
 public class NotaCredito extends ComprobanteElectronico {
 
     @Id
@@ -21,12 +23,10 @@ public class NotaCredito extends ComprobanteElectronico {
 
     private String motivo;
 
-    // Constructor vacío
     public NotaCredito() {
         super();
     }
 
-    // Constructor con parámetros (llama a super)
     public NotaCredito(String serie, String numero, Date fechaEmision, double total, String motivo) {
         super(serie, numero, fechaEmision, total);
         this.motivo = motivo;
@@ -34,16 +34,16 @@ public class NotaCredito extends ComprobanteElectronico {
 
     @Override
     public void emitir() {
-        System.out.println("[Nota Crédito] Emitiendo nota de ajuste por motivo: " + motivo);
+        log.info("[Nota Crédito] Emitiendo nota de ajuste por motivo: {}", motivo);
     }
 
     @Override
     public double calcularTotal() {
-        System.out.println("[Nota Crédito] Procesando saldo a favor / devolución de: " + this.total);
+        log.info("[Nota Crédito] Procesando saldo a favor / devolución de: {}", this.total);
         return this.total;
     }
 
     public void aplicarDescuento() {
-        System.out.println("[Nota Crédito] Descuento financiero aplicado correctamente al saldo original.");
+        log.info("[Nota Crédito] Descuento financiero aplicado correctamente al saldo original.");
     }
 }

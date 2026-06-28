@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Date;
 
@@ -14,6 +15,7 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Slf4j
 public class MovimientoInventario {
 
     @Id
@@ -22,7 +24,7 @@ public class MovimientoInventario {
     private int idMovimiento;
 
     @Column(name = "tipo_movimiento", length = 10, nullable = false)
-    private String tipoMovimiento; // "ENTRADA" o "SALIDA"
+    private String tipoMovimiento;
 
     @Column(name = "cantidad", nullable = false)
     private int cantidad;
@@ -39,7 +41,6 @@ public class MovimientoInventario {
     private Producto producto;
 
     public void registrarMovimiento() {
-        System.out.println("[MovimientoInventario] " + tipoMovimiento
-                + " de " + cantidad + " unidades - ProductoService: " + producto.getNombre());
+        log.info("[MovimientoInventario] {} de {} unidades - Producto: {}", tipoMovimiento, cantidad, producto.getNombre());
     }
 }
