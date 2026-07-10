@@ -6,5 +6,4 @@ import pe.edu.utp.proyecto.modelo.comprobantes.Impuesto;
 
 @Repository
 public interface ImpuestoRepository extends JpaRepository<Impuesto, String> {
-
 }

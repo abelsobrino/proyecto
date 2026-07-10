@@ -1,10 +1,8 @@
-package pe.edu.utp.proyecto.service.patron.otro;
+package pe.edu.utp.proyecto.service.patron.creacional_factory;
 
 public class PagoFactory {
 
-    private PagoFactory() {
-        // Constructor privado para clase utilitaria
-    }
+    private PagoFactory() {}
 
     public static ProcesadorPago crearPago(String tipo) {
         if ("TARJETA".equalsIgnoreCase(tipo)) {

@@ -1,4 +1,5 @@
 package pe.edu.utp.proyecto.modelo.empresa;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
@@ -9,7 +10,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-// 9. Clase Cliente
 @Getter
 @Setter
 @Entity
@@ -25,6 +25,4 @@ public class Cliente {
     private String nombres;
     private String documento;
     private String telefono;
-
-
 }

@@ -1,4 +1,4 @@
-package pe.edu.utp.proyecto.service.patron.otro;
+package pe.edu.utp.proyecto.service.patron.creacional_factory;
 
 import lombok.extern.slf4j.Slf4j;
 

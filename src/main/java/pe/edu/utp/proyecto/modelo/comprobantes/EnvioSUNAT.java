@@ -15,7 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="envio_sunat")
+@Table(name = "envio_sunat")
 @Slf4j
 public class EnvioSUNAT {
     @Id
@@ -25,13 +25,13 @@ public class EnvioSUNAT {
 
     public boolean enviarComprobante() {
         this.estadoEnvio = "PROCESADO_ACEPTADO";
-        log.info("[EnvioSUNAT] Conectando con servidores SUNAT... Enviando documento...");
-        log.info("[EnvioSUNAT] Documento recibido correctamente el: {}", fechaEnvio);
+        log.info("Conectando con servidores SUNAT... Enviando documento...");
+        log.info("Documento recibido correctamente el: {}", fechaEnvio);
         return true;
     }
 
     public String obtenerEstadoRespuesta() {
-        log.info("[EnvioSUNAT] Consultando respuesta: CDR recibido con estado -> {}", this.estadoEnvio);
+        log.info("Consultando respuesta: CDR recibido con estado -> {}", this.estadoEnvio);
         return this.estadoEnvio;
     }
 }

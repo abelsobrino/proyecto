@@ -1,11 +1,11 @@
 package pe.edu.utp.proyecto.modelo.comprobantes;
 
-import lombok.Getter;
-import lombok.Setter;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.Column;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import java.util.Date;
 
@@ -41,6 +41,6 @@ public abstract class ComprobanteElectronico {
     public abstract double calcularTotal();
 
     public void cambiarEstado(String nuevoEstado) {
-        log.info("[Comprobante] Estado cambiado a: {}", nuevoEstado);
+        log.info("Estado cambiado a: {}", nuevoEstado);
     }
 }

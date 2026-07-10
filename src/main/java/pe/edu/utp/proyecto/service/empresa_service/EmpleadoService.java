@@ -1,6 +1,6 @@
 package pe.edu.utp.proyecto.service.empresa_service;
-import pe.edu.utp.proyecto.modelo.empresa.Empleado;
 
+import pe.edu.utp.proyecto.modelo.empresa.Empleado;
 import java.util.List;
 import java.util.Optional;
 

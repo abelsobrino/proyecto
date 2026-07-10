@@ -1,12 +1,12 @@
 package pe.edu.utp.proyecto.modelo.comprobantes;
 
-import lombok.Getter;
-import lombok.Setter;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import java.util.Date;
 
@@ -34,7 +34,7 @@ public class Factura extends ComprobanteElectronico {
 
     @Override
     public void emitir() {
-        log.info("[Factura] Emitiendo factura legal XML/PDF para el RUC: {}", rucCliente);
+        log.info("Emitiendo factura legal XML/PDF para el RUC: {}", rucCliente);
     }
 
     @Override
@@ -42,13 +42,13 @@ public class Factura extends ComprobanteElectronico {
         double subtotal = total;
         double igv = subtotal * 0.18;
         double totalConImpuesto = subtotal + igv;
-        log.info("[Factura] Calculando total (Subtotal: {} + IGV 18%: {}) = {}", subtotal, igv, totalConImpuesto);
+        log.info("Calculando total (Subtotal: {} + IGV 18%: {}) = {}", subtotal, igv, totalConImpuesto);
         return totalConImpuesto;
     }
 
     public boolean validarRUC() {
         boolean esValido = rucCliente != null && rucCliente.length() == 11;
-        log.info("[Factura] Validando formato de RUC ({}): {}", rucCliente, esValido ? "VÁLIDO" : "INVÁLIDO");
+        log.info("Validando formato de RUC ({}): {}", rucCliente, esValido ? "VALIDA" : "INVALIDA");
         return esValido;
     }
 }

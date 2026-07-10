@@ -9,7 +9,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-// Clase Proveedor
 @Entity
 @Table(name = "proveedor")
 @Getter

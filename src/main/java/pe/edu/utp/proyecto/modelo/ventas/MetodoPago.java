@@ -24,5 +24,4 @@ public class MetodoPago {
 
     @Column(name = "descripcion", length = 255)
     private String descripcion;
-
 }

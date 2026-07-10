@@ -6,5 +6,4 @@ import pe.edu.utp.proyecto.modelo.comprobantes.EnvioSUNAT;
 
 @Repository
 public interface EnvioSUNATRepository extends JpaRepository<EnvioSUNAT, String> {
-
 }

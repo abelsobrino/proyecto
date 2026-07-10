@@ -10,7 +10,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-// 8. Clase Empleado
 @Getter
 @Setter
 @Entity
@@ -26,6 +25,4 @@ public class Empleado {
     private String nombres;
     private String apellidos;
     private String cargo;
-
-
 }

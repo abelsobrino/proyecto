@@ -1,0 +1,68 @@
+package pe.edu.utp.proyecto.controller.empresa_controller;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import pe.edu.utp.proyecto.dto.ApiResponse;
+import pe.edu.utp.proyecto.modelo.empresa.Sucursal;
+import pe.edu.utp.proyecto.service.empresa_service.SucursalService;
+import java.util.List;
+
+@RestController
+@RequestMapping("/empresa/sucursales")
+@Tag(name = "Sucursales", description = "Gestion de sucursales")
+@RequiredArgsConstructor
+@Slf4j
+public class SucursalController {
+
+    private final SucursalService sucursalService;
+
+    @Operation(summary = "Crear una nueva sucursal")
+    @PostMapping
+    public ResponseEntity<ApiResponse<Sucursal>> crearSucursal(@Valid @RequestBody Sucursal sucursal) {
+        log.info("POST /empresa/sucursales - Creando nueva sucursal");
+        Sucursal creada = sucursalService.guardarSucursal(sucursal);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(ApiResponse.success(creada, "Sucursal creada exitosamente"));
+    }
+
+    @Operation(summary = "Obtener una sucursal por su ID")
+    @GetMapping("/{id}")
+    public ResponseEntity<ApiResponse<Sucursal>> obtenerSucursal(@PathVariable Integer id) {
+        log.info("GET /empresa/sucursales/{} - Obteniendo sucursal", id);
+        return sucursalService.obtenerSucursalPorId(id)
+                .map(sucursal -> ResponseEntity.ok(ApiResponse.success(sucursal)))
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @Operation(summary = "Obtener todas las sucursales")
+    @GetMapping
+    public ResponseEntity<ApiResponse<List<Sucursal>>> obtenerTodasSucursales() {
+        log.info("GET /empresa/sucursales - Obteniendo todas las sucursales");
+        List<Sucursal> sucursales = sucursalService.obtenerTodasLasSucursales();
+        return ResponseEntity.ok(ApiResponse.success(sucursales));
+    }
+
+    @Operation(summary = "Actualizar una sucursal existente")
+    @PutMapping("/{id}")
+    public ResponseEntity<ApiResponse<Sucursal>> actualizarSucursal(
+            @PathVariable Integer id,
+            @Valid @RequestBody Sucursal sucursal) {
+        log.info("PUT /empresa/sucursales/{} - Actualizando sucursal", id);
+        Sucursal actualizada = sucursalService.actualizarSucursal(id, sucursal);
+        return ResponseEntity.ok(ApiResponse.success(actualizada, "Sucursal actualizada exitosamente"));
+    }
+
+    @Operation(summary = "Eliminar una sucursal por su ID")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ApiResponse<Void>> eliminarSucursal(@PathVariable Integer id) {
+        log.info("DELETE /empresa/sucursales/{} - Eliminando sucursal", id);
+        sucursalService.eliminarSucursal(id);
+        return ResponseEntity.ok(ApiResponse.success(null, "Sucursal eliminada exitosamente"));
+    }
+}

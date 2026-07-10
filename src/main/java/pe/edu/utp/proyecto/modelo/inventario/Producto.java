@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "productos")
@@ -23,7 +24,7 @@ public class Producto {
     private String nombre;
 
     @Column(name = "precio", precision = 10, scale = 2)
-    private Double precio;
+    private BigDecimal precio;
 
     @Column(name = "stock")
     private Integer stock;

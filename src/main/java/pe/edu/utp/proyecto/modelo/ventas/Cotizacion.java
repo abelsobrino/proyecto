@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
@@ -26,6 +26,5 @@ public class Cotizacion {
     private Date fecha;
 
     @Column(name = "total_estimado", precision = 10, scale = 2)
-    private double totalEstimado;
-
+    private BigDecimal totalEstimado;
 }

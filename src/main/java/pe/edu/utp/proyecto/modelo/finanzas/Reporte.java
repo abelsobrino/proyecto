@@ -10,7 +10,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-
 import java.time.LocalDate;
 import java.util.Date;
 
@@ -31,13 +30,13 @@ public class Reporte {
     private LocalDate fechaGeneracion;
 
     public void generarReporteComercial(Date fechaInicio, Date fechaFin) {
-        log.info("[Reporte] Extrayendo base de datos financiera desde {} hasta {}", fechaInicio, fechaFin);
-        log.info("[Reporte] Compilando métricas del reporte de tipo: {}", tipoReporte);
+        log.info("Extrayendo base de datos financiera desde {} hasta {}", fechaInicio, fechaFin);
+        log.info("Compilando metricas del reporte de tipo: {}", tipoReporte);
     }
 
     public String exportarPDF() {
         String rutaArchivo = "/reportes/comercial_" + idReporte + ".pdf";
-        log.info("[Reporte] Documento exportado exitosamente en: {}", rutaArchivo);
+        log.info("Documento exportado exitosamente en: {}", rutaArchivo);
         return rutaArchivo;
     }
 }

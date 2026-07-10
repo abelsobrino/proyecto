@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-
 import java.util.Date;
 
 @Entity
@@ -41,6 +40,6 @@ public class MovimientoInventario {
     private Producto producto;
 
     public void registrarMovimiento() {
-        log.info("[MovimientoInventario] {} de {} unidades - Producto: {}", tipoMovimiento, cantidad, producto.getNombre());
+        log.info("{} de {} unidades - Producto: {}", tipoMovimiento, cantidad, producto.getNombre());
     }
 }

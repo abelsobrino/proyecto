@@ -3,7 +3,9 @@ package pe.edu.utp.proyecto.modelo.ventas;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
@@ -13,21 +15,20 @@ public class Pago {
     @Id
     private int idPago;
 
-    private double monto;
+    private BigDecimal monto;
+
+    @Temporal(TemporalType.TIMESTAMP)
     private Date fechaPago;
 
-    // Constructor vacío
     public Pago() {
     }
 
-    // Constructor con parámetros
-    public Pago(int idPago, double monto, Date fechaPago) {
+    public Pago(int idPago, BigDecimal monto, Date fechaPago) {
         this.idPago = idPago;
         this.monto = monto;
         this.fechaPago = fechaPago;
     }
 
-    // Getters y Setters
     public int getIdPago() {
         return idPago;
     }
@@ -36,11 +37,11 @@ public class Pago {
         this.idPago = idPago;
     }
 
-    public double getMonto() {
+    public BigDecimal getMonto() {
         return monto;
     }
 
-    public void setMonto(double monto) {
+    public void setMonto(BigDecimal monto) {
         this.monto = monto;
     }
 

@@ -6,8 +6,6 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
-// Clase Sucursal
-
 @Entity
 @Table(name = "sucursal")
 @Getter
@@ -23,7 +21,6 @@ public class Sucursal {
     public Sucursal() {
     }
 
-    // Constructor
     public Sucursal(int idSucursal, String nombre, String direccion) {
         this.idSucursal = idSucursal;
         this.nombre = nombre;

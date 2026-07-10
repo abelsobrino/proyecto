@@ -1,7 +1,6 @@
 package pe.edu.utp.proyecto.service.patron.singleton;
 
 import lombok.extern.slf4j.Slf4j;
-
 import java.time.Clock;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -13,7 +12,6 @@ import java.util.Map;
 public class ConfiguracionGlobal {
 
     private static ConfiguracionGlobal instancia;
-
     private String nombreSistema;
     private String version;
     private String entorno;
@@ -26,14 +24,8 @@ public class ConfiguracionGlobal {
         this.entorno = "DESARROLLO";
         this.fechaInicio = LocalDateTime.now(Clock.system(ZoneId.of("America/Lima")));
         this.propiedades = new HashMap<>();
-
         cargarPropiedadesDefault();
-
-        log.info("=== SINGLETON CONFIGURACIÓN INICIALIZADO ===");
-        log.info("Sistema: {}", nombreSistema);
-        log.info("Versión: {}", version);
-        log.info("Entorno: {}", entorno);
-        log.info("Inicio: {}", fechaInicio.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")));
+        log.info("Singleton Configuracion inicializado");
     }
 
     public static synchronized ConfiguracionGlobal getInstance() {
@@ -49,7 +41,6 @@ public class ConfiguracionGlobal {
         propiedades.put("descuento.maximo", 30.0);
         propiedades.put("stock.minimo.alerta", 10);
         propiedades.put("timeout.sesion", 30);
-        log.info("Propiedades por defecto cargadas: {}", propiedades.size());
     }
 
     public String getNombreSistema() {
@@ -96,21 +87,5 @@ public class ConfiguracionGlobal {
             return intVal;
         }
         return null;
-    }
-
-    public void mostrarConfiguracion() {
-        log.info("=== CONFIGURACIÓN ACTUAL ===");
-        log.info("Sistema: {}", nombreSistema);
-        log.info("Versión: {}", version);
-        log.info("Entorno: {}", entorno);
-        log.info("Iniciado: {}", getFechaInicioFormateada());
-        log.info("--- PROPIEDADES ---");
-        propiedades.forEach((k, v) -> log.info("{} = {}", k, v));
-        log.info("=============================");
-    }
-
-    public static synchronized void resetInstance() {
-        instancia = null;
-        log.info("Singleton reseteado");
     }
 }

@@ -3,12 +3,9 @@ package pe.edu.utp.proyecto.repository.ventas_repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import pe.edu.utp.proyecto.modelo.ventas.CarritoCompra;
-
 import java.util.List;
 
 @Repository
 public interface CarritoCompraRepository extends JpaRepository<CarritoCompra, Integer> {
-
-    // Buscar por estado (ACTIVO, CERRADO, ABANDONADO)
     List<CarritoCompra> findByEstado(String estado);
 }

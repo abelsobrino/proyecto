@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "almacen")
@@ -25,5 +26,6 @@ public class Almacen {
     private String nombre;
     private String direccion;
     private String responsable;
-    private double capacidadMaxima;
+
+    private BigDecimal capacidadMaxima;
 }

@@ -1,13 +1,12 @@
 package pe.edu.utp.proyecto.modelo.comprobantes;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import java.util.Date;
 
@@ -35,12 +34,12 @@ public class Boleta extends ComprobanteElectronico {
 
     @Override
     public void emitir() {
-        log.info("[Boleta] Emitiendo boleta de venta simplificada para el DNI: {}", dniCliente);
+        log.info("Emitiendo boleta de venta simplificada para el DNI: {}", dniCliente);
     }
 
     @Override
     public double calcularTotal() {
-        log.info("[Boleta] Calculando total final de venta al por menor: {}", this.total);
+        log.info("Calculando total final de venta al por menor: {}", this.total);
         return this.total;
     }
 }

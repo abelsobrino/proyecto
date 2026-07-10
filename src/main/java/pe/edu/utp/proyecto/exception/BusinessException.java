@@ -1,4 +1,4 @@
-package pe.edu.utp.proyecto.service.patron.exception;
+package pe.edu.utp.proyecto.exception;
 
 public class BusinessException extends RuntimeException {
 
