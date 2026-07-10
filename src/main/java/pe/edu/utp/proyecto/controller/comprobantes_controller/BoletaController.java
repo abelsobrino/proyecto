@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pe.edu.utp.proyecto.dto.ApiResponse;
+import pe.edu.utp.proyecto.dto.BoletaDTO;
 import pe.edu.utp.proyecto.modelo.comprobantes.Boleta;
 import pe.edu.utp.proyecto.service.comprobantes_service.BoletaService;
 import pe.edu.utp.proyecto.service.patron.estructural_decorator.ComprobanteConQR;
@@ -26,14 +27,50 @@ public class BoletaController {
 
     @Operation(summary = "Crear una nueva boleta")
     @PostMapping
-    public ResponseEntity<ApiResponse<Boleta>> crearBoleta(@Valid @RequestBody Boleta boleta) {
+    public ResponseEntity<ApiResponse<BoletaDTO>> crearBoleta(@Valid @RequestBody Boleta boleta) {
         log.info("POST /comprobantes/boletas - Creando nueva boleta");
         Boleta creada = boletaService.guardarBoleta(boleta);
+        BoletaDTO dto = convertirADTO(creada);
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(ApiResponse.success(creada, "Boleta creada exitosamente"));
+                .body(ApiResponse.success(dto, "Boleta creada exitosamente"));
     }
 
-    // USO DEL PATRON DECORATOR
+    @Operation(summary = "Obtener una boleta por su ID")
+    @GetMapping("/{id}")
+    public ResponseEntity<ApiResponse<BoletaDTO>> obtenerBoleta(@PathVariable Long id) {
+        log.info("GET /comprobantes/boletas/{} - Obteniendo boleta", id);
+        return boletaService.obtenerBoletaPorId(id)
+                .map(boleta -> ResponseEntity.ok(ApiResponse.success(convertirADTO(boleta))))
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @Operation(summary = "Obtener todas las boletas")
+    @GetMapping
+    public ResponseEntity<ApiResponse<List<BoletaDTO>>> obtenerTodasBoletas() {
+        log.info("GET /comprobantes/boletas - Obteniendo todas las boletas");
+        List<Boleta> boletas = boletaService.obtenerTodasLasBoletas();
+        List<BoletaDTO> dtos = boletas.stream().map(this::convertirADTO).toList();
+        return ResponseEntity.ok(ApiResponse.success(dtos));
+    }
+
+    @Operation(summary = "Actualizar una boleta existente")
+    @PutMapping("/{id}")
+    public ResponseEntity<ApiResponse<BoletaDTO>> actualizarBoleta(
+            @PathVariable Long id,
+            @Valid @RequestBody Boleta boleta) {
+        log.info("PUT /comprobantes/boletas/{} - Actualizando boleta", id);
+        Boleta actualizada = boletaService.actualizarBoleta(id, boleta);
+        return ResponseEntity.ok(ApiResponse.success(convertirADTO(actualizada), "Boleta actualizada exitosamente"));
+    }
+
+    @Operation(summary = "Eliminar una boleta por su ID")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ApiResponse<Void>> eliminarBoleta(@PathVariable Long id) {
+        log.info("DELETE /comprobantes/boletas/{} - Eliminando boleta", id);
+        boletaService.eliminarBoleta(id);
+        return ResponseEntity.ok(ApiResponse.success(null, "Boleta eliminada exitosamente"));
+    }
+
     @Operation(summary = "Emitir boleta con codigo QR")
     @PostMapping("/emitir-con-qr")
     public ResponseEntity<ApiResponse<String>> emitirBoletaConQR(@Valid @RequestBody Boleta boleta) {
@@ -47,38 +84,18 @@ public class BoletaController {
         return ResponseEntity.ok(ApiResponse.success("Boleta emitida con QR", "Serie: " + boleta.getSerie()));
     }
 
-    @Operation(summary = "Obtener una boleta por su ID")
-    @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<Boleta>> obtenerBoleta(@PathVariable Long id) {
-        log.info("GET /comprobantes/boletas/{} - Obteniendo boleta", id);
-        return boletaService.obtenerBoletaPorId(id)
-                .map(boleta -> ResponseEntity.ok(ApiResponse.success(boleta)))
-                .orElse(ResponseEntity.notFound().build());
-    }
+    // =============================================
+    // METODO PARA CONVERTIR ENTIDAD A DTO
+    // =============================================
 
-    @Operation(summary = "Obtener todas las boletas")
-    @GetMapping
-    public ResponseEntity<ApiResponse<List<Boleta>>> obtenerTodasBoletas() {
-        log.info("GET /comprobantes/boletas - Obteniendo todas las boletas");
-        List<Boleta> boletas = boletaService.obtenerTodasLasBoletas();
-        return ResponseEntity.ok(ApiResponse.success(boletas));
-    }
-
-    @Operation(summary = "Actualizar una boleta existente")
-    @PutMapping("/{id}")
-    public ResponseEntity<ApiResponse<Boleta>> actualizarBoleta(
-            @PathVariable Long id,
-            @Valid @RequestBody Boleta boleta) {
-        log.info("PUT /comprobantes/boletas/{} - Actualizando boleta", id);
-        Boleta actualizada = boletaService.actualizarBoleta(id, boleta);
-        return ResponseEntity.ok(ApiResponse.success(actualizada, "Boleta actualizada exitosamente"));
-    }
-
-    @Operation(summary = "Eliminar una boleta por su ID")
-    @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponse<Void>> eliminarBoleta(@PathVariable Long id) {
-        log.info("DELETE /comprobantes/boletas/{} - Eliminando boleta", id);
-        boletaService.eliminarBoleta(id);
-        return ResponseEntity.ok(ApiResponse.success(null, "Boleta eliminada exitosamente"));
+    private BoletaDTO convertirADTO(Boleta boleta) {
+        return new BoletaDTO(
+                boleta.getIdBoleta(),
+                boleta.getSerie(),
+                boleta.getNumero(),
+                boleta.getFechaEmision(),
+                boleta.getTotal(),
+                boleta.getDniCliente()
+        );
     }
 }
