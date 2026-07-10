@@ -20,6 +20,8 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 public class VentaServiceImpl implements VentaService {
 
+    private static final String MENSAJE_VENTA_NO_ENCONTRADA = "Venta no encontrada con ID: ";
+
     private final VentaRepository ventaRepository;
 
     @Override
@@ -70,7 +72,7 @@ public class VentaServiceImpl implements VentaService {
         try {
             log.info("Actualizando venta con ID: {}", id);
             Venta existente = ventaRepository.findById(id)
-                    .orElseThrow(() -> new BusinessException("Venta no encontrada con ID: " + id));
+                    .orElseThrow(() -> new BusinessException(MENSAJE_VENTA_NO_ENCONTRADA + id));
 
             existente.setFechaVenta(venta.getFechaVenta());
             existente.setTotal(venta.getTotal());
@@ -97,7 +99,7 @@ public class VentaServiceImpl implements VentaService {
         try {
             log.info("Eliminando venta con ID: {}", id);
             if (!ventaRepository.existsById(id)) {
-                throw new BusinessException("Venta no encontrada con ID: " + id);
+                throw new BusinessException(MENSAJE_VENTA_NO_ENCONTRADA + id);
             }
             ventaRepository.deleteById(id);
         } catch (BusinessException e) {
@@ -138,17 +140,13 @@ public class VentaServiceImpl implements VentaService {
         }
     }
 
-    // =============================================
-    // METODOS DEL PATRON STATE
-    // =============================================
-
     @Override
     @Transactional
     public Venta procesarVenta(Integer id) {
         try {
             log.info("Procesando venta con ID: {}", id);
             Venta venta = ventaRepository.findById(id)
-                    .orElseThrow(() -> new BusinessException("Venta no encontrada con ID: " + id));
+                    .orElseThrow(() -> new BusinessException(MENSAJE_VENTA_NO_ENCONTRADA + id));
 
             venta.setEstadoActual(EstadoFactory.getEstado(venta.getEstado()));
             venta.procesar();
@@ -169,7 +167,7 @@ public class VentaServiceImpl implements VentaService {
         try {
             log.info("Completando venta con ID: {}", id);
             Venta venta = ventaRepository.findById(id)
-                    .orElseThrow(() -> new BusinessException("Venta no encontrada con ID: " + id));
+                    .orElseThrow(() -> new BusinessException(MENSAJE_VENTA_NO_ENCONTRADA + id));
 
             venta.setEstadoActual(EstadoFactory.getEstado(venta.getEstado()));
             venta.completar();
@@ -190,7 +188,7 @@ public class VentaServiceImpl implements VentaService {
         try {
             log.info("Cancelando venta con ID: {}", id);
             Venta venta = ventaRepository.findById(id)
-                    .orElseThrow(() -> new BusinessException("Venta no encontrada con ID: " + id));
+                    .orElseThrow(() -> new BusinessException(MENSAJE_VENTA_NO_ENCONTRADA + id));
 
             venta.setEstadoActual(EstadoFactory.getEstado(venta.getEstado()));
             venta.cancelar();

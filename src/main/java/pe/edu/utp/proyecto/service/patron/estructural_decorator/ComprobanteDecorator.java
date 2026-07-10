@@ -5,7 +5,7 @@ import pe.edu.utp.proyecto.modelo.comprobantes.ComprobanteElectronico;
 public abstract class ComprobanteDecorator extends ComprobanteElectronico {
     protected ComprobanteElectronico comprobante;
 
-    public ComprobanteDecorator(ComprobanteElectronico comprobante) {
+    protected ComprobanteDecorator(ComprobanteElectronico comprobante) {
         this.comprobante = comprobante;
     }
 

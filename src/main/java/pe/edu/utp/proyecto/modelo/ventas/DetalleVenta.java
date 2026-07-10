@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pe.edu.utp.proyecto.modelo.inventario.Producto;
+
 import java.math.BigDecimal;
 
 @Entity
@@ -53,8 +54,8 @@ public class DetalleVenta {
 
     public BigDecimal calcularSubtotal() {
         BigDecimal cantidadBD = BigDecimal.valueOf(cantidad);
-        BigDecimal subtotal = precioUnitario.multiply(cantidadBD).subtract(descuento);
-        this.subtotal = subtotal;
+        BigDecimal subtotalCalculado = precioUnitario.multiply(cantidadBD).subtract(descuento);
+        this.subtotal = subtotalCalculado;
         return this.subtotal;
     }
 }

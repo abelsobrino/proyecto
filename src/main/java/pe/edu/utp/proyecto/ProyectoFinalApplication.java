@@ -8,14 +8,16 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class ProyectoFinalApplication {
 
+	private static final String SEPARADOR = "============================================================";
+
 	public static void main(String[] args) {
 		SpringApplication.run(ProyectoFinalApplication.class, args);
 
-		log.info("==========================================================");
+		log.info(SEPARADOR);
 		log.info("SISTEMA DE VENTAS INICIADO");
-		log.info("==========================================================");
+		log.info(SEPARADOR);
 		log.info("Swagger: http://localhost:8090/api/swagger-ui/index.html");
 		log.info("H2:      http://localhost:8090/api/h2-console");
-		log.info("==========================================================");
+		log.info(SEPARADOR);
 	}
 }
