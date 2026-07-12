@@ -1,4 +1,4 @@
-package pe.edu.utp.proyecto.controller.usuarios_controller;
+package pe.edu.utp.proyecto.controller.usuarios;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

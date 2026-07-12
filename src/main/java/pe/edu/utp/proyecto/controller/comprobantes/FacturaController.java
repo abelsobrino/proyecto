@@ -1,4 +1,4 @@
-package pe.edu.utp.proyecto.controller.comprobantes_controller;
+package pe.edu.utp.proyecto.controller.comprobantes;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

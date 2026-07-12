@@ -1,4 +1,4 @@
-package pe.edu.utp.proyecto.controller.empresa_controller;
+package pe.edu.utp.proyecto.controller.empresa;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
