@@ -10,8 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pe.edu.utp.proyecto.dto.ApiResponse;
 import pe.edu.utp.proyecto.modelo.ventas.Venta;
-import pe.edu.utp.proyecto.service.impl.ventas_impl.VentaServiceImpl;
-import pe.edu.utp.proyecto.service.ventas_service.VentaService;
+import pe.edu.utp.proyecto.service.ventas.impl.VentaServiceImpl;
+import pe.edu.utp.proyecto.service.ventas.VentaService;
 
 import java.util.List;
 

@@ -1,0 +1,14 @@
+package pe.edu.utp.proyecto.service.ventas;
+
+import pe.edu.utp.proyecto.modelo.ventas.MetodoPago;
+import java.util.List;
+import java.util.Optional;
+
+public interface MetodoPagoService {
+    MetodoPago guardarMetodoPago(MetodoPago metodoPago);
+    Optional<MetodoPago> obtenerMetodoPagoPorId(Integer id);
+    List<MetodoPago> obtenerTodosLosMetodosPago();
+    MetodoPago actualizarMetodoPago(Integer id, MetodoPago metodoPago);
+    void eliminarMetodoPago(Integer id);
+    Optional<MetodoPago> obtenerMetodoPorNombre(String nombre);
+}

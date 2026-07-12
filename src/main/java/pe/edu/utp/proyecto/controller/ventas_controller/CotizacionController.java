@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import pe.edu.utp.proyecto.dto.ApiResponse;
 import pe.edu.utp.proyecto.modelo.ventas.Cotizacion;
 import pe.edu.utp.proyecto.service.patron.singleton.ConfiguracionGlobal;
-import pe.edu.utp.proyecto.service.ventas_service.CotizacionService;
+import pe.edu.utp.proyecto.service.ventas.CotizacionService;
 
 import java.util.List;
 

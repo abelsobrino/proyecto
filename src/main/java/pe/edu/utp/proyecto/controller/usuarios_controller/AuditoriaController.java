@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pe.edu.utp.proyecto.dto.ApiResponse;
 import pe.edu.utp.proyecto.modelo.usuarios.Auditoria;
-import pe.edu.utp.proyecto.service.usuarios_service.AuditoriaService;
+import pe.edu.utp.proyecto.service.usuarios.AuditoriaService;
 import java.util.List;
 
 @RestController

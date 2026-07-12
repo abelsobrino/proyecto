@@ -12,7 +12,7 @@ import pe.edu.utp.proyecto.dto.ApiResponse;
 import pe.edu.utp.proyecto.modelo.ventas.Pago;
 import pe.edu.utp.proyecto.service.patron.creacional_factory.PagoFactory;
 import pe.edu.utp.proyecto.service.patron.creacional_factory.ProcesadorPago;
-import pe.edu.utp.proyecto.service.ventas_service.PagoService;
+import pe.edu.utp.proyecto.service.ventas.PagoService;
 
 import java.util.List;
 

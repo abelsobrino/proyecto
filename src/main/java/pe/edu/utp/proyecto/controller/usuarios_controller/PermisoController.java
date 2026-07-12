@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pe.edu.utp.proyecto.dto.ApiResponse;
 import pe.edu.utp.proyecto.modelo.usuarios.Permiso;
-import pe.edu.utp.proyecto.service.usuarios_service.PermisoService;
+import pe.edu.utp.proyecto.service.usuarios.PermisoService;
 import java.util.List;
 
 @RestController

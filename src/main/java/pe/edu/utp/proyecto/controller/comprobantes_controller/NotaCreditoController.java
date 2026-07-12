@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pe.edu.utp.proyecto.dto.ApiResponse;
 import pe.edu.utp.proyecto.modelo.comprobantes.NotaCredito;
-import pe.edu.utp.proyecto.service.comprobantes_service.NotaCreditoService;
+import pe.edu.utp.proyecto.service.comprobantes.NotaCreditoService;
 import java.util.List;
 
 @RestController

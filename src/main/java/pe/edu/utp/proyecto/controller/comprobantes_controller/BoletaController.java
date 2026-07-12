@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pe.edu.utp.proyecto.dto.ApiResponse;
 import pe.edu.utp.proyecto.modelo.comprobantes.Boleta;
-import pe.edu.utp.proyecto.service.comprobantes_service.BoletaService;
+import pe.edu.utp.proyecto.service.comprobantes.BoletaService;
 import pe.edu.utp.proyecto.service.patron.estructural_decorator.ComprobanteConQR;
 
 import java.util.List;
