@@ -8,9 +8,14 @@ import pe.edu.utp.proyecto.exception.BusinessException;
 import pe.edu.utp.proyecto.modelo.comprobantes.Factura;
 import pe.edu.utp.proyecto.repository.comprobantes.FacturaRepository;
 import pe.edu.utp.proyecto.service.comprobantes.FacturaService;
+
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Implementacion del servicio de facturas.
+ * Contiene la logica de negocio para la gestion de facturas.
+ */
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -19,6 +24,11 @@ public class FacturaServiceImpl implements FacturaService {
 
     private final FacturaRepository facturaRepository;
 
+    /**
+     * Guarda una nueva factura.
+     * @param factura Datos de la factura.
+     * @return Factura guardada.
+     */
     @Override
     @Transactional
     public Factura guardarFactura(Factura factura) {
@@ -32,6 +42,11 @@ public class FacturaServiceImpl implements FacturaService {
         }
     }
 
+    /**
+     * Busca una factura por su ID.
+     * @param id ID de la factura.
+     * @return Optional con la factura encontrada.
+     */
     @Override
     public Optional<Factura> obtenerFacturaPorId(Long id) {
         try {
@@ -43,6 +58,10 @@ public class FacturaServiceImpl implements FacturaService {
         }
     }
 
+    /**
+     * Obtiene todas las facturas.
+     * @return Lista de facturas.
+     */
     @Override
     public List<Factura> obtenerTodasLasFacturas() {
         try {
@@ -54,6 +73,12 @@ public class FacturaServiceImpl implements FacturaService {
         }
     }
 
+    /**
+     * Actualiza una factura existente.
+     * @param id ID de la factura.
+     * @param factura Datos actualizados.
+     * @return Factura actualizada.
+     */
     @Override
     @Transactional
     public Factura actualizarFactura(Long id, Factura factura) {
@@ -75,6 +100,10 @@ public class FacturaServiceImpl implements FacturaService {
         }
     }
 
+    /**
+     * Elimina una factura.
+     * @param id ID de la factura a eliminar.
+     */
     @Override
     @Transactional
     public void eliminarFactura(Long id) {
@@ -89,6 +118,54 @@ public class FacturaServiceImpl implements FacturaService {
         } catch (Exception e) {
             log.error("Error al eliminar factura: {}", e.getMessage());
             throw new BusinessException("No se pudo eliminar la factura: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Busca una factura por el RUC del cliente.
+     * @param rucCliente RUC del cliente.
+     * @return Factura encontrada o null.
+     */
+    @Override
+    public Factura buscarPorRucCliente(String rucCliente) {
+        try {
+            log.info("Buscando factura por RUC: {}", rucCliente);
+            return facturaRepository.findByRucCliente(rucCliente);
+        } catch (Exception e) {
+            log.error("Error al buscar factura por RUC: {}", e.getMessage());
+            throw new BusinessException("Error al buscar la factura: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Busca facturas cuyo RUC contenga un texto.
+     * @param rucCliente Texto a buscar en el RUC.
+     * @return Lista de facturas que coinciden.
+     */
+    @Override
+    public List<Factura> buscarPorRucClienteContaining(String rucCliente) {
+        try {
+            log.info("Buscando facturas por RUC que contenga: {}", rucCliente);
+            return facturaRepository.findByRucClienteContaining(rucCliente);
+        } catch (Exception e) {
+            log.error("Error al buscar facturas por RUC: {}", e.getMessage());
+            throw new BusinessException("Error al buscar facturas: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Busca facturas con total mayor al especificado.
+     * @param total Valor minimo del total.
+     * @return Lista de facturas.
+     */
+    @Override
+    public List<Factura> buscarPorTotalMayor(double total) {
+        try {
+            log.info("Buscando facturas con total mayor a: {}", total);
+            return facturaRepository.findByTotalGreaterThan(total);
+        } catch (Exception e) {
+            log.error("Error al buscar facturas por total: {}", e.getMessage());
+            throw new BusinessException("Error al buscar facturas: " + e.getMessage());
         }
     }
 }

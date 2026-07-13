@@ -8,9 +8,14 @@ import pe.edu.utp.proyecto.exception.BusinessException;
 import pe.edu.utp.proyecto.modelo.empresa.Proveedor;
 import pe.edu.utp.proyecto.repository.empresa.ProveedorRepository;
 import pe.edu.utp.proyecto.service.empresa.ProveedorService;
+
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Implementacion del servicio de proveedores.
+ * Contiene la logica de negocio para la gestion de proveedores.
+ */
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -90,7 +95,7 @@ public class ProveedorServiceImpl implements ProveedorService {
     }
 
     @Override
-    public Proveedor obtenerProveedorPorRuc(String ruc) {
+    public Proveedor buscarPorRuc(String ruc) {
         try {
             log.info("Buscando proveedor por RUC: {}", ruc);
             return proveedorRepository.findByRuc(ruc);
@@ -101,13 +106,13 @@ public class ProveedorServiceImpl implements ProveedorService {
     }
 
     @Override
-    public List<Proveedor> obtenerProveedoresPorRazonSocial(String razonSocial) {
+    public List<Proveedor> buscarPorRazonSocialContaining(String razonSocial) {
         try {
-            log.info("Buscando proveedores por razon social: {}", razonSocial);
+            log.info("Buscando proveedores por razon social que contenga: {}", razonSocial);
             return proveedorRepository.findByRazonSocialContaining(razonSocial);
         } catch (Exception e) {
-            log.error("Error al buscar proveedores: {}", e.getMessage());
-            throw new BusinessException("Error al buscar los proveedores: " + e.getMessage());
+            log.error("Error al buscar proveedores por razon social: {}", e.getMessage());
+            throw new BusinessException("Error al buscar proveedores: " + e.getMessage());
         }
     }
 }

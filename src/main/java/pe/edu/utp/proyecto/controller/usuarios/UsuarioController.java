@@ -11,8 +11,12 @@ import org.springframework.web.bind.annotation.*;
 import pe.edu.utp.proyecto.dto.ApiResponse;
 import pe.edu.utp.proyecto.modelo.usuarios.Usuario;
 import pe.edu.utp.proyecto.service.usuarios.UsuarioService;
+
 import java.util.List;
 
+/**
+ * Controlador REST para la gestion de usuarios del sistema.
+ */
 @RestController
 @RequestMapping("/usuarios")
 @Tag(name = "Usuarios", description = "Gestion de usuarios del sistema")
@@ -22,6 +26,11 @@ public class UsuarioController {
 
     private final UsuarioService usuarioService;
 
+    /**
+     * Crea un nuevo usuario.
+     * @param usuario Datos del usuario.
+     * @return Usuario creado.
+     */
     @Operation(summary = "Crear un nuevo usuario")
     @PostMapping
     public ResponseEntity<ApiResponse<Usuario>> crearUsuario(@Valid @RequestBody Usuario usuario) {
@@ -31,6 +40,11 @@ public class UsuarioController {
                 .body(ApiResponse.success(creado, "Usuario creado exitosamente"));
     }
 
+    /**
+     * Obtiene un usuario por su ID.
+     * @param id ID del usuario.
+     * @return Usuario encontrado o 404.
+     */
     @Operation(summary = "Obtener un usuario por su ID")
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<Usuario>> obtenerUsuario(@PathVariable Integer id) {
@@ -40,6 +54,10 @@ public class UsuarioController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    /**
+     * Lista todos los usuarios.
+     * @return Lista de usuarios.
+     */
     @Operation(summary = "Obtener todos los usuarios")
     @GetMapping
     public ResponseEntity<ApiResponse<List<Usuario>>> obtenerTodosUsuarios() {
@@ -48,6 +66,12 @@ public class UsuarioController {
         return ResponseEntity.ok(ApiResponse.success(usuarios));
     }
 
+    /**
+     * Actualiza un usuario existente.
+     * @param id ID del usuario.
+     * @param usuario Datos actualizados.
+     * @return Usuario actualizado.
+     */
     @Operation(summary = "Actualizar un usuario existente")
     @PutMapping("/{id}")
     public ResponseEntity<ApiResponse<Usuario>> actualizarUsuario(
@@ -58,6 +82,10 @@ public class UsuarioController {
         return ResponseEntity.ok(ApiResponse.success(actualizado, "Usuario actualizado exitosamente"));
     }
 
+    /**
+     * Elimina un usuario por su ID.
+     * @param id ID del usuario a eliminar.
+     */
     @Operation(summary = "Eliminar un usuario por su ID")
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse<Void>> eliminarUsuario(@PathVariable Integer id) {
@@ -66,6 +94,11 @@ public class UsuarioController {
         return ResponseEntity.ok(ApiResponse.success(null, "Usuario eliminado exitosamente"));
     }
 
+    /**
+     * Busca un usuario por correo.
+     * @param correo Correo del usuario.
+     * @return Usuario encontrado o 404.
+     */
     @Operation(summary = "Buscar usuario por correo")
     @GetMapping("/buscar")
     public ResponseEntity<ApiResponse<Usuario>> buscarPorCorreo(@RequestParam String correo) {
@@ -75,11 +108,28 @@ public class UsuarioController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    /**
+     * Lista usuarios activos.
+     * @return Lista de usuarios activos.
+     */
     @Operation(summary = "Obtener usuarios activos")
     @GetMapping("/activos")
     public ResponseEntity<ApiResponse<List<Usuario>>> obtenerActivos() {
         log.info("GET /usuarios/activos - Obteniendo usuarios activos");
         List<Usuario> usuarios = usuarioService.obtenerUsuariosActivos();
+        return ResponseEntity.ok(ApiResponse.success(usuarios));
+    }
+
+    /**
+     * Lista usuarios por rol.
+     * @param idRol ID del rol.
+     * @return Lista de usuarios con ese rol.
+     */
+    @Operation(summary = "Obtener usuarios por rol")
+    @GetMapping("/rol/{idRol}")
+    public ResponseEntity<ApiResponse<List<Usuario>>> obtenerUsuariosPorRol(@PathVariable Integer idRol) {
+        log.info("GET /usuarios/rol/{} - Obteniendo usuarios por rol", idRol);
+        List<Usuario> usuarios = usuarioService.obtenerUsuariosPorRol(idRol);
         return ResponseEntity.ok(ApiResponse.success(usuarios));
     }
 }

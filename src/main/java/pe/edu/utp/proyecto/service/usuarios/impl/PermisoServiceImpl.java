@@ -8,9 +8,14 @@ import pe.edu.utp.proyecto.exception.BusinessException;
 import pe.edu.utp.proyecto.modelo.usuarios.Permiso;
 import pe.edu.utp.proyecto.repository.usuarios.PermisoRepository;
 import pe.edu.utp.proyecto.service.usuarios.PermisoService;
+
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Implementacion del servicio de permisos.
+ * Contiene la logica de negocio para la gestion de permisos.
+ */
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -19,6 +24,11 @@ public class PermisoServiceImpl implements PermisoService {
 
     private final PermisoRepository permisoRepository;
 
+    /**
+     * Guarda un nuevo permiso.
+     * @param permiso Datos del permiso.
+     * @return Permiso guardado.
+     */
     @Override
     @Transactional
     public Permiso guardarPermiso(Permiso permiso) {
@@ -36,6 +46,11 @@ public class PermisoServiceImpl implements PermisoService {
         }
     }
 
+    /**
+     * Busca un permiso por su ID.
+     * @param id ID del permiso.
+     * @return Optional con el permiso encontrado.
+     */
     @Override
     public Optional<Permiso> obtenerPermisoPorId(Integer id) {
         try {
@@ -47,6 +62,10 @@ public class PermisoServiceImpl implements PermisoService {
         }
     }
 
+    /**
+     * Obtiene todos los permisos.
+     * @return Lista de permisos.
+     */
     @Override
     public List<Permiso> obtenerTodosLosPermisos() {
         try {
@@ -58,6 +77,12 @@ public class PermisoServiceImpl implements PermisoService {
         }
     }
 
+    /**
+     * Actualiza un permiso existente.
+     * @param id ID del permiso.
+     * @param permiso Datos actualizados.
+     * @return Permiso actualizado.
+     */
     @Override
     @Transactional
     public Permiso actualizarPermiso(Integer id, Permiso permiso) {
@@ -76,6 +101,10 @@ public class PermisoServiceImpl implements PermisoService {
         }
     }
 
+    /**
+     * Elimina un permiso.
+     * @param id ID del permiso a eliminar.
+     */
     @Override
     @Transactional
     public void eliminarPermiso(Integer id) {
@@ -93,6 +122,11 @@ public class PermisoServiceImpl implements PermisoService {
         }
     }
 
+    /**
+     * Busca un permiso por nombre.
+     * @param nombrePermiso Nombre del permiso.
+     * @return Optional con el permiso encontrado.
+     */
     @Override
     public Optional<Permiso> buscarPorNombre(String nombrePermiso) {
         try {

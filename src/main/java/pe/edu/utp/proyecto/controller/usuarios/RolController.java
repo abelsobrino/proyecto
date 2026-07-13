@@ -11,8 +11,14 @@ import org.springframework.web.bind.annotation.*;
 import pe.edu.utp.proyecto.dto.ApiResponse;
 import pe.edu.utp.proyecto.modelo.usuarios.Rol;
 import pe.edu.utp.proyecto.service.usuarios.RolService;
+
 import java.util.List;
 
+/**
+ * Controlador REST para la gestion de roles.
+ *
+ * @author Sistema de Ventas UTP
+ */
 @RestController
 @RequestMapping("/usuarios/roles")
 @Tag(name = "Roles", description = "Gestion de roles del sistema")
@@ -22,6 +28,7 @@ public class RolController {
 
     private final RolService rolService;
 
+    /** Crea un nuevo rol */
     @Operation(summary = "Crear un nuevo rol")
     @PostMapping
     public ResponseEntity<ApiResponse<Rol>> crearRol(@Valid @RequestBody Rol rol) {
@@ -31,6 +38,7 @@ public class RolController {
                 .body(ApiResponse.success(creado, "Rol creado exitosamente"));
     }
 
+    /** Obtiene un rol por su ID */
     @Operation(summary = "Obtener un rol por su ID")
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<Rol>> obtenerRol(@PathVariable Integer id) {
@@ -40,6 +48,7 @@ public class RolController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    /** Lista todos los roles */
     @Operation(summary = "Obtener todos los roles")
     @GetMapping
     public ResponseEntity<ApiResponse<List<Rol>>> obtenerTodosRoles() {
@@ -48,6 +57,7 @@ public class RolController {
         return ResponseEntity.ok(ApiResponse.success(roles));
     }
 
+    /** Actualiza un rol existente */
     @Operation(summary = "Actualizar un rol existente")
     @PutMapping("/{id}")
     public ResponseEntity<ApiResponse<Rol>> actualizarRol(
@@ -58,6 +68,7 @@ public class RolController {
         return ResponseEntity.ok(ApiResponse.success(actualizado, "Rol actualizado exitosamente"));
     }
 
+    /** Elimina un rol por su ID */
     @Operation(summary = "Eliminar un rol por su ID")
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse<Void>> eliminarRol(@PathVariable Integer id) {

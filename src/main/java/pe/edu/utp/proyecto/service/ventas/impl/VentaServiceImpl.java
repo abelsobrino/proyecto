@@ -14,6 +14,11 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Implementacion del servicio de ventas.
+ * Contiene la logica de negocio para la gestion de ventas.
+ * Utiliza el patron State para gestionar los estados de la venta.
+ */
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -24,6 +29,11 @@ public class VentaServiceImpl implements VentaService {
 
     private final VentaRepository ventaRepository;
 
+    /**
+     * Guarda una nueva venta.
+     * @param venta Datos de la venta.
+     * @return Venta guardada.
+     */
     @Override
     @Transactional
     public Venta guardarVenta(Venta venta) {
@@ -40,6 +50,11 @@ public class VentaServiceImpl implements VentaService {
         }
     }
 
+    /**
+     * Busca una venta por su ID.
+     * @param id ID de la venta.
+     * @return Optional con la venta encontrada.
+     */
     @Override
     public Optional<Venta> obtenerVentaPorId(Integer id) {
         try {
@@ -53,6 +68,10 @@ public class VentaServiceImpl implements VentaService {
         }
     }
 
+    /**
+     * Obtiene todas las ventas.
+     * @return Lista de ventas.
+     */
     @Override
     public List<Venta> obtenerTodasLasVentas() {
         try {
@@ -66,6 +85,12 @@ public class VentaServiceImpl implements VentaService {
         }
     }
 
+    /**
+     * Actualiza una venta existente.
+     * @param id ID de la venta.
+     * @param venta Datos actualizados.
+     * @return Venta actualizada.
+     */
     @Override
     @Transactional
     public Venta actualizarVenta(Integer id, Venta venta) {
@@ -93,6 +118,10 @@ public class VentaServiceImpl implements VentaService {
         }
     }
 
+    /**
+     * Elimina una venta.
+     * @param id ID de la venta a eliminar.
+     */
     @Override
     @Transactional
     public void eliminarVenta(Integer id) {
@@ -110,7 +139,11 @@ public class VentaServiceImpl implements VentaService {
         }
     }
 
-    @Override
+    /**
+     * Obtiene ventas por estado.
+     * @param estado Estado de la venta.
+     * @return Lista de ventas.
+     */
     public List<Venta> obtenerVentasPorEstado(String estado) {
         try {
             log.info("Obteniendo ventas por estado: {}", estado);
@@ -126,6 +159,11 @@ public class VentaServiceImpl implements VentaService {
         }
     }
 
+    /**
+     * Calcula el total de una venta.
+     * @param id ID de la venta.
+     * @return Total de la venta.
+     */
     @Override
     public Double calcularTotalVenta(Integer id) {
         try {
@@ -140,6 +178,12 @@ public class VentaServiceImpl implements VentaService {
         }
     }
 
+
+    /**
+     * Cambia el estado de la venta a PROCESANDO.
+     * @param id ID de la venta.
+     * @return Venta actualizada.
+     */
     @Override
     @Transactional
     public Venta procesarVenta(Integer id) {
@@ -161,6 +205,11 @@ public class VentaServiceImpl implements VentaService {
         }
     }
 
+    /**
+     * Cambia el estado de la venta a COMPLETADA.
+     * @param id ID de la venta.
+     * @return Venta actualizada.
+     */
     @Override
     @Transactional
     public Venta completarVenta(Integer id) {
@@ -182,6 +231,11 @@ public class VentaServiceImpl implements VentaService {
         }
     }
 
+    /**
+     * Cambia el estado de la venta a CANCELADA.
+     * @param id ID de la venta.
+     * @return Venta actualizada.
+     */
     @Override
     @Transactional
     public Venta cancelarVenta(Integer id) {

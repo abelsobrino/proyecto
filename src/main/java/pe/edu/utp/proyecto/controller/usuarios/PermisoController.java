@@ -11,8 +11,14 @@ import org.springframework.web.bind.annotation.*;
 import pe.edu.utp.proyecto.dto.ApiResponse;
 import pe.edu.utp.proyecto.modelo.usuarios.Permiso;
 import pe.edu.utp.proyecto.service.usuarios.PermisoService;
+
 import java.util.List;
 
+/**
+ * Controlador REST para la gestion de permisos.
+ *
+ * @author Sistema de Ventas UTP
+ */
 @RestController
 @RequestMapping("/usuarios/permisos")
 @Tag(name = "Permisos", description = "Gestion de permisos del sistema")
@@ -22,6 +28,7 @@ public class PermisoController {
 
     private final PermisoService permisoService;
 
+    /** Crea un nuevo permiso */
     @Operation(summary = "Crear un nuevo permiso")
     @PostMapping
     public ResponseEntity<ApiResponse<Permiso>> crearPermiso(@Valid @RequestBody Permiso permiso) {
@@ -31,6 +38,7 @@ public class PermisoController {
                 .body(ApiResponse.success(creado, "Permiso creado exitosamente"));
     }
 
+    /** Obtiene un permiso por su ID */
     @Operation(summary = "Obtener un permiso por su ID")
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<Permiso>> obtenerPermiso(@PathVariable Integer id) {
@@ -40,6 +48,7 @@ public class PermisoController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    /** Lista todos los permisos */
     @Operation(summary = "Obtener todos los permisos")
     @GetMapping
     public ResponseEntity<ApiResponse<List<Permiso>>> obtenerTodosPermisos() {
@@ -48,6 +57,7 @@ public class PermisoController {
         return ResponseEntity.ok(ApiResponse.success(permisos));
     }
 
+    /** Actualiza un permiso existente */
     @Operation(summary = "Actualizar un permiso existente")
     @PutMapping("/{id}")
     public ResponseEntity<ApiResponse<Permiso>> actualizarPermiso(
@@ -58,6 +68,7 @@ public class PermisoController {
         return ResponseEntity.ok(ApiResponse.success(actualizado, "Permiso actualizado exitosamente"));
     }
 
+    /** Elimina un permiso por su ID */
     @Operation(summary = "Eliminar un permiso por su ID")
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse<Void>> eliminarPermiso(@PathVariable Integer id) {

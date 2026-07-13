@@ -11,8 +11,16 @@ import org.springframework.web.bind.annotation.*;
 import pe.edu.utp.proyecto.dto.ApiResponse;
 import pe.edu.utp.proyecto.modelo.empresa.Proveedor;
 import pe.edu.utp.proyecto.service.empresa.ProveedorService;
+
 import java.util.List;
 
+/**
+ * Controlador REST para la gestion de proveedores.
+ * Expone endpoints para operaciones CRUD y consultas especializadas.
+ *
+ * @author Sistema de Ventas UTP
+ * @version 1.0.0
+ */
 @RestController
 @RequestMapping("/empresa/proveedores")
 @Tag(name = "Proveedores", description = "Gestion de proveedores")
@@ -64,5 +72,24 @@ public class ProveedorController {
         log.info("DELETE /empresa/proveedores/{} - Eliminando proveedor", id);
         proveedorService.eliminarProveedor(id);
         return ResponseEntity.ok(ApiResponse.success(null, "Proveedor eliminado exitosamente"));
+    }
+
+    @Operation(summary = "Buscar proveedor por RUC")
+    @GetMapping("/buscar/ruc/{ruc}")
+    public ResponseEntity<ApiResponse<Proveedor>> buscarPorRuc(@PathVariable String ruc) {
+        log.info("GET /empresa/proveedores/buscar/ruc/{} - Buscando por RUC", ruc);
+        Proveedor proveedor = proveedorService.buscarPorRuc(ruc);
+        if (proveedor != null) {
+            return ResponseEntity.ok(ApiResponse.success(proveedor));
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    @Operation(summary = "Buscar proveedores por razon social que contenga")
+    @GetMapping("/buscar/razon-social/{razonSocial}")
+    public ResponseEntity<ApiResponse<List<Proveedor>>> buscarPorRazonSocialContaining(@PathVariable String razonSocial) {
+        log.info("GET /empresa/proveedores/buscar/razon-social/{} - Buscando por razon social", razonSocial);
+        List<Proveedor> proveedores = proveedorService.buscarPorRazonSocialContaining(razonSocial);
+        return ResponseEntity.ok(ApiResponse.success(proveedores));
     }
 }

@@ -8,10 +8,14 @@ import pe.edu.utp.proyecto.exception.BusinessException;
 import pe.edu.utp.proyecto.modelo.inventario.LoteProducto;
 import pe.edu.utp.proyecto.repository.inventario.LoteProductoRepository;
 import pe.edu.utp.proyecto.service.inventario.LoteProductoService;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Implementacion del servicio de lotes de productos.
+ */
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -94,24 +98,24 @@ public class LoteProductoServiceImpl implements LoteProductoService {
     }
 
     @Override
-    public List<LoteProducto> obtenerLotesPorCodigo(String codigoLote) {
+    public List<LoteProducto> buscarPorCodigoLote(String codigoLote) {
         try {
             log.info("Buscando lotes por codigo: {}", codigoLote);
             return loteProductoRepository.findByCodigoLote(codigoLote);
         } catch (Exception e) {
             log.error("Error al buscar lotes por codigo: {}", e.getMessage());
-            throw new BusinessException("Error al buscar los lotes: " + e.getMessage());
+            throw new BusinessException("Error al buscar lotes: " + e.getMessage());
         }
     }
 
     @Override
-    public List<LoteProducto> obtenerLotesPorFechaVencimiento(Date fechaVencimiento) {
+    public List<LoteProducto> buscarPorFechaVencimiento(Date fechaVencimiento) {
         try {
             log.info("Buscando lotes por fecha de vencimiento: {}", fechaVencimiento);
             return loteProductoRepository.findByFechaVencimiento(fechaVencimiento);
         } catch (Exception e) {
             log.error("Error al buscar lotes por fecha: {}", e.getMessage());
-            throw new BusinessException("Error al buscar los lotes: " + e.getMessage());
+            throw new BusinessException("Error al buscar lotes: " + e.getMessage());
         }
     }
 }

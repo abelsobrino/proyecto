@@ -11,8 +11,16 @@ import org.springframework.web.bind.annotation.*;
 import pe.edu.utp.proyecto.dto.ApiResponse;
 import pe.edu.utp.proyecto.modelo.empresa.Sucursal;
 import pe.edu.utp.proyecto.service.empresa.SucursalService;
+
 import java.util.List;
 
+/**
+ * Controlador REST para la gestion de sucursales.
+ * Expone endpoints para operaciones CRUD y consultas especializadas.
+ *
+ * @author Sistema de Ventas UTP
+ * @version 1.0.0
+ */
 @RestController
 @RequestMapping("/empresa/sucursales")
 @Tag(name = "Sucursales", description = "Gestion de sucursales")
@@ -64,5 +72,21 @@ public class SucursalController {
         log.info("DELETE /empresa/sucursales/{} - Eliminando sucursal", id);
         sucursalService.eliminarSucursal(id);
         return ResponseEntity.ok(ApiResponse.success(null, "Sucursal eliminada exitosamente"));
+    }
+
+    @Operation(summary = "Buscar sucursales por nombre que contenga")
+    @GetMapping("/buscar/nombre/{nombre}")
+    public ResponseEntity<ApiResponse<List<Sucursal>>> buscarPorNombre(@PathVariable String nombre) {
+        log.info("GET /empresa/sucursales/buscar/nombre/{} - Buscando por nombre", nombre);
+        List<Sucursal> sucursales = sucursalService.buscarPorNombre(nombre);
+        return ResponseEntity.ok(ApiResponse.success(sucursales));
+    }
+
+    @Operation(summary = "Buscar sucursales por direccion que contenga")
+    @GetMapping("/buscar/direccion/{direccion}")
+    public ResponseEntity<ApiResponse<List<Sucursal>>> buscarPorDireccion(@PathVariable String direccion) {
+        log.info("GET /empresa/sucursales/buscar/direccion/{} - Buscando por direccion", direccion);
+        List<Sucursal> sucursales = sucursalService.buscarPorDireccion(direccion);
+        return ResponseEntity.ok(ApiResponse.success(sucursales));
     }
 }

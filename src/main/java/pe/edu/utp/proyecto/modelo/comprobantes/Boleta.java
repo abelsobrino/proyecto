@@ -1,15 +1,20 @@
 package pe.edu.utp.proyecto.modelo.comprobantes;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import java.util.Date;
 
+import java.time.LocalDate;
+
+/**
+ * Representa una boleta de venta simplificada.
+ * Extiende de ComprobanteElectronico y agrega el DNI del cliente.
+ */
 @Setter
 @Getter
 @Entity
@@ -21,13 +26,14 @@ public class Boleta extends ComprobanteElectronico {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idBoleta;
 
+    /** DNI del cliente que realiza la compra */
     private String dniCliente;
 
     public Boleta() {
         super();
     }
 
-    public Boleta(String serie, String numero, Date fechaEmision, double total, String dniCliente) {
+    public Boleta(String serie, String numero, LocalDate fechaEmision, double total, String dniCliente) {
         super(serie, numero, fechaEmision, total);
         this.dniCliente = dniCliente;
     }

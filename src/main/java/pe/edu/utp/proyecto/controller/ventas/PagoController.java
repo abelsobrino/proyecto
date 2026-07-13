@@ -16,6 +16,9 @@ import pe.edu.utp.proyecto.service.ventas.PagoService;
 
 import java.util.List;
 
+/**
+ * Controlador REST para la gestion de pagos.
+ */
 @RestController
 @RequestMapping("/ventas/pagos")
 @Tag(name = "Pagos", description = "Gestion de pagos")
@@ -25,6 +28,11 @@ public class PagoController {
 
     private final PagoService pagoService;
 
+    /**
+     * Registra un nuevo pago.
+     * @param pago Datos del pago.
+     * @return Pago registrado.
+     */
     @Operation(summary = "Registrar un nuevo pago")
     @PostMapping
     public ResponseEntity<ApiResponse<Pago>> crearPago(@Valid @RequestBody Pago pago) {
@@ -34,19 +42,25 @@ public class PagoController {
                 .body(ApiResponse.success(creado, "Pago registrado exitosamente"));
     }
 
-    // USO DEL PATRON FACTORY
+    /**
+     * Procesa un pago segun el tipo (EFECTIVO/TARJETA) - Patron Factory.
+     * @param tipo Tipo de pago.
+     * @return Mensaje de confirmacion.
+     */
     @Operation(summary = "Procesar un pago segun el tipo (EFECTIVO/TARJETA)")
     @PostMapping("/procesar")
     public ResponseEntity<ApiResponse<String>> procesarPago(@RequestParam String tipo) {
         log.info("POST /ventas/pagos/procesar - Procesando pago tipo: {}", tipo);
-
-        // USO DEL PATRON FACTORY
         ProcesadorPago pago = PagoFactory.crearPago(tipo);
         pago.procesarPago();
-
         return ResponseEntity.ok(ApiResponse.success("Pago procesado correctamente", "Tipo: " + tipo));
     }
 
+    /**
+     * Obtiene un pago por su ID.
+     * @param id ID del pago.
+     * @return Pago encontrado o 404.
+     */
     @Operation(summary = "Obtener un pago por su ID")
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<Pago>> obtenerPago(@PathVariable Integer id) {
@@ -56,6 +70,10 @@ public class PagoController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    /**
+     * Lista todos los pagos.
+     * @return Lista de pagos.
+     */
     @Operation(summary = "Obtener todos los pagos")
     @GetMapping
     public ResponseEntity<ApiResponse<List<Pago>>> obtenerTodosPagos() {
@@ -64,6 +82,12 @@ public class PagoController {
         return ResponseEntity.ok(ApiResponse.success(pagos));
     }
 
+    /**
+     * Actualiza un pago existente.
+     * @param id ID del pago.
+     * @param pago Datos actualizados.
+     * @return Pago actualizado.
+     */
     @Operation(summary = "Actualizar un pago existente")
     @PutMapping("/{id}")
     public ResponseEntity<ApiResponse<Pago>> actualizarPago(
@@ -74,6 +98,10 @@ public class PagoController {
         return ResponseEntity.ok(ApiResponse.success(actualizado, "Pago actualizado exitosamente"));
     }
 
+    /**
+     * Elimina un pago por su ID.
+     * @param id ID del pago a eliminar.
+     */
     @Operation(summary = "Eliminar un pago por su ID")
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse<Void>> eliminarPago(@PathVariable Integer id) {
@@ -82,6 +110,23 @@ public class PagoController {
         return ResponseEntity.ok(ApiResponse.success(null, "Pago eliminado exitosamente"));
     }
 
+    /**
+     * Busca pagos con monto mayor o igual al especificado.
+     * @param montoMinimo Monto minimo.
+     * @return Lista de pagos.
+     */
+    @Operation(summary = "Buscar pagos por monto minimo")
+    @GetMapping("/monto-minimo/{montoMinimo}")
+    public ResponseEntity<ApiResponse<List<Pago>>> obtenerPagosPorMonto(@PathVariable Double montoMinimo) {
+        log.info("GET /ventas/pagos/monto-minimo/{} - Buscando pagos con monto minimo", montoMinimo);
+        List<Pago> pagos = pagoService.obtenerPagosPorMonto(montoMinimo);
+        return ResponseEntity.ok(ApiResponse.success(pagos));
+    }
+
+    /**
+     * Calcula el monto total de todos los pagos.
+     * @return Suma de todos los montos.
+     */
     @Operation(summary = "Calcular monto total de todos los pagos")
     @GetMapping("/total")
     public ResponseEntity<ApiResponse<Double>> calcularTotalPagos() {

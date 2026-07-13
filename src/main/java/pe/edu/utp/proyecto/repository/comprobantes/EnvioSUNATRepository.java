@@ -4,6 +4,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import pe.edu.utp.proyecto.modelo.comprobantes.EnvioSUNAT;
 
+/**
+ * Repositorio para la entidad EnvioSUNAT.
+ * El ID es de tipo String (codigoEnvio).
+ */
 @Repository
 public interface EnvioSUNATRepository extends JpaRepository<EnvioSUNAT, String> {
+    // Metodos CRUD heredados de JpaRepository
 }

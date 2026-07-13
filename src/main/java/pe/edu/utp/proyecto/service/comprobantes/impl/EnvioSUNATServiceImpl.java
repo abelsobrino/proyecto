@@ -8,9 +8,14 @@ import pe.edu.utp.proyecto.exception.BusinessException;
 import pe.edu.utp.proyecto.modelo.comprobantes.EnvioSUNAT;
 import pe.edu.utp.proyecto.repository.comprobantes.EnvioSUNATRepository;
 import pe.edu.utp.proyecto.service.comprobantes.EnvioSUNATService;
+
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Implementacion del servicio de envios a SUNAT.
+ * Contiene la logica de negocio para la gestion de envios a SUNAT.
+ */
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -19,11 +24,16 @@ public class EnvioSUNATServiceImpl implements EnvioSUNATService {
 
     private final EnvioSUNATRepository envioSUNATRepository;
 
+    /**
+     * Guarda un nuevo envio a SUNAT.
+     * @param envioSUNAT Datos del envio.
+     * @return Envio guardado.
+     */
     @Override
     @Transactional
     public EnvioSUNAT guardarEnvioSUNAT(EnvioSUNAT envioSUNAT) {
         try {
-            log.info("Guardando envío a SUNAT");
+            log.info("Guardando envio a SUNAT");
             return envioSUNATRepository.save(envioSUNAT);
         } catch (Exception e) {
             log.error("Error al guardar envio SUNAT: {}", e.getMessage());
@@ -31,6 +41,11 @@ public class EnvioSUNATServiceImpl implements EnvioSUNATService {
         }
     }
 
+    /**
+     * Busca un envio a SUNAT por su codigo.
+     * @param codigoEnvio Codigo del envio.
+     * @return Optional con el envio encontrado.
+     */
     @Override
     public Optional<EnvioSUNAT> obtenerEnvioSUNATPorId(String codigoEnvio) {
         try {
@@ -42,6 +57,10 @@ public class EnvioSUNATServiceImpl implements EnvioSUNATService {
         }
     }
 
+    /**
+     * Obtiene todos los envios a SUNAT.
+     * @return Lista de envios.
+     */
     @Override
     public List<EnvioSUNAT> obtenerTodosLosEnviosSUNAT() {
         try {
@@ -53,6 +72,12 @@ public class EnvioSUNATServiceImpl implements EnvioSUNATService {
         }
     }
 
+    /**
+     * Actualiza un envio a SUNAT existente.
+     * @param codigoEnvio Codigo del envio.
+     * @param envioSUNAT Datos actualizados.
+     * @return Envio actualizado.
+     */
     @Override
     @Transactional
     public EnvioSUNAT actualizarEnvioSUNAT(String codigoEnvio, EnvioSUNAT envioSUNAT) {
@@ -71,6 +96,10 @@ public class EnvioSUNATServiceImpl implements EnvioSUNATService {
         }
     }
 
+    /**
+     * Elimina un envio a SUNAT.
+     * @param codigoEnvio Codigo del envio a eliminar.
+     */
     @Override
     @Transactional
     public void eliminarEnvioSUNAT(String codigoEnvio) {

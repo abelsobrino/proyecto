@@ -11,8 +11,16 @@ import org.springframework.web.bind.annotation.*;
 import pe.edu.utp.proyecto.dto.ApiResponse;
 import pe.edu.utp.proyecto.modelo.comprobantes.EnvioSUNAT;
 import pe.edu.utp.proyecto.service.comprobantes.EnvioSUNATService;
+
 import java.util.List;
 
+/**
+ * Controlador REST para la gestion de envios a SUNAT.
+ * Expone endpoints para operaciones CRUD de envios.
+ *
+ * @author Sistema de Ventas UTP
+ * @version 1.0.0
+ */
 @RestController
 @RequestMapping("/comprobantes/envios-sunat")
 @Tag(name = "Envios SUNAT", description = "Gestion de envios a SUNAT")

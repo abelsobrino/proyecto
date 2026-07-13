@@ -8,9 +8,14 @@ import pe.edu.utp.proyecto.exception.BusinessException;
 import pe.edu.utp.proyecto.modelo.inventario.Almacen;
 import pe.edu.utp.proyecto.repository.inventario.AlmacenRepository;
 import pe.edu.utp.proyecto.service.inventario.AlmacenService;
+
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Implementacion del servicio de almacenes.
+ * Contiene la logica de negocio para la gestion de almacenes.
+ */
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -91,24 +96,24 @@ public class AlmacenServiceImpl implements AlmacenService {
     }
 
     @Override
-    public List<Almacen> obtenerAlmacenesPorNombre(String nombre) {
+    public List<Almacen> buscarPorNombre(String nombre) {
         try {
             log.info("Buscando almacenes por nombre: {}", nombre);
             return almacenRepository.findByNombreContaining(nombre);
         } catch (Exception e) {
             log.error("Error al buscar almacenes por nombre: {}", e.getMessage());
-            throw new BusinessException("Error al buscar los almacenes: " + e.getMessage());
+            throw new BusinessException("Error al buscar almacenes: " + e.getMessage());
         }
     }
 
     @Override
-    public List<Almacen> obtenerAlmacenesPorResponsable(String responsable) {
+    public List<Almacen> buscarPorResponsable(String responsable) {
         try {
             log.info("Buscando almacenes por responsable: {}", responsable);
             return almacenRepository.findByResponsableContaining(responsable);
         } catch (Exception e) {
             log.error("Error al buscar almacenes por responsable: {}", e.getMessage());
-            throw new BusinessException("Error al buscar los almacenes: " + e.getMessage());
+            throw new BusinessException("Error al buscar almacenes: " + e.getMessage());
         }
     }
 }

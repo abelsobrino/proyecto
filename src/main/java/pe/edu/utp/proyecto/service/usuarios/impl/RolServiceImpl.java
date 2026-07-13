@@ -8,9 +8,14 @@ import pe.edu.utp.proyecto.exception.BusinessException;
 import pe.edu.utp.proyecto.modelo.usuarios.Rol;
 import pe.edu.utp.proyecto.repository.usuarios.RolRepository;
 import pe.edu.utp.proyecto.service.usuarios.RolService;
+
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Implementacion del servicio de roles.
+ * Contiene la logica de negocio para la gestion de roles.
+ */
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -19,6 +24,11 @@ public class RolServiceImpl implements RolService {
 
     private final RolRepository rolRepository;
 
+    /**
+     * Guarda un nuevo rol.
+     * @param rol Datos del rol.
+     * @return Rol guardado.
+     */
     @Override
     @Transactional
     public Rol guardarRol(Rol rol) {
@@ -36,6 +46,11 @@ public class RolServiceImpl implements RolService {
         }
     }
 
+    /**
+     * Busca un rol por su ID.
+     * @param id ID del rol.
+     * @return Optional con el rol encontrado.
+     */
     @Override
     public Optional<Rol> obtenerRolPorId(Integer id) {
         try {
@@ -47,6 +62,10 @@ public class RolServiceImpl implements RolService {
         }
     }
 
+    /**
+     * Obtiene todos los roles.
+     * @return Lista de roles.
+     */
     @Override
     public List<Rol> obtenerTodosLosRoles() {
         try {
@@ -58,6 +77,12 @@ public class RolServiceImpl implements RolService {
         }
     }
 
+    /**
+     * Actualiza un rol existente.
+     * @param id ID del rol.
+     * @param rol Datos actualizados.
+     * @return Rol actualizado.
+     */
     @Override
     @Transactional
     public Rol actualizarRol(Integer id, Rol rol) {
@@ -76,6 +101,10 @@ public class RolServiceImpl implements RolService {
         }
     }
 
+    /**
+     * Elimina un rol.
+     * @param id ID del rol a eliminar.
+     */
     @Override
     @Transactional
     public void eliminarRol(Integer id) {
@@ -93,6 +122,11 @@ public class RolServiceImpl implements RolService {
         }
     }
 
+    /**
+     * Busca un rol por nombre.
+     * @param nombreRol Nombre del rol.
+     * @return Optional con el rol encontrado.
+     */
     @Override
     public Optional<Rol> buscarPorNombre(String nombreRol) {
         try {

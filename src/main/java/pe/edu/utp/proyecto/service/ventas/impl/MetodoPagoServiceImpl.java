@@ -8,9 +8,14 @@ import pe.edu.utp.proyecto.exception.BusinessException;
 import pe.edu.utp.proyecto.modelo.ventas.MetodoPago;
 import pe.edu.utp.proyecto.repository.ventas.MetodoPagoRepository;
 import pe.edu.utp.proyecto.service.ventas.MetodoPagoService;
+
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Implementacion del servicio de metodos de pago.
+ * Contiene la logica de negocio para la gestion de metodos de pago.
+ */
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -19,6 +24,11 @@ public class MetodoPagoServiceImpl implements MetodoPagoService {
 
     private final MetodoPagoRepository metodoPagoRepository;
 
+    /**
+     * Guarda un nuevo metodo de pago.
+     * @param metodoPago Datos del metodo.
+     * @return Metodo guardado.
+     */
     @Override
     @Transactional
     public MetodoPago guardarMetodoPago(MetodoPago metodoPago) {
@@ -36,6 +46,11 @@ public class MetodoPagoServiceImpl implements MetodoPagoService {
         }
     }
 
+    /**
+     * Busca un metodo de pago por su ID.
+     * @param id ID del metodo.
+     * @return Optional con el metodo encontrado.
+     */
     @Override
     public Optional<MetodoPago> obtenerMetodoPagoPorId(Integer id) {
         try {
@@ -47,6 +62,10 @@ public class MetodoPagoServiceImpl implements MetodoPagoService {
         }
     }
 
+    /**
+     * Obtiene todos los metodos de pago.
+     * @return Lista de metodos.
+     */
     @Override
     public List<MetodoPago> obtenerTodosLosMetodosPago() {
         try {
@@ -58,6 +77,12 @@ public class MetodoPagoServiceImpl implements MetodoPagoService {
         }
     }
 
+    /**
+     * Actualiza un metodo de pago existente.
+     * @param id ID del metodo.
+     * @param metodoPago Datos actualizados.
+     * @return Metodo actualizado.
+     */
     @Override
     @Transactional
     public MetodoPago actualizarMetodoPago(Integer id, MetodoPago metodoPago) {
@@ -84,6 +109,10 @@ public class MetodoPagoServiceImpl implements MetodoPagoService {
         }
     }
 
+    /**
+     * Elimina un metodo de pago.
+     * @param id ID del metodo a eliminar.
+     */
     @Override
     @Transactional
     public void eliminarMetodoPago(Integer id) {
@@ -101,6 +130,11 @@ public class MetodoPagoServiceImpl implements MetodoPagoService {
         }
     }
 
+    /**
+     * Busca un metodo de pago por nombre.
+     * @param nombre Nombre del metodo.
+     * @return Optional con el metodo encontrado.
+     */
     @Override
     public Optional<MetodoPago> obtenerMetodoPorNombre(String nombre) {
         try {

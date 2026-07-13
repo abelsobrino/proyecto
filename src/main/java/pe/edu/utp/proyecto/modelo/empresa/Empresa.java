@@ -8,6 +8,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Representa los datos de la empresa.
+ */
 @Getter
 @Setter
 @Entity
@@ -20,6 +23,8 @@ public class Empresa {
     private String ruc;
 
     private String razonSocial;
+
     private String direccion;
+
     private String telefono;
 }

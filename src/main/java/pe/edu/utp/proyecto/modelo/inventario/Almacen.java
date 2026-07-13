@@ -9,8 +9,12 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 import java.math.BigDecimal;
 
+/**
+ * Representa un almacen fisico donde se guardan los productos.
+ */
 @Entity
 @Table(name = "almacen")
 @Getter
@@ -24,7 +28,9 @@ public class Almacen {
     private int idAlmacen;
 
     private String nombre;
+
     private String direccion;
+
     private String responsable;
 
     private BigDecimal capacidadMaxima;

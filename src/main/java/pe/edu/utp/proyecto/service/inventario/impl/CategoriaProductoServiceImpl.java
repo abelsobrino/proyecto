@@ -8,9 +8,13 @@ import pe.edu.utp.proyecto.exception.BusinessException;
 import pe.edu.utp.proyecto.modelo.inventario.CategoriaProducto;
 import pe.edu.utp.proyecto.repository.inventario.CategoriaProductoRepository;
 import pe.edu.utp.proyecto.service.inventario.CategoriaProductoService;
+
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Implementacion del servicio de categorias de productos.
+ */
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -89,24 +93,24 @@ public class CategoriaProductoServiceImpl implements CategoriaProductoService {
     }
 
     @Override
-    public List<CategoriaProducto> obtenerCategoriasPorNombre(String nombre) {
+    public List<CategoriaProducto> buscarPorNombre(String nombre) {
         try {
             log.info("Buscando categorias por nombre: {}", nombre);
             return categoriaProductoRepository.findByNombreContaining(nombre);
         } catch (Exception e) {
             log.error("Error al buscar categorias por nombre: {}", e.getMessage());
-            throw new BusinessException("Error al buscar las categorias: " + e.getMessage());
+            throw new BusinessException("Error al buscar categorias: " + e.getMessage());
         }
     }
 
     @Override
-    public List<CategoriaProducto> obtenerCategoriasPorDescripcion(String descripcion) {
+    public List<CategoriaProducto> buscarPorDescripcion(String descripcion) {
         try {
             log.info("Buscando categorias por descripcion: {}", descripcion);
             return categoriaProductoRepository.findByDescripcionContaining(descripcion);
         } catch (Exception e) {
             log.error("Error al buscar categorias por descripcion: {}", e.getMessage());
-            throw new BusinessException("Error al buscar las categorias: " + e.getMessage());
+            throw new BusinessException("Error al buscar categorias: " + e.getMessage());
         }
     }
 }

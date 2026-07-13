@@ -14,6 +14,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Implementacion del servicio de cotizaciones.
+ * Contiene la logica de negocio para la gestion de cotizaciones.
+ * Utiliza el patron Singleton para obtener configuracion global.
+ */
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -22,6 +27,11 @@ public class CotizacionServiceImpl implements CotizacionService {
 
     private final CotizacionRepository cotizacionRepository;
 
+    /**
+     * Guarda una nueva cotizacion.
+     * @param cotizacion Datos de la cotizacion.
+     * @return Cotizacion guardada.
+     */
     @Override
     @Transactional
     public Cotizacion guardarCotizacion(Cotizacion cotizacion) {
@@ -31,6 +41,7 @@ public class CotizacionServiceImpl implements CotizacionService {
                 cotizacion.setFecha(new Date());
             }
 
+            // USO DEL PATRON SINGLETON
             ConfiguracionGlobal config = ConfiguracionGlobal.getInstance();
             log.info("Sistema: {}, Version: {}", config.getNombreSistema(), config.getVersion());
 
@@ -41,6 +52,11 @@ public class CotizacionServiceImpl implements CotizacionService {
         }
     }
 
+    /**
+     * Busca una cotizacion por su ID.
+     * @param id ID de la cotizacion.
+     * @return Optional con la cotizacion encontrada.
+     */
     @Override
     public Optional<Cotizacion> obtenerCotizacionPorId(Integer id) {
         try {
@@ -52,6 +68,10 @@ public class CotizacionServiceImpl implements CotizacionService {
         }
     }
 
+    /**
+     * Obtiene todas las cotizaciones.
+     * @return Lista de cotizaciones.
+     */
     @Override
     public List<Cotizacion> obtenerTodasLasCotizaciones() {
         try {
@@ -63,6 +83,12 @@ public class CotizacionServiceImpl implements CotizacionService {
         }
     }
 
+    /**
+     * Actualiza una cotizacion existente.
+     * @param id ID de la cotizacion.
+     * @param cotizacion Datos actualizados.
+     * @return Cotizacion actualizada.
+     */
     @Override
     @Transactional
     public Cotizacion actualizarCotizacion(Integer id, Cotizacion cotizacion) {
@@ -81,6 +107,10 @@ public class CotizacionServiceImpl implements CotizacionService {
         }
     }
 
+    /**
+     * Elimina una cotizacion.
+     * @param id ID de la cotizacion a eliminar.
+     */
     @Override
     @Transactional
     public void eliminarCotizacion(Integer id) {
@@ -98,6 +128,12 @@ public class CotizacionServiceImpl implements CotizacionService {
         }
     }
 
+    /**
+     * Busca cotizaciones entre fechas.
+     * @param inicio Fecha de inicio.
+     * @param fin Fecha de fin.
+     * @return Lista de cotizaciones.
+     */
     @Override
     public List<Cotizacion> obtenerCotizacionesEntreFechas(Date inicio, Date fin) {
         try {
@@ -109,6 +145,11 @@ public class CotizacionServiceImpl implements CotizacionService {
         }
     }
 
+    /**
+     * Busca cotizaciones por total mayor.
+     * @param total Valor minimo del total.
+     * @return Lista de cotizaciones.
+     */
     @Override
     public List<Cotizacion> obtenerCotizacionesPorTotalMayor(Double total) {
         try {
@@ -120,6 +161,10 @@ public class CotizacionServiceImpl implements CotizacionService {
         }
     }
 
+    /**
+     * Obtiene las 5 cotizaciones mas recientes.
+     * @return Lista de cotizaciones.
+     */
     @Override
     public List<Cotizacion> obtenerUltimas5Cotizaciones() {
         try {

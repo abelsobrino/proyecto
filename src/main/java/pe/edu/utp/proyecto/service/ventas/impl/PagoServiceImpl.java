@@ -12,6 +12,10 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Implementacion del servicio de pagos.
+ * Contiene la logica de negocio para la gestion de pagos.
+ */
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -19,6 +23,11 @@ public class PagoServiceImpl implements PagoService {
 
     private final PagoRepository pagoRepository;
 
+    /**
+     * Guarda un nuevo pago.
+     * @param pago Datos del pago.
+     * @return Pago guardado.
+     */
     @Override
     public Pago guardarPago(Pago pago) {
         try {
@@ -30,6 +39,11 @@ public class PagoServiceImpl implements PagoService {
         }
     }
 
+    /**
+     * Busca un pago por su ID.
+     * @param id ID del pago.
+     * @return Optional con el pago encontrado.
+     */
     @Override
     public Optional<Pago> obtenerPagoPorId(Integer id) {
         try {
@@ -41,6 +55,10 @@ public class PagoServiceImpl implements PagoService {
         }
     }
 
+    /**
+     * Obtiene todos los pagos.
+     * @return Lista de pagos.
+     */
     @Override
     public List<Pago> obtenerTodosLosPagos() {
         try {
@@ -52,6 +70,12 @@ public class PagoServiceImpl implements PagoService {
         }
     }
 
+    /**
+     * Actualiza un pago existente.
+     * @param id ID del pago.
+     * @param pago Datos actualizados.
+     * @return Pago actualizado.
+     */
     @Override
     public Pago actualizarPago(Integer id, Pago pago) {
         try {
@@ -64,6 +88,10 @@ public class PagoServiceImpl implements PagoService {
         }
     }
 
+    /**
+     * Elimina un pago.
+     * @param id ID del pago a eliminar.
+     */
     @Override
     public void eliminarPago(Integer id) {
         try {
@@ -80,6 +108,11 @@ public class PagoServiceImpl implements PagoService {
         }
     }
 
+    /**
+     * Busca pagos por monto minimo.
+     * @param montoMinimo Monto minimo.
+     * @return Lista de pagos.
+     */
     @Override
     public List<Pago> obtenerPagosPorMonto(Double montoMinimo) {
         try {
@@ -93,6 +126,10 @@ public class PagoServiceImpl implements PagoService {
         }
     }
 
+    /**
+     * Calcula el monto total de todos los pagos.
+     * @return Suma de todos los montos.
+     */
     @Override
     public Double calcularMontoTotalPagos() {
         try {

@@ -8,9 +8,13 @@ import pe.edu.utp.proyecto.exception.BusinessException;
 import pe.edu.utp.proyecto.modelo.inventario.Producto;
 import pe.edu.utp.proyecto.repository.inventario.ProductoRepository;
 import pe.edu.utp.proyecto.service.inventario.ProductoService;
+
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Implementacion del servicio de productos.
+ */
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -19,6 +23,11 @@ public class ProductoServiceImpl implements ProductoService {
 
     private final ProductoRepository productoRepository;
 
+    /**
+     * Guarda un nuevo producto.
+     * @param producto Datos del producto.
+     * @return Producto guardado.
+     */
     @Override
     @Transactional
     public Producto guardarProducto(Producto producto) {
@@ -31,6 +40,11 @@ public class ProductoServiceImpl implements ProductoService {
         }
     }
 
+    /**
+     * Busca un producto por su ID.
+     * @param id ID del producto.
+     * @return Optional con el producto encontrado.
+     */
     @Override
     public Optional<Producto> obtenerProductoPorId(Integer id) {
         try {
@@ -42,6 +56,10 @@ public class ProductoServiceImpl implements ProductoService {
         }
     }
 
+    /**
+     * Obtiene todos los productos.
+     * @return Lista de productos.
+     */
     @Override
     public List<Producto> obtenerTodosLosProductos() {
         try {
@@ -53,6 +71,12 @@ public class ProductoServiceImpl implements ProductoService {
         }
     }
 
+    /**
+     * Actualiza un producto existente.
+     * @param id ID del producto.
+     * @param producto Datos actualizados.
+     * @return Producto actualizado.
+     */
     @Override
     @Transactional
     public Producto actualizarProducto(Integer id, Producto producto) {
@@ -72,6 +96,10 @@ public class ProductoServiceImpl implements ProductoService {
         }
     }
 
+    /**
+     * Elimina un producto.
+     * @param id ID del producto a eliminar.
+     */
     @Override
     @Transactional
     public void eliminarProducto(Integer id) {
@@ -89,6 +117,11 @@ public class ProductoServiceImpl implements ProductoService {
         }
     }
 
+    /**
+     * Busca un producto por su nombre exacto.
+     * @param nombre Nombre del producto.
+     * @return Producto encontrado o null.
+     */
     @Override
     public Producto buscarPorNombre(String nombre) {
         try {
@@ -100,6 +133,11 @@ public class ProductoServiceImpl implements ProductoService {
         }
     }
 
+    /**
+     * Obtiene productos con stock bajo.
+     * @param stockMinimo Valor maximo de stock.
+     * @return Lista de productos.
+     */
     @Override
     public List<Producto> obtenerProductosConStockBajo(Integer stockMinimo) {
         try {
@@ -111,6 +149,11 @@ public class ProductoServiceImpl implements ProductoService {
         }
     }
 
+    /**
+     * Busca productos cuyo nombre contenga un texto.
+     * @param texto Texto a buscar en el nombre.
+     * @return Lista de productos que coinciden.
+     */
     @Override
     public List<Producto> buscarPorNombreContaining(String texto) {
         try {

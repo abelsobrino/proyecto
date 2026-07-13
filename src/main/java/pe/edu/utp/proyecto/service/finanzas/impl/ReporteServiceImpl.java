@@ -8,10 +8,15 @@ import pe.edu.utp.proyecto.exception.BusinessException;
 import pe.edu.utp.proyecto.modelo.finanzas.Reporte;
 import pe.edu.utp.proyecto.repository.finanzas.ReporteRepository;
 import pe.edu.utp.proyecto.service.finanzas.ReporteService;
+
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Implementacion del servicio de reportes.
+ * Contiene la logica de negocio para la gestion de reportes.
+ */
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -20,6 +25,11 @@ public class ReporteServiceImpl implements ReporteService {
 
     private final ReporteRepository reporteRepository;
 
+    /**
+     * Guarda un nuevo reporte.
+     * @param reporte Datos del reporte.
+     * @return Reporte guardado.
+     */
     @Override
     @Transactional
     public Reporte guardarReporte(Reporte reporte) {
@@ -32,6 +42,11 @@ public class ReporteServiceImpl implements ReporteService {
         }
     }
 
+    /**
+     * Busca un reporte por su ID.
+     * @param id ID del reporte.
+     * @return Optional con el reporte encontrado.
+     */
     @Override
     public Optional<Reporte> obtenerReportePorId(Integer id) {
         try {
@@ -43,6 +58,10 @@ public class ReporteServiceImpl implements ReporteService {
         }
     }
 
+    /**
+     * Obtiene todos los reportes.
+     * @return Lista de reportes.
+     */
     @Override
     public List<Reporte> obtenerTodosLosReportes() {
         try {
@@ -54,6 +73,12 @@ public class ReporteServiceImpl implements ReporteService {
         }
     }
 
+    /**
+     * Actualiza un reporte existente.
+     * @param id ID del reporte.
+     * @param reporte Datos actualizados.
+     * @return Reporte actualizado.
+     */
     @Override
     @Transactional
     public Reporte actualizarReporte(Integer id, Reporte reporte) {
@@ -72,6 +97,10 @@ public class ReporteServiceImpl implements ReporteService {
         }
     }
 
+    /**
+     * Elimina un reporte.
+     * @param id ID del reporte a eliminar.
+     */
     @Override
     @Transactional
     public void eliminarReporte(Integer id) {
@@ -89,6 +118,11 @@ public class ReporteServiceImpl implements ReporteService {
         }
     }
 
+    /**
+     * Busca reportes por tipo.
+     * @param tipoReporte Tipo de reporte.
+     * @return Lista de reportes.
+     */
     @Override
     public List<Reporte> obtenerReportesPorTipo(String tipoReporte) {
         try {
@@ -100,6 +134,11 @@ public class ReporteServiceImpl implements ReporteService {
         }
     }
 
+    /**
+     * Busca reportes por fecha de generacion.
+     * @param fechaGeneracion Fecha de generacion.
+     * @return Lista de reportes.
+     */
     @Override
     public List<Reporte> obtenerReportesPorFecha(LocalDate fechaGeneracion) {
         try {

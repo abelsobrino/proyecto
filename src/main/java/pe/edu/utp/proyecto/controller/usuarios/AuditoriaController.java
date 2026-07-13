@@ -9,8 +9,13 @@ import org.springframework.web.bind.annotation.*;
 import pe.edu.utp.proyecto.dto.ApiResponse;
 import pe.edu.utp.proyecto.modelo.usuarios.Auditoria;
 import pe.edu.utp.proyecto.service.usuarios.AuditoriaService;
+
 import java.util.List;
 
+/**
+ * Controlador REST para la gestion de auditorias.
+ * Las auditorias son registros de solo lectura.
+ */
 @RestController
 @RequestMapping("/usuarios/auditorias")
 @Tag(name = "Auditorias", description = "Gestion de auditorias del sistema")
@@ -20,6 +25,10 @@ public class AuditoriaController {
 
     private final AuditoriaService auditoriaService;
 
+    /**
+     * Lista todas las auditorias.
+     * @return Lista de auditorias.
+     */
     @Operation(summary = "Obtener todas las auditorias")
     @GetMapping
     public ResponseEntity<ApiResponse<List<Auditoria>>> obtenerTodasAuditorias() {
@@ -28,6 +37,11 @@ public class AuditoriaController {
         return ResponseEntity.ok(ApiResponse.success(auditorias));
     }
 
+    /**
+     * Obtiene una auditoria por su ID.
+     * @param id ID de la auditoria.
+     * @return Auditoria encontrada o 404.
+     */
     @Operation(summary = "Obtener una auditoria por su ID")
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<Auditoria>> obtenerAuditoria(@PathVariable Integer id) {
@@ -37,11 +51,29 @@ public class AuditoriaController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @Operation(summary = "Obtener auditorias por accion")
+    /**
+     * Busca auditorias por accion.
+     * @param accion Accion realizada.
+     * @return Lista de auditorias.
+     */
+    @Operation(summary = "Buscar auditorias por accion")
     @GetMapping("/accion/{accion}")
     public ResponseEntity<ApiResponse<List<Auditoria>>> obtenerPorAccion(@PathVariable String accion) {
-        log.info("GET /usuarios/auditorias/accion/{} - Obteniendo auditorias por accion", accion);
+        log.info("GET /usuarios/auditorias/accion/{} - Buscando por accion", accion);
         List<Auditoria> auditorias = auditoriaService.obtenerPorAccion(accion);
+        return ResponseEntity.ok(ApiResponse.success(auditorias));
+    }
+
+    /**
+     * Busca auditorias por texto en descripcion.
+     * @param texto Texto a buscar.
+     * @return Lista de auditorias.
+     */
+    @Operation(summary = "Buscar auditorias por texto en descripcion")
+    @GetMapping("/buscar")
+    public ResponseEntity<ApiResponse<List<Auditoria>>> buscarEnDescripcion(@RequestParam String texto) {
+        log.info("GET /usuarios/auditorias/buscar - Buscando auditorias con texto: {}", texto);
+        List<Auditoria> auditorias = auditoriaService.buscarEnDescripcion(texto);
         return ResponseEntity.ok(ApiResponse.success(auditorias));
     }
 }

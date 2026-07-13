@@ -8,9 +8,14 @@ import pe.edu.utp.proyecto.exception.BusinessException;
 import pe.edu.utp.proyecto.modelo.comprobantes.Impuesto;
 import pe.edu.utp.proyecto.repository.comprobantes.ImpuestoRepository;
 import pe.edu.utp.proyecto.service.comprobantes.ImpuestoService;
+
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Implementacion del servicio de impuestos.
+ * Contiene la logica de negocio para la gestion de impuestos.
+ */
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -19,6 +24,11 @@ public class ImpuestoServiceImpl implements ImpuestoService {
 
     private final ImpuestoRepository impuestoRepository;
 
+    /**
+     * Guarda un nuevo impuesto.
+     * @param impuesto Datos del impuesto.
+     * @return Impuesto guardado.
+     */
     @Override
     @Transactional
     public Impuesto guardarImpuesto(Impuesto impuesto) {
@@ -31,6 +41,11 @@ public class ImpuestoServiceImpl implements ImpuestoService {
         }
     }
 
+    /**
+     * Busca un impuesto por su tipo.
+     * @param tipoImpuesto Tipo del impuesto.
+     * @return Optional con el impuesto encontrado.
+     */
     @Override
     public Optional<Impuesto> obtenerImpuestoPorId(String tipoImpuesto) {
         try {
@@ -42,6 +57,10 @@ public class ImpuestoServiceImpl implements ImpuestoService {
         }
     }
 
+    /**
+     * Obtiene todos los impuestos.
+     * @return Lista de impuestos.
+     */
     @Override
     public List<Impuesto> obtenerTodosLosImpuestos() {
         try {
@@ -53,6 +72,12 @@ public class ImpuestoServiceImpl implements ImpuestoService {
         }
     }
 
+    /**
+     * Actualiza un impuesto existente.
+     * @param tipoImpuesto Tipo del impuesto.
+     * @param impuesto Datos actualizados.
+     * @return Impuesto actualizado.
+     */
     @Override
     @Transactional
     public Impuesto actualizarImpuesto(String tipoImpuesto, Impuesto impuesto) {
@@ -71,6 +96,10 @@ public class ImpuestoServiceImpl implements ImpuestoService {
         }
     }
 
+    /**
+     * Elimina un impuesto.
+     * @param tipoImpuesto Tipo del impuesto a eliminar.
+     */
     @Override
     @Transactional
     public void eliminarImpuesto(String tipoImpuesto) {

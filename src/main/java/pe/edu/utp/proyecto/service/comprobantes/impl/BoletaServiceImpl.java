@@ -8,9 +8,14 @@ import pe.edu.utp.proyecto.exception.BusinessException;
 import pe.edu.utp.proyecto.modelo.comprobantes.Boleta;
 import pe.edu.utp.proyecto.repository.comprobantes.BoletaRepository;
 import pe.edu.utp.proyecto.service.comprobantes.BoletaService;
+
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Implementacion del servicio de boletas.
+ * Contiene la logica de negocio para la gestion de boletas.
+ */
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -19,6 +24,15 @@ public class BoletaServiceImpl implements BoletaService {
 
     private final BoletaRepository boletaRepository;
 
+    // =============================================
+    // CRUD
+    // =============================================
+
+    /**
+     * Guarda una nueva boleta.
+     * @param boleta Datos de la boleta.
+     * @return Boleta guardada.
+     */
     @Override
     @Transactional
     public Boleta guardarBoleta(Boleta boleta) {
@@ -32,6 +46,11 @@ public class BoletaServiceImpl implements BoletaService {
         }
     }
 
+    /**
+     * Busca una boleta por su ID.
+     * @param id ID de la boleta.
+     * @return Optional con la boleta encontrada.
+     */
     @Override
     public Optional<Boleta> obtenerBoletaPorId(Long id) {
         try {
@@ -43,6 +62,10 @@ public class BoletaServiceImpl implements BoletaService {
         }
     }
 
+    /**
+     * Obtiene todas las boletas.
+     * @return Lista de boletas.
+     */
     @Override
     public List<Boleta> obtenerTodasLasBoletas() {
         try {
@@ -54,6 +77,12 @@ public class BoletaServiceImpl implements BoletaService {
         }
     }
 
+    /**
+     * Actualiza una boleta existente.
+     * @param id ID de la boleta.
+     * @param boleta Datos actualizados.
+     * @return Boleta actualizada.
+     */
     @Override
     @Transactional
     public Boleta actualizarBoleta(Long id, Boleta boleta) {
@@ -75,6 +104,10 @@ public class BoletaServiceImpl implements BoletaService {
         }
     }
 
+    /**
+     * Elimina una boleta.
+     * @param id ID de la boleta a eliminar.
+     */
     @Override
     @Transactional
     public void eliminarBoleta(Long id) {
@@ -89,6 +122,42 @@ public class BoletaServiceImpl implements BoletaService {
         } catch (Exception e) {
             log.error("Error al eliminar boleta con ID {}: {}", id, e.getMessage());
             throw new BusinessException("No se pudo eliminar la boleta: " + e.getMessage());
+        }
+    }
+
+    // =============================================
+    // CONSULTAS ESPECIALIZADAS
+    // =============================================
+
+    /**
+     * Busca boletas por DNI del cliente.
+     * @param dniCliente DNI del cliente.
+     * @return Lista de boletas.
+     */
+    @Override
+    public List<Boleta> buscarPorDniCliente(String dniCliente) {
+        try {
+            log.info("Buscando boletas por DNI: {}", dniCliente);
+            return boletaRepository.findByDniCliente(dniCliente);
+        } catch (Exception e) {
+            log.error("Error al buscar boletas por DNI: {}", e.getMessage());
+            throw new BusinessException("Error al buscar boletas: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Busca boletas con total mayor al especificado.
+     * @param total Valor minimo del total.
+     * @return Lista de boletas.
+     */
+    @Override
+    public List<Boleta> buscarPorTotalMayor(double total) {
+        try {
+            log.info("Buscando boletas con total mayor a: {}", total);
+            return boletaRepository.findByTotalGreaterThan(total);
+        } catch (Exception e) {
+            log.error("Error al buscar boletas por total: {}", e.getMessage());
+            throw new BusinessException("Error al buscar boletas: " + e.getMessage());
         }
     }
 }

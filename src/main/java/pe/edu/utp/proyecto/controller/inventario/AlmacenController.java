@@ -11,8 +11,16 @@ import org.springframework.web.bind.annotation.*;
 import pe.edu.utp.proyecto.dto.ApiResponse;
 import pe.edu.utp.proyecto.modelo.inventario.Almacen;
 import pe.edu.utp.proyecto.service.inventario.AlmacenService;
+
 import java.util.List;
 
+/**
+ * Controlador REST para la gestion de almacenes.
+ * Expone endpoints para operaciones CRUD y consultas especializadas.
+ *
+ * @author Sistema de Ventas UTP
+ * @version 1.0.0
+ */
 @RestController
 @RequestMapping("/inventario/almacenes")
 @Tag(name = "Almacenes", description = "Gestion de almacenes")
@@ -64,5 +72,21 @@ public class AlmacenController {
         log.info("DELETE /inventario/almacenes/{} - Eliminando almacen", id);
         almacenService.eliminarAlmacen(id);
         return ResponseEntity.ok(ApiResponse.success(null, "Almacen eliminado exitosamente"));
+    }
+
+    @Operation(summary = "Buscar almacenes por nombre que contenga")
+    @GetMapping("/buscar/nombre/{nombre}")
+    public ResponseEntity<ApiResponse<List<Almacen>>> buscarPorNombre(@PathVariable String nombre) {
+        log.info("GET /inventario/almacenes/buscar/nombre/{} - Buscando por nombre", nombre);
+        List<Almacen> almacenes = almacenService.buscarPorNombre(nombre);
+        return ResponseEntity.ok(ApiResponse.success(almacenes));
+    }
+
+    @Operation(summary = "Buscar almacenes por responsable que contenga")
+    @GetMapping("/buscar/responsable/{responsable}")
+    public ResponseEntity<ApiResponse<List<Almacen>>> buscarPorResponsable(@PathVariable String responsable) {
+        log.info("GET /inventario/almacenes/buscar/responsable/{} - Buscando por responsable", responsable);
+        List<Almacen> almacenes = almacenService.buscarPorResponsable(responsable);
+        return ResponseEntity.ok(ApiResponse.success(almacenes));
     }
 }

@@ -8,10 +8,14 @@ import pe.edu.utp.proyecto.exception.BusinessException;
 import pe.edu.utp.proyecto.modelo.inventario.MovimientoInventario;
 import pe.edu.utp.proyecto.repository.inventario.MovimientoInventarioRepository;
 import pe.edu.utp.proyecto.service.inventario.MovimientoInventarioService;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Implementacion del servicio de movimientos de inventario.
+ */
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -94,35 +98,35 @@ public class MovimientoInventarioServiceImpl implements MovimientoInventarioServ
     }
 
     @Override
-    public List<MovimientoInventario> obtenerPorTipo(String tipoMovimiento) {
+    public List<MovimientoInventario> buscarPorTipo(String tipoMovimiento) {
         try {
-            log.info("Obteniendo movimientos de tipo: {}", tipoMovimiento);
+            log.info("Buscando movimientos de tipo: {}", tipoMovimiento);
             return movimientoRepository.findByTipoMovimiento(tipoMovimiento);
         } catch (Exception e) {
-            log.error("Error al obtener movimientos por tipo: {}", e.getMessage());
-            throw new BusinessException("Error al obtener los movimientos: " + e.getMessage());
+            log.error("Error al buscar movimientos por tipo: {}", e.getMessage());
+            throw new BusinessException("Error al buscar movimientos: " + e.getMessage());
         }
     }
 
     @Override
-    public List<MovimientoInventario> obtenerPorProducto(Integer idProducto) {
+    public List<MovimientoInventario> buscarPorProducto(Integer idProducto) {
         try {
-            log.info("Obteniendo movimientos del producto ID: {}", idProducto);
+            log.info("Buscando movimientos del producto ID: {}", idProducto);
             return movimientoRepository.findByProductoIdProducto(idProducto);
         } catch (Exception e) {
-            log.error("Error al obtener movimientos por producto: {}", e.getMessage());
-            throw new BusinessException("Error al obtener los movimientos: " + e.getMessage());
+            log.error("Error al buscar movimientos por producto: {}", e.getMessage());
+            throw new BusinessException("Error al buscar movimientos: " + e.getMessage());
         }
     }
 
     @Override
-    public List<MovimientoInventario> obtenerEntreFechas(Date inicio, Date fin) {
+    public List<MovimientoInventario> buscarEntreFechas(Date inicio, Date fin) {
         try {
-            log.info("Obteniendo movimientos entre {} y {}", inicio, fin);
+            log.info("Buscando movimientos entre {} y {}", inicio, fin);
             return movimientoRepository.findByFechaMovimientoBetween(inicio, fin);
         } catch (Exception e) {
-            log.error("Error al obtener movimientos entre fechas: {}", e.getMessage());
-            throw new BusinessException("Error al obtener los movimientos: " + e.getMessage());
+            log.error("Error al buscar movimientos entre fechas: {}", e.getMessage());
+            throw new BusinessException("Error al buscar movimientos: " + e.getMessage());
         }
     }
 }

@@ -10,11 +10,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pe.edu.utp.proyecto.dto.ApiResponse;
 import pe.edu.utp.proyecto.modelo.ventas.Venta;
-import pe.edu.utp.proyecto.service.ventas.impl.VentaServiceImpl;
 import pe.edu.utp.proyecto.service.ventas.VentaService;
 
 import java.util.List;
 
+/**
+ * Controlador REST para la gestion de ventas.
+ * Expone endpoints para CRUD y cambios de estado con el patron State.
+ *
+ * @author Sistema de Ventas UTP
+ */
 @RestController
 @RequestMapping("/ventas")
 @Tag(name = "Ventas", description = "Gestion de ventas")
@@ -23,8 +28,8 @@ import java.util.List;
 public class VentaController {
 
     private final VentaService ventaService;
-    private final VentaServiceImpl ventaServiceImpl;
 
+    /** Crea una nueva venta */
     @Operation(summary = "Crear una nueva venta")
     @PostMapping
     public ResponseEntity<ApiResponse<Venta>> crearVenta(@Valid @RequestBody Venta venta) {
@@ -34,6 +39,7 @@ public class VentaController {
                 .body(ApiResponse.success(creada, "Venta creada exitosamente"));
     }
 
+    /** Obtiene una venta por su ID */
     @Operation(summary = "Obtener una venta por su ID")
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<Venta>> obtenerVenta(@PathVariable Integer id) {
@@ -43,6 +49,7 @@ public class VentaController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    /** Lista todas las ventas */
     @Operation(summary = "Obtener todas las ventas")
     @GetMapping
     public ResponseEntity<ApiResponse<List<Venta>>> obtenerTodasVentas() {
@@ -51,6 +58,7 @@ public class VentaController {
         return ResponseEntity.ok(ApiResponse.success(ventas));
     }
 
+    /** Actualiza una venta existente */
     @Operation(summary = "Actualizar una venta existente")
     @PutMapping("/{id}")
     public ResponseEntity<ApiResponse<Venta>> actualizarVenta(
@@ -61,6 +69,7 @@ public class VentaController {
         return ResponseEntity.ok(ApiResponse.success(actualizada, "Venta actualizada exitosamente"));
     }
 
+    /** Elimina una venta por su ID */
     @Operation(summary = "Eliminar una venta por su ID")
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse<Void>> eliminarVenta(@PathVariable Integer id) {
@@ -69,6 +78,7 @@ public class VentaController {
         return ResponseEntity.ok(ApiResponse.success(null, "Venta eliminada exitosamente"));
     }
 
+    /** Calcula el total de una venta */
     @Operation(summary = "Calcular total de una venta")
     @GetMapping("/{id}/total")
     public ResponseEntity<ApiResponse<Double>> calcularTotal(@PathVariable Integer id) {
@@ -77,34 +87,30 @@ public class VentaController {
         return ResponseEntity.ok(ApiResponse.success(total, "Total calculado exitosamente"));
     }
 
-    // =============================================
-    // METODOS DEL PATRON STATE
-    // =============================================
-
-    // USO DEL PATRON STATE
+    /** Cambia estado de la venta a PROCESANDO */
     @Operation(summary = "Procesar una venta (cambia a estado PROCESANDO)")
     @PutMapping("/{id}/procesar")
     public ResponseEntity<ApiResponse<Venta>> procesarVenta(@PathVariable Integer id) {
         log.info("PUT /ventas/{}/procesar - Procesando venta", id);
-        Venta venta = ventaServiceImpl.procesarVenta(id);
+        Venta venta = ventaService.procesarVenta(id);
         return ResponseEntity.ok(ApiResponse.success(venta, "Venta procesada exitosamente"));
     }
 
-    // USO DEL PATRON STATE
+    /** Cambia estado de la venta a COMPLETADA */
     @Operation(summary = "Completar una venta (cambia a estado COMPLETADA)")
     @PutMapping("/{id}/completar")
     public ResponseEntity<ApiResponse<Venta>> completarVenta(@PathVariable Integer id) {
         log.info("PUT /ventas/{}/completar - Completando venta", id);
-        Venta venta = ventaServiceImpl.completarVenta(id);
+        Venta venta = ventaService.completarVenta(id);
         return ResponseEntity.ok(ApiResponse.success(venta, "Venta completada exitosamente"));
     }
 
-    // USO DEL PATRON STATE
+    /** Cambia estado de la venta a CANCELADA */
     @Operation(summary = "Cancelar una venta (cambia a estado CANCELADA)")
     @PutMapping("/{id}/cancelar")
     public ResponseEntity<ApiResponse<Venta>> cancelarVenta(@PathVariable Integer id) {
         log.info("PUT /ventas/{}/cancelar - Cancelando venta", id);
-        Venta venta = ventaServiceImpl.cancelarVenta(id);
+        Venta venta = ventaService.cancelarVenta(id);
         return ResponseEntity.ok(ApiResponse.success(venta, "Venta cancelada exitosamente"));
     }
 }

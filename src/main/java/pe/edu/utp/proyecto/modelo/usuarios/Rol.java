@@ -1,13 +1,26 @@
 package pe.edu.utp.proyecto.modelo.usuarios;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Representa un rol asignable a los usuarios.
+ * Un rol puede tener multiples permisos.
+ */
 @Entity
 @Table(name = "roles")
 @Getter

@@ -8,6 +8,9 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * Representa una categoria de productos.
+ */
 @Entity
 @Table(name = "categoria_producto")
 @Getter
@@ -19,6 +22,7 @@ public class CategoriaProducto {
     private int idCategoria;
 
     private String nombre;
+
     private String descripcion;
 
     public CategoriaProducto() {

@@ -8,9 +8,14 @@ import pe.edu.utp.proyecto.exception.BusinessException;
 import pe.edu.utp.proyecto.modelo.empresa.Sucursal;
 import pe.edu.utp.proyecto.repository.empresa.SucursalRepository;
 import pe.edu.utp.proyecto.service.empresa.SucursalService;
+
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Implementacion del servicio de sucursales.
+ * Contiene la logica de negocio para la gestion de sucursales.
+ */
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -89,24 +94,24 @@ public class SucursalServiceImpl implements SucursalService {
     }
 
     @Override
-    public List<Sucursal> obtenerSucursalesPorNombre(String nombre) {
+    public List<Sucursal> buscarPorNombre(String nombre) {
         try {
             log.info("Buscando sucursales por nombre: {}", nombre);
             return sucursalRepository.findByNombreContaining(nombre);
         } catch (Exception e) {
             log.error("Error al buscar sucursales por nombre: {}", e.getMessage());
-            throw new BusinessException("Error al buscar las sucursales: " + e.getMessage());
+            throw new BusinessException("Error al buscar sucursales: " + e.getMessage());
         }
     }
 
     @Override
-    public List<Sucursal> obtenerSucursalesPorDireccion(String direccion) {
+    public List<Sucursal> buscarPorDireccion(String direccion) {
         try {
             log.info("Buscando sucursales por direccion: {}", direccion);
             return sucursalRepository.findByDireccionContaining(direccion);
         } catch (Exception e) {
             log.error("Error al buscar sucursales por direccion: {}", e.getMessage());
-            throw new BusinessException("Error al buscar las sucursales: " + e.getMessage());
+            throw new BusinessException("Error al buscar sucursales: " + e.getMessage());
         }
     }
 }

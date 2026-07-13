@@ -8,9 +8,14 @@ import pe.edu.utp.proyecto.exception.BusinessException;
 import pe.edu.utp.proyecto.modelo.comprobantes.NotaCredito;
 import pe.edu.utp.proyecto.repository.comprobantes.NotaCreditoRepository;
 import pe.edu.utp.proyecto.service.comprobantes.NotaCreditoService;
+
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Implementacion del servicio de notas de credito.
+ * Contiene la logica de negocio para la gestion de notas de credito.
+ */
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -19,6 +24,11 @@ public class NotaCreditoServiceImpl implements NotaCreditoService {
 
     private final NotaCreditoRepository notaCreditoRepository;
 
+    /**
+     * Guarda una nueva nota de credito.
+     * @param notaCredito Datos de la nota de credito.
+     * @return Nota de credito guardada.
+     */
     @Override
     @Transactional
     public NotaCredito guardarNotaCredito(NotaCredito notaCredito) {
@@ -32,6 +42,11 @@ public class NotaCreditoServiceImpl implements NotaCreditoService {
         }
     }
 
+    /**
+     * Busca una nota de credito por su ID.
+     * @param id ID de la nota de credito.
+     * @return Optional con la nota de credito encontrada.
+     */
     @Override
     public Optional<NotaCredito> obtenerNotaCreditoPorId(Long id) {
         try {
@@ -43,6 +58,10 @@ public class NotaCreditoServiceImpl implements NotaCreditoService {
         }
     }
 
+    /**
+     * Obtiene todas las notas de credito.
+     * @return Lista de notas de credito.
+     */
     @Override
     public List<NotaCredito> obtenerTodasLasNotasCredito() {
         try {
@@ -54,6 +73,12 @@ public class NotaCreditoServiceImpl implements NotaCreditoService {
         }
     }
 
+    /**
+     * Actualiza una nota de credito existente.
+     * @param id ID de la nota de credito.
+     * @param notaCredito Datos actualizados.
+     * @return Nota de credito actualizada.
+     */
     @Override
     @Transactional
     public NotaCredito actualizarNotaCredito(Long id, NotaCredito notaCredito) {
@@ -75,6 +100,10 @@ public class NotaCreditoServiceImpl implements NotaCreditoService {
         }
     }
 
+    /**
+     * Elimina una nota de credito.
+     * @param id ID de la nota de credito a eliminar.
+     */
     @Override
     @Transactional
     public void eliminarNotaCredito(Long id) {
@@ -89,6 +118,38 @@ public class NotaCreditoServiceImpl implements NotaCreditoService {
         } catch (Exception e) {
             log.error("Error al eliminar nota de credito: {}", e.getMessage());
             throw new BusinessException("No se pudo eliminar la nota de credito: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Busca notas de credito por motivo.
+     * @param motivo Texto a buscar en el motivo.
+     * @return Lista de notas de credito.
+     */
+    @Override
+    public List<NotaCredito> buscarPorMotivo(String motivo) {
+        try {
+            log.info("Buscando notas de credito por motivo: {}", motivo);
+            return notaCreditoRepository.findByMotivoContaining(motivo);
+        } catch (Exception e) {
+            log.error("Error al buscar notas de credito por motivo: {}", e.getMessage());
+            throw new BusinessException("Error al buscar notas de credito: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Busca notas de credito con total mayor al especificado.
+     * @param total Valor minimo del total.
+     * @return Lista de notas de credito.
+     */
+    @Override
+    public List<NotaCredito> buscarPorTotalMayor(double total) {
+        try {
+            log.info("Buscando notas de credito con total mayor a: {}", total);
+            return notaCreditoRepository.findByTotalGreaterThan(total);
+        } catch (Exception e) {
+            log.error("Error al buscar notas de credito por total: {}", e.getMessage());
+            throw new BusinessException("Error al buscar notas de credito: " + e.getMessage());
         }
     }
 }

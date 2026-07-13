@@ -8,9 +8,14 @@ import pe.edu.utp.proyecto.exception.BusinessException;
 import pe.edu.utp.proyecto.modelo.ventas.CarritoCompra;
 import pe.edu.utp.proyecto.repository.ventas.CarritoCompraRepository;
 import pe.edu.utp.proyecto.service.ventas.CarritoCompraService;
+
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Implementacion del servicio de carritos de compra.
+ * Contiene la logica de negocio para la gestion de carritos de compra.
+ */
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -19,6 +24,11 @@ public class CarritoCompraServiceImpl implements CarritoCompraService {
 
     private final CarritoCompraRepository carritoRepository;
 
+    /**
+     * Guarda un nuevo carrito de compra.
+     * @param carrito Datos del carrito.
+     * @return Carrito guardado.
+     */
     @Override
     @Transactional
     public CarritoCompra guardarCarrito(CarritoCompra carrito) {
@@ -31,6 +41,11 @@ public class CarritoCompraServiceImpl implements CarritoCompraService {
         }
     }
 
+    /**
+     * Busca un carrito de compra por su ID.
+     * @param id ID del carrito.
+     * @return Optional con el carrito encontrado.
+     */
     @Override
     public Optional<CarritoCompra> obtenerCarritoPorId(Integer id) {
         try {
@@ -42,6 +57,10 @@ public class CarritoCompraServiceImpl implements CarritoCompraService {
         }
     }
 
+    /**
+     * Obtiene todos los carritos de compra.
+     * @return Lista de carritos.
+     */
     @Override
     public List<CarritoCompra> obtenerTodosLosCarritos() {
         try {
@@ -53,6 +72,12 @@ public class CarritoCompraServiceImpl implements CarritoCompraService {
         }
     }
 
+    /**
+     * Actualiza un carrito de compra existente.
+     * @param id ID del carrito.
+     * @param carrito Datos actualizados.
+     * @return Carrito actualizado.
+     */
     @Override
     @Transactional
     public CarritoCompra actualizarCarrito(Integer id, CarritoCompra carrito) {
@@ -71,6 +96,10 @@ public class CarritoCompraServiceImpl implements CarritoCompraService {
         }
     }
 
+    /**
+     * Elimina un carrito de compra.
+     * @param id ID del carrito a eliminar.
+     */
     @Override
     @Transactional
     public void eliminarCarrito(Integer id) {
@@ -88,6 +117,11 @@ public class CarritoCompraServiceImpl implements CarritoCompraService {
         }
     }
 
+    /**
+     * Busca carritos de compra por estado.
+     * @param estado Estado del carrito.
+     * @return Lista de carritos.
+     */
     @Override
     public List<CarritoCompra> obtenerPorEstado(String estado) {
         try {

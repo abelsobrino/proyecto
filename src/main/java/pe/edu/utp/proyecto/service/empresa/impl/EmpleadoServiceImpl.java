@@ -8,9 +8,14 @@ import pe.edu.utp.proyecto.exception.BusinessException;
 import pe.edu.utp.proyecto.modelo.empresa.Empleado;
 import pe.edu.utp.proyecto.repository.empresa.EmpleadoRepository;
 import pe.edu.utp.proyecto.service.empresa.EmpleadoService;
+
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Implementacion del servicio de empleados.
+ * Contiene la logica de negocio para la gestion de empleados.
+ */
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -19,6 +24,11 @@ public class EmpleadoServiceImpl implements EmpleadoService {
 
     private final EmpleadoRepository empleadoRepository;
 
+    /**
+     * Guarda un nuevo empleado.
+     * @param empleado Datos del empleado.
+     * @return Empleado guardado.
+     */
     @Override
     @Transactional
     public Empleado guardarEmpleado(Empleado empleado) {
@@ -31,6 +41,11 @@ public class EmpleadoServiceImpl implements EmpleadoService {
         }
     }
 
+    /**
+     * Busca un empleado por su ID.
+     * @param id ID del empleado.
+     * @return Optional con el empleado encontrado.
+     */
     @Override
     public Optional<Empleado> obtenerEmpleadoPorId(Integer id) {
         try {
@@ -42,6 +57,10 @@ public class EmpleadoServiceImpl implements EmpleadoService {
         }
     }
 
+    /**
+     * Obtiene todos los empleados.
+     * @return Lista de empleados.
+     */
     @Override
     public List<Empleado> obtenerTodosLosEmpleados() {
         try {
@@ -53,6 +72,12 @@ public class EmpleadoServiceImpl implements EmpleadoService {
         }
     }
 
+    /**
+     * Actualiza un empleado existente.
+     * @param id ID del empleado.
+     * @param empleado Datos actualizados.
+     * @return Empleado actualizado.
+     */
     @Override
     @Transactional
     public Empleado actualizarEmpleado(Integer id, Empleado empleado) {
@@ -72,6 +97,10 @@ public class EmpleadoServiceImpl implements EmpleadoService {
         }
     }
 
+    /**
+     * Elimina un empleado.
+     * @param id ID del empleado a eliminar.
+     */
     @Override
     @Transactional
     public void eliminarEmpleado(Integer id) {
@@ -86,6 +115,38 @@ public class EmpleadoServiceImpl implements EmpleadoService {
         } catch (Exception e) {
             log.error("Error al eliminar empleado: {}", e.getMessage());
             throw new BusinessException("No se pudo eliminar el empleado: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Busca empleados por cargo.
+     * @param cargo Cargo del empleado.
+     * @return Lista de empleados.
+     */
+    @Override
+    public List<Empleado> buscarPorCargo(String cargo) {
+        try {
+            log.info("Buscando empleados por cargo: {}", cargo);
+            return empleadoRepository.findByCargo(cargo);
+        } catch (Exception e) {
+            log.error("Error al buscar empleados por cargo: {}", e.getMessage());
+            throw new BusinessException("Error al buscar empleados: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Busca empleados cuyo apellido contenga un texto.
+     * @param apellidos Texto a buscar en los apellidos.
+     * @return Lista de empleados.
+     */
+    @Override
+    public List<Empleado> buscarPorApellidosContaining(String apellidos) {
+        try {
+            log.info("Buscando empleados por apellido que contenga: {}", apellidos);
+            return empleadoRepository.findByApellidosContaining(apellidos);
+        } catch (Exception e) {
+            log.error("Error al buscar empleados por apellido: {}", e.getMessage());
+            throw new BusinessException("Error al buscar empleados: " + e.getMessage());
         }
     }
 }

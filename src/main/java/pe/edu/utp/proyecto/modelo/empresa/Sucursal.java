@@ -6,6 +6,9 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * Representa una sucursal de la empresa.
+ */
 @Entity
 @Table(name = "sucursal")
 @Getter
@@ -16,6 +19,7 @@ public class Sucursal {
     private int idSucursal;
 
     private String nombre;
+
     private String direccion;
 
     public Sucursal() {

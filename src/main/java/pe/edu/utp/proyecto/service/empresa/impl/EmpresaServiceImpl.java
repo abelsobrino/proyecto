@@ -8,9 +8,14 @@ import pe.edu.utp.proyecto.exception.BusinessException;
 import pe.edu.utp.proyecto.modelo.empresa.Empresa;
 import pe.edu.utp.proyecto.repository.empresa.EmpresaRepository;
 import pe.edu.utp.proyecto.service.empresa.EmpresaService;
+
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Implementacion del servicio de empresas.
+ * Contiene la logica de negocio para la gestion de empresas.
+ */
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -86,6 +91,28 @@ public class EmpresaServiceImpl implements EmpresaService {
         } catch (Exception e) {
             log.error("Error al eliminar empresa: {}", e.getMessage());
             throw new BusinessException("No se pudo eliminar la empresa: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public Empresa buscarPorRuc(String ruc) {
+        try {
+            log.info("Buscando empresa por RUC: {}", ruc);
+            return empresaRepository.findByRuc(ruc);
+        } catch (Exception e) {
+            log.error("Error al buscar empresa por RUC: {}", e.getMessage());
+            throw new BusinessException("Error al buscar la empresa: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public List<Empresa> buscarPorRazonSocialContaining(String razonSocial) {
+        try {
+            log.info("Buscando empresas por razon social que contenga: {}", razonSocial);
+            return empresaRepository.findByRazonSocialContaining(razonSocial);
+        } catch (Exception e) {
+            log.error("Error al buscar empresas por razon social: {}", e.getMessage());
+            throw new BusinessException("Error al buscar empresas: " + e.getMessage());
         }
     }
 }

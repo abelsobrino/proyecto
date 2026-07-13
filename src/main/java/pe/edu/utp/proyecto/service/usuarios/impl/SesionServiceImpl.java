@@ -8,9 +8,13 @@ import pe.edu.utp.proyecto.exception.BusinessException;
 import pe.edu.utp.proyecto.modelo.usuarios.Sesion;
 import pe.edu.utp.proyecto.repository.usuarios.SesionRepository;
 import pe.edu.utp.proyecto.service.usuarios.SesionService;
+
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Implementacion del servicio de sesiones.
+ */
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -19,6 +23,11 @@ public class SesionServiceImpl implements SesionService {
 
     private final SesionRepository sesionRepository;
 
+    /**
+     * Guarda una nueva sesion.
+     * @param sesion Datos de la sesion.
+     * @return Sesion guardada.
+     */
     @Override
     @Transactional
     public Sesion guardarSesion(Sesion sesion) {
@@ -31,6 +40,11 @@ public class SesionServiceImpl implements SesionService {
         }
     }
 
+    /**
+     * Busca una sesion por su ID.
+     * @param id ID de la sesion.
+     * @return Optional con la sesion encontrada.
+     */
     @Override
     public Optional<Sesion> obtenerSesionPorId(Integer id) {
         try {
@@ -42,6 +56,10 @@ public class SesionServiceImpl implements SesionService {
         }
     }
 
+    /**
+     * Obtiene todas las sesiones.
+     * @return Lista de sesiones.
+     */
     @Override
     public List<Sesion> obtenerTodasLasSesiones() {
         try {
@@ -53,6 +71,12 @@ public class SesionServiceImpl implements SesionService {
         }
     }
 
+    /**
+     * Actualiza una sesion existente.
+     * @param id ID de la sesion.
+     * @param sesion Datos actualizados.
+     * @return Sesion actualizada.
+     */
     @Override
     @Transactional
     public Sesion actualizarSesion(Integer id, Sesion sesion) {
@@ -73,6 +97,10 @@ public class SesionServiceImpl implements SesionService {
         }
     }
 
+    /**
+     * Elimina una sesion.
+     * @param id ID de la sesion a eliminar.
+     */
     @Override
     @Transactional
     public void eliminarSesion(Integer id) {
@@ -90,6 +118,10 @@ public class SesionServiceImpl implements SesionService {
         }
     }
 
+    /**
+     * Obtiene todas las sesiones activas.
+     * @return Lista de sesiones activas.
+     */
     @Override
     public List<Sesion> obtenerSesionesActivas() {
         try {
@@ -101,6 +133,11 @@ public class SesionServiceImpl implements SesionService {
         }
     }
 
+    /**
+     * Obtiene sesiones de un usuario especifico.
+     * @param idUsuario ID del usuario.
+     * @return Lista de sesiones del usuario.
+     */
     @Override
     public List<Sesion> obtenerSesionesPorUsuario(Integer idUsuario) {
         try {

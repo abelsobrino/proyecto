@@ -8,9 +8,13 @@ import pe.edu.utp.proyecto.exception.BusinessException;
 import pe.edu.utp.proyecto.modelo.usuarios.Usuario;
 import pe.edu.utp.proyecto.repository.usuarios.UsuarioRepository;
 import pe.edu.utp.proyecto.service.usuarios.UsuarioService;
+
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Implementacion del servicio de usuarios.
+ */
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -19,6 +23,11 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
 
+    /**
+     * Guarda un nuevo usuario.
+     * @param usuario Datos del usuario.
+     * @return Usuario guardado.
+     */
     @Override
     @Transactional
     public Usuario guardarUsuario(Usuario usuario) {
@@ -36,6 +45,11 @@ public class UsuarioServiceImpl implements UsuarioService {
         }
     }
 
+    /**
+     * Busca un usuario por su ID.
+     * @param id ID del usuario.
+     * @return Optional con el usuario encontrado.
+     */
     @Override
     public Optional<Usuario> obtenerUsuarioPorId(Integer id) {
         try {
@@ -47,6 +61,10 @@ public class UsuarioServiceImpl implements UsuarioService {
         }
     }
 
+    /**
+     * Obtiene todos los usuarios.
+     * @return Lista de usuarios.
+     */
     @Override
     public List<Usuario> obtenerTodosLosUsuarios() {
         try {
@@ -58,6 +76,12 @@ public class UsuarioServiceImpl implements UsuarioService {
         }
     }
 
+    /**
+     * Actualiza un usuario existente.
+     * @param id ID del usuario.
+     * @param usuario Datos actualizados.
+     * @return Usuario actualizado.
+     */
     @Override
     @Transactional
     public Usuario actualizarUsuario(Integer id, Usuario usuario) {
@@ -79,6 +103,10 @@ public class UsuarioServiceImpl implements UsuarioService {
         }
     }
 
+    /**
+     * Elimina un usuario.
+     * @param id ID del usuario a eliminar.
+     */
     @Override
     @Transactional
     public void eliminarUsuario(Integer id) {
@@ -96,6 +124,11 @@ public class UsuarioServiceImpl implements UsuarioService {
         }
     }
 
+    /**
+     * Busca un usuario por correo.
+     * @param correo Correo del usuario.
+     * @return Optional con el usuario encontrado.
+     */
     @Override
     public Optional<Usuario> buscarPorCorreo(String correo) {
         try {
@@ -107,6 +140,10 @@ public class UsuarioServiceImpl implements UsuarioService {
         }
     }
 
+    /**
+     * Obtiene usuarios activos.
+     * @return Lista de usuarios activos.
+     */
     @Override
     public List<Usuario> obtenerUsuariosActivos() {
         try {
@@ -118,6 +155,11 @@ public class UsuarioServiceImpl implements UsuarioService {
         }
     }
 
+    /**
+     * Obtiene usuarios por rol.
+     * @param idRol ID del rol.
+     * @return Lista de usuarios.
+     */
     @Override
     public List<Usuario> obtenerUsuariosPorRol(Integer idRol) {
         try {

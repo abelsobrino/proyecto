@@ -1,6 +1,7 @@
 package pe.edu.utp.proyecto.service.patron.singleton;
 
 import lombok.extern.slf4j.Slf4j;
+
 import java.time.Clock;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -8,6 +9,15 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Implementacion del patron Singleton para la configuracion global del sistema.
+ * Garantiza que solo exista una instancia unica de la configuracion en toda la aplicacion.
+ *
+ * <p>Contiene propiedades como: impuesto IGV, moneda, descuento maximo, stock minimo, etc.</p>
+ *
+ * @author Sistema de Ventas UTP
+ * @version 1.0.0
+ */
 @Slf4j
 public class ConfiguracionGlobal {
 
@@ -18,6 +28,10 @@ public class ConfiguracionGlobal {
     private LocalDateTime fechaInicio;
     private Map<String, Object> propiedades;
 
+    /**
+     * Constructor privado para evitar instanciacion externa.
+     * Inicializa la configuracion con valores por defecto.
+     */
     private ConfiguracionGlobal() {
         this.nombreSistema = "Sistema de Ventas UTP";
         this.version = "1.0.0";
@@ -28,6 +42,11 @@ public class ConfiguracionGlobal {
         log.info("Singleton Configuracion inicializado");
     }
 
+    /**
+     * Obtiene la instancia unica de la configuracion global (Singleton).
+     * Si no existe, la crea.
+     * @return Instancia unica de ConfiguracionGlobal.
+     */
     public static synchronized ConfiguracionGlobal getInstance() {
         if (instancia == null) {
             instancia = new ConfiguracionGlobal();
@@ -35,6 +54,9 @@ public class ConfiguracionGlobal {
         return instancia;
     }
 
+    /**
+     * Carga las propiedades por defecto del sistema.
+     */
     private void cargarPropiedadesDefault() {
         propiedades.put("impuesto.igv", 18.0);
         propiedades.put("moneda.defecto", "PEN");

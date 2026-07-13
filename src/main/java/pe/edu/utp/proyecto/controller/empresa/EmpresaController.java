@@ -11,8 +11,16 @@ import org.springframework.web.bind.annotation.*;
 import pe.edu.utp.proyecto.dto.ApiResponse;
 import pe.edu.utp.proyecto.modelo.empresa.Empresa;
 import pe.edu.utp.proyecto.service.empresa.EmpresaService;
+
 import java.util.List;
 
+/**
+ * Controlador REST para la gestion de empresas.
+ * Expone endpoints para operaciones CRUD y consultas especializadas.
+ *
+ * @author Sistema de Ventas UTP
+ * @version 1.0.0
+ */
 @RestController
 @RequestMapping("/empresa/empresas")
 @Tag(name = "Empresas", description = "Gestion de empresas")
@@ -64,5 +72,24 @@ public class EmpresaController {
         log.info("DELETE /empresa/empresas/{} - Eliminando empresa", ruc);
         empresaService.eliminarEmpresa(ruc);
         return ResponseEntity.ok(ApiResponse.success(null, "Empresa eliminada exitosamente"));
+    }
+
+    @Operation(summary = "Buscar empresa por RUC")
+    @GetMapping("/buscar/ruc/{ruc}")
+    public ResponseEntity<ApiResponse<Empresa>> buscarPorRuc(@PathVariable String ruc) {
+        log.info("GET /empresa/empresas/buscar/ruc/{} - Buscando por RUC", ruc);
+        Empresa empresa = empresaService.buscarPorRuc(ruc);
+        if (empresa != null) {
+            return ResponseEntity.ok(ApiResponse.success(empresa));
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    @Operation(summary = "Buscar empresas por razon social que contenga")
+    @GetMapping("/buscar/razon-social/{razonSocial}")
+    public ResponseEntity<ApiResponse<List<Empresa>>> buscarPorRazonSocialContaining(@PathVariable String razonSocial) {
+        log.info("GET /empresa/empresas/buscar/razon-social/{} - Buscando por razon social", razonSocial);
+        List<Empresa> empresas = empresaService.buscarPorRazonSocialContaining(razonSocial);
+        return ResponseEntity.ok(ApiResponse.success(empresas));
     }
 }

@@ -1,6 +1,13 @@
 package pe.edu.utp.proyecto.modelo.ventas;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,6 +16,9 @@ import pe.edu.utp.proyecto.modelo.inventario.Producto;
 
 import java.math.BigDecimal;
 
+/**
+ * Representa un detalle de una venta (producto vendido con cantidad y precio).
+ */
 @Entity
 @Table(name = "detalles_venta")
 @Getter
@@ -52,6 +62,10 @@ public class DetalleVenta {
         this.subtotal = calcularSubtotal();
     }
 
+    /**
+     * Calcula el subtotal del detalle: (precioUnitario * cantidad) - descuento.
+     * @return Subtotal calculado.
+     */
     public BigDecimal calcularSubtotal() {
         BigDecimal cantidadBD = BigDecimal.valueOf(cantidad);
         BigDecimal subtotalCalculado = precioUnitario.multiply(cantidadBD).subtract(descuento);

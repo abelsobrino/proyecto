@@ -10,9 +10,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+
 import java.time.LocalDate;
 import java.util.Date;
 
+/**
+ * Representa un reporte financiero o comercial.
+ */
 @Entity
 @Table(name = "reporte")
 @Getter
@@ -27,13 +31,23 @@ public class Reporte {
     private int idReporte;
 
     private String tipoReporte;
+
     private LocalDate fechaGeneracion;
 
+    /**
+     * Genera un reporte comercial en un rango de fechas.
+     * @param fechaInicio Fecha de inicio del reporte.
+     * @param fechaFin Fecha de fin del reporte.
+     */
     public void generarReporteComercial(Date fechaInicio, Date fechaFin) {
         log.info("Extrayendo base de datos financiera desde {} hasta {}", fechaInicio, fechaFin);
         log.info("Compilando metricas del reporte de tipo: {}", tipoReporte);
     }
 
+    /**
+     * Exporta el reporte a formato PDF.
+     * @return Ruta del archivo PDF generado.
+     */
     public String exportarPDF() {
         String rutaArchivo = "/reportes/comercial_" + idReporte + ".pdf";
         log.info("Documento exportado exitosamente en: {}", rutaArchivo);

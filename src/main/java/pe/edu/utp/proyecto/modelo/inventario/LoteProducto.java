@@ -10,8 +10,12 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 import java.util.Date;
 
+/**
+ * Representa un lote de un producto con fecha de vencimiento.
+ */
 @Entity
 @Table(name = "lote_producto")
 @Getter
@@ -25,8 +29,11 @@ public class LoteProducto {
     private int idLote;
 
     private String codigoLote;
+
     private int cantidad;
+
     private Date fechaIngreso;
+
     private Date fechaVencimiento;
 
     @ManyToOne
@@ -35,6 +42,10 @@ public class LoteProducto {
     @ManyToOne
     private Almacen almacen;
 
+    /**
+     * Verifica si el lote esta vencido.
+     * @return true si la fecha de vencimiento es anterior a la fecha actual.
+     */
     public boolean estaVencido() {
         return new Date().after(this.fechaVencimiento);
     }

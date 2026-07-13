@@ -1,15 +1,20 @@
 package pe.edu.utp.proyecto.modelo.comprobantes;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import java.util.Date;
 
+import java.time.LocalDate;
+
+/**
+ * Representa una nota de credito para ajustes o devoluciones.
+ * Extiende de ComprobanteElectronico y agrega el motivo.
+ */
 @Getter
 @Setter
 @Entity
@@ -21,13 +26,14 @@ public class NotaCredito extends ComprobanteElectronico {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    /** Motivo de la nota de credito (devolucion, ajuste, etc.) */
     private String motivo;
 
     public NotaCredito() {
         super();
     }
 
-    public NotaCredito(String serie, String numero, Date fechaEmision, double total, String motivo) {
+    public NotaCredito(String serie, String numero, LocalDate fechaEmision, double total, String motivo) {
         super(serie, numero, fechaEmision, total);
         this.motivo = motivo;
     }
@@ -43,6 +49,9 @@ public class NotaCredito extends ComprobanteElectronico {
         return this.total;
     }
 
+    /**
+     * Aplica un descuento financiero al saldo original.
+     */
     public void aplicarDescuento() {
         log.info("Descuento financiero aplicado correctamente al saldo original.");
     }

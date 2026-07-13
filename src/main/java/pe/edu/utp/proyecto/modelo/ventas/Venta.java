@@ -9,10 +9,14 @@ import pe.edu.utp.proyecto.service.patron.comportamiento_state.EstadoFactory;
 import pe.edu.utp.proyecto.service.patron.comportamiento_state.EstadoVenta;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
+/**
+ * Representa una venta realizada a un cliente.
+ * Utiliza el patron State para gestionar los estados de la venta.
+ */
 @Entity
 @Table(name = "venta")
 @Getter
@@ -24,9 +28,10 @@ public class Venta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idVenta;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date fechaVenta;
+    /** Fecha y hora de la venta en formato LocalDateTime */
+    private LocalDateTime fechaVenta;
 
+    /** Estado actual de la venta (PENDIENTE, PROCESANDO, COMPLETADA, CANCELADA) */
     private String estado;
 
     private BigDecimal total;
@@ -41,7 +46,7 @@ public class Venta {
     @Transient
     private EstadoVenta estadoActual;
 
-    public Venta(int idVenta, Date fechaVenta, String estado, Cliente cliente) {
+    public Venta(int idVenta, LocalDateTime fechaVenta, String estado, Cliente cliente) {
         this.idVenta = idVenta;
         this.fechaVenta = fechaVenta;
         this.estado = estado;
@@ -51,11 +56,19 @@ public class Venta {
         this.estadoActual = EstadoFactory.getEstado(estado);
     }
 
+    /**
+     * Agrega un detalle a la venta y actualiza el total.
+     * @param detalle Detalle a agregar.
+     */
     public void agregarDetalle(DetalleVenta detalle) {
         this.detalles.add(detalle);
         this.total = this.total.add(detalle.getSubtotal());
     }
 
+    /**
+     * Calcula el total de la venta sumando los subtotales de los detalles.
+     * @return Total calculado.
+     */
     public BigDecimal calcularTotal() {
         this.total = detalles.stream()
                 .map(DetalleVenta::getSubtotal)
@@ -64,6 +77,10 @@ public class Venta {
     }
 
     // METODOS DEL PATRON STATE
+
+    /**
+     * Cambia el estado de la venta a PROCESANDO si es permitido.
+     */
     public void procesar() {
         if (estadoActual == null) {
             estadoActual = EstadoFactory.getEstado(this.estado);
@@ -71,6 +88,9 @@ public class Venta {
         estadoActual.procesar(this);
     }
 
+    /**
+     * Cambia el estado de la venta a COMPLETADA si es permitido.
+     */
     public void completar() {
         if (estadoActual == null) {
             estadoActual = EstadoFactory.getEstado(this.estado);
@@ -78,6 +98,9 @@ public class Venta {
         estadoActual.completar(this);
     }
 
+    /**
+     * Cambia el estado de la venta a CANCELADA si es permitido.
+     */
     public void cancelar() {
         if (estadoActual == null) {
             estadoActual = EstadoFactory.getEstado(this.estado);
@@ -85,6 +108,10 @@ public class Venta {
         estadoActual.cancelar(this);
     }
 
+    /**
+     * Obtiene el nombre del estado actual.
+     * @return Nombre del estado actual.
+     */
     public String getEstadoActual() {
         if (estadoActual == null) {
             estadoActual = EstadoFactory.getEstado(this.estado);
@@ -92,6 +119,10 @@ public class Venta {
         return estadoActual.getNombreEstado();
     }
 
+    /**
+     * Establece un nuevo estado y actualiza el estadoActual.
+     * @param nuevoEstado Nombre del nuevo estado.
+     */
     public void setEstado(String nuevoEstado) {
         this.estado = nuevoEstado;
         this.estadoActual = EstadoFactory.getEstado(nuevoEstado);

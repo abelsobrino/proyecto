@@ -16,6 +16,11 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Implementacion del servicio de detalles de venta.
+ * Contiene la logica de negocio para la gestion de detalles de venta.
+ * Utiliza el patron Singleton para obtener configuracion global.
+ */
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -25,12 +30,18 @@ public class DetalleVentaServiceImpl implements DetalleVentaService {
     private final DetalleVentaRepository detalleVentaRepository;
     private final ProductoRepository productoRepository;
 
+    /**
+     * Guarda un nuevo detalle de venta.
+     * @param detalle Datos del detalle.
+     * @return Detalle guardado.
+     */
     @Override
     @Transactional
     public DetalleVenta guardarDetalle(DetalleVenta detalle) {
         try {
             log.info("Guardando nuevo detalle de venta");
 
+            // USO DEL PATRON SINGLETON
             ConfiguracionGlobal config = ConfiguracionGlobal.getInstance();
             Integer stockMinimo = config.getIntegerPropiedad("stock.minimo.alerta");
 
@@ -61,6 +72,11 @@ public class DetalleVentaServiceImpl implements DetalleVentaService {
         }
     }
 
+    /**
+     * Busca un detalle de venta por su ID.
+     * @param id ID del detalle.
+     * @return Optional con el detalle encontrado.
+     */
     @Override
     public Optional<DetalleVenta> obtenerDetallePorId(Integer id) {
         try {
@@ -72,6 +88,10 @@ public class DetalleVentaServiceImpl implements DetalleVentaService {
         }
     }
 
+    /**
+     * Obtiene todos los detalles de venta.
+     * @return Lista de detalles.
+     */
     @Override
     public List<DetalleVenta> obtenerTodosLosDetalles() {
         try {
@@ -83,6 +103,12 @@ public class DetalleVentaServiceImpl implements DetalleVentaService {
         }
     }
 
+    /**
+     * Actualiza un detalle de venta existente.
+     * @param id ID del detalle.
+     * @param detalle Datos actualizados.
+     * @return Detalle actualizado.
+     */
     @Override
     @Transactional
     public DetalleVenta actualizarDetalle(Integer id, DetalleVenta detalle) {
@@ -104,6 +130,10 @@ public class DetalleVentaServiceImpl implements DetalleVentaService {
         }
     }
 
+    /**
+     * Elimina un detalle de venta.
+     * @param id ID del detalle a eliminar.
+     */
     @Override
     @Transactional
     public void eliminarDetalle(Integer id) {
@@ -121,6 +151,11 @@ public class DetalleVentaServiceImpl implements DetalleVentaService {
         }
     }
 
+    /**
+     * Busca detalles de venta de un producto.
+     * @param idProducto ID del producto.
+     * @return Lista de detalles.
+     */
     @Override
     public List<DetalleVenta> obtenerDetallesPorProducto(Integer idProducto) {
         try {
@@ -132,6 +167,12 @@ public class DetalleVentaServiceImpl implements DetalleVentaService {
         }
     }
 
+    /**
+     * Busca detalles de venta por rango de subtotal.
+     * @param min Valor minimo.
+     * @param max Valor maximo.
+     * @return Lista de detalles.
+     */
     @Override
     public List<DetalleVenta> obtenerDetallesPorRangoSubtotal(Double min, Double max) {
         try {
@@ -143,6 +184,11 @@ public class DetalleVentaServiceImpl implements DetalleVentaService {
         }
     }
 
+    /**
+     * Suma el subtotal de todos los detalles de un producto.
+     * @param idProducto ID del producto.
+     * @return Suma de subtotales.
+     */
     @Override
     public Double sumarSubtotalPorProducto(Integer idProducto) {
         try {
@@ -158,6 +204,11 @@ public class DetalleVentaServiceImpl implements DetalleVentaService {
         }
     }
 
+    /**
+     * Calcula el subtotal de un detalle.
+     * @param detalle Detalle a calcular.
+     * @return Detalle con subtotal calculado.
+     */
     @Override
     public DetalleVenta calcularSubtotal(DetalleVenta detalle) {
         try {

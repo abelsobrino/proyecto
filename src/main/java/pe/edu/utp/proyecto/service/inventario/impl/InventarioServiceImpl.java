@@ -8,9 +8,13 @@ import pe.edu.utp.proyecto.exception.BusinessException;
 import pe.edu.utp.proyecto.modelo.inventario.Inventario;
 import pe.edu.utp.proyecto.repository.inventario.InventarioRepository;
 import pe.edu.utp.proyecto.service.inventario.InventarioService;
+
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Implementacion del servicio de inventarios.
+ */
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -89,24 +93,24 @@ public class InventarioServiceImpl implements InventarioService {
     }
 
     @Override
-    public List<Inventario> obtenerInventariosPorNombre(String nombre) {
+    public List<Inventario> buscarPorNombre(String nombre) {
         try {
             log.info("Buscando inventarios por nombre: {}", nombre);
             return inventarioRepository.findByNombreContaining(nombre);
         } catch (Exception e) {
             log.error("Error al buscar inventarios por nombre: {}", e.getMessage());
-            throw new BusinessException("Error al buscar los inventarios: " + e.getMessage());
+            throw new BusinessException("Error al buscar inventarios: " + e.getMessage());
         }
     }
 
     @Override
-    public List<Inventario> obtenerInventariosPorDescripcion(String descripcion) {
+    public List<Inventario> buscarPorDescripcion(String descripcion) {
         try {
             log.info("Buscando inventarios por descripcion: {}", descripcion);
             return inventarioRepository.findByDescripcionContaining(descripcion);
         } catch (Exception e) {
             log.error("Error al buscar inventarios por descripcion: {}", e.getMessage());
-            throw new BusinessException("Error al buscar los inventarios: " + e.getMessage());
+            throw new BusinessException("Error al buscar inventarios: " + e.getMessage());
         }
     }
 }

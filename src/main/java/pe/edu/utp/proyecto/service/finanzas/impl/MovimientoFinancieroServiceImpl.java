@@ -8,10 +8,15 @@ import pe.edu.utp.proyecto.exception.BusinessException;
 import pe.edu.utp.proyecto.modelo.finanzas.MovimientoFinanciero;
 import pe.edu.utp.proyecto.repository.finanzas.MovimientoFinancieroRepository;
 import pe.edu.utp.proyecto.service.finanzas.MovimientoFinancieroService;
+
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Implementacion del servicio de movimientos financieros.
+ * Contiene la logica de negocio para la gestion de movimientos financieros.
+ */
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -20,6 +25,11 @@ public class MovimientoFinancieroServiceImpl implements MovimientoFinancieroServ
 
     private final MovimientoFinancieroRepository movimientoFinancieroRepository;
 
+    /**
+     * Guarda un nuevo movimiento financiero.
+     * @param movimiento Datos del movimiento.
+     * @return Movimiento guardado.
+     */
     @Override
     @Transactional
     public MovimientoFinanciero guardarMovimiento(MovimientoFinanciero movimiento) {
@@ -33,6 +43,11 @@ public class MovimientoFinancieroServiceImpl implements MovimientoFinancieroServ
         }
     }
 
+    /**
+     * Busca un movimiento financiero por su ID.
+     * @param id ID del movimiento.
+     * @return Optional con el movimiento encontrado.
+     */
     @Override
     public Optional<MovimientoFinanciero> obtenerMovimientoPorId(Integer id) {
         try {
@@ -44,6 +59,10 @@ public class MovimientoFinancieroServiceImpl implements MovimientoFinancieroServ
         }
     }
 
+    /**
+     * Obtiene todos los movimientos financieros.
+     * @return Lista de movimientos.
+     */
     @Override
     public List<MovimientoFinanciero> obtenerTodosLosMovimientos() {
         try {
@@ -55,6 +74,12 @@ public class MovimientoFinancieroServiceImpl implements MovimientoFinancieroServ
         }
     }
 
+    /**
+     * Actualiza un movimiento financiero existente.
+     * @param id ID del movimiento.
+     * @param movimiento Datos actualizados.
+     * @return Movimiento actualizado.
+     */
     @Override
     @Transactional
     public MovimientoFinanciero actualizarMovimiento(Integer id, MovimientoFinanciero movimiento) {
@@ -74,6 +99,10 @@ public class MovimientoFinancieroServiceImpl implements MovimientoFinancieroServ
         }
     }
 
+    /**
+     * Elimina un movimiento financiero.
+     * @param id ID del movimiento a eliminar.
+     */
     @Override
     @Transactional
     public void eliminarMovimiento(Integer id) {
@@ -91,6 +120,11 @@ public class MovimientoFinancieroServiceImpl implements MovimientoFinancieroServ
         }
     }
 
+    /**
+     * Busca movimientos financieros por tipo.
+     * @param tipo Tipo de movimiento.
+     * @return Lista de movimientos.
+     */
     @Override
     public List<MovimientoFinanciero> obtenerMovimientosPorTipo(String tipo) {
         try {
@@ -102,6 +136,11 @@ public class MovimientoFinancieroServiceImpl implements MovimientoFinancieroServ
         }
     }
 
+    /**
+     * Busca movimientos financieros por fecha.
+     * @param fecha Fecha del movimiento.
+     * @return Lista de movimientos.
+     */
     @Override
     public List<MovimientoFinanciero> obtenerMovimientosPorFecha(LocalDate fecha) {
         try {

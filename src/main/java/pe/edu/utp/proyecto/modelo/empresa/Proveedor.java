@@ -9,6 +9,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Representa un proveedor de la empresa.
+ */
 @Entity
 @Table(name = "proveedor")
 @Getter
@@ -21,7 +24,9 @@ public class Proveedor {
     private int idProveedor;
 
     private String razonSocial;
+
     private String ruc;
+
     private String telefono;
 
     public Proveedor(String razonSocial, String ruc, String telefono) {
