@@ -14,34 +14,32 @@ import pe.edu.utp.proyecto.modelo.ventas.Venta;
 @Slf4j
 public class EstadoProcesando implements EstadoVenta {
 
-    /**
-     * No permite procesar una venta que ya esta en PROCESANDO.
-     * @param venta Venta a procesar.
-     * @throws BusinessException si se intenta procesar.
-     */
+    private final Venta venta;
+
+    public EstadoProcesando(Venta venta) {
+        this.venta = venta;
+    }
+
     @Override
-    public void procesar(Venta venta) {
+    public void onEnterState() {
+        log.info("{} esta PROCESANDO.", venta);
+    }
+
+    @Override
+    public void procesar() {
         throw new BusinessException("La venta ya esta siendo procesada");
     }
 
-    /**
-     * Cambia la venta de PROCESANDO a COMPLETADA.
-     * @param venta Venta a completar.
-     */
     @Override
-    public void completar(Venta venta) {
-        log.info("Venta {}: PASANDO DE PROCESANDO A COMPLETADA", venta.getIdVenta());
-        venta.setEstado("COMPLETADA");
+    public void completar() {
+        log.info("{}: PASANDO DE PROCESANDO A COMPLETADA", venta);
+        venta.cambiarEstado(new EstadoCompletada(venta));
     }
 
-    /**
-     * Cambia la venta de PROCESANDO a CANCELADA.
-     * @param venta Venta a cancelar.
-     */
     @Override
-    public void cancelar(Venta venta) {
-        log.info("Venta {}: PASANDO DE PROCESANDO A CANCELADA", venta.getIdVenta());
-        venta.setEstado("CANCELADA");
+    public void cancelar() {
+        log.info("{}: PASANDO DE PROCESANDO A CANCELADA", venta);
+        venta.cambiarEstado(new EstadoCancelada(venta));
     }
 
     @Override

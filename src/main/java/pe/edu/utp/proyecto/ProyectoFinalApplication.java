@@ -20,7 +20,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class ProyectoFinalApplication {
 
-	private static final String SEPARADOR = "============================================================";
+	private static final String separador = "============================================================";
 
 	/**
 	 * Punto de entrada de la aplicacion.
@@ -29,10 +29,10 @@ public class ProyectoFinalApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ProyectoFinalApplication.class, args);
 
-		log.info(SEPARADOR);
+		log.info(separador);
 		log.info("SISTEMA DE VENTAS INICIADO");
-		log.info(SEPARADOR);
+		log.info(separador);
 		log.info("Swagger: http://localhost:8090/api/swagger-ui/index.html");
-		log.info(SEPARADOR);
+		log.info(separador);
 	}
 }

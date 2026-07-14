@@ -16,6 +16,8 @@ import java.util.List;
 /**
  * Representa una venta realizada a un cliente.
  * Utiliza el patron State para gestionar los estados de la venta.
+ *
+ * @author Sistema de Ventas UTP
  */
 @Entity
 @Table(name = "venta")
@@ -28,10 +30,8 @@ public class Venta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idVenta;
 
-    /** Fecha y hora de la venta en formato LocalDateTime */
     private LocalDateTime fechaVenta;
 
-    /** Estado actual de la venta (PENDIENTE, PROCESANDO, COMPLETADA, CANCELADA) */
     private String estado;
 
     private BigDecimal total;
@@ -53,7 +53,7 @@ public class Venta {
         this.cliente = cliente;
         this.detalles = new ArrayList<>();
         this.total = BigDecimal.ZERO;
-        this.estadoActual = EstadoFactory.getEstado(estado);
+        this.estadoActual = EstadoFactory.getEstado(estado, this);
     }
 
     /**
@@ -76,36 +76,49 @@ public class Venta {
         return this.total;
     }
 
+    // =============================================
     // METODOS DEL PATRON STATE
+    // =============================================
 
     /**
      * Cambia el estado de la venta a PROCESANDO si es permitido.
      */
     public void procesar() {
-        if (estadoActual == null) {
-            estadoActual = EstadoFactory.getEstado(this.estado);
-        }
-        estadoActual.procesar(this);
+        estadoActual.procesar();
     }
 
     /**
      * Cambia el estado de la venta a COMPLETADA si es permitido.
      */
     public void completar() {
-        if (estadoActual == null) {
-            estadoActual = EstadoFactory.getEstado(this.estado);
-        }
-        estadoActual.completar(this);
+        estadoActual.completar();
     }
 
     /**
      * Cambia el estado de la venta a CANCELADA si es permitido.
      */
     public void cancelar() {
-        if (estadoActual == null) {
-            estadoActual = EstadoFactory.getEstado(this.estado);
-        }
-        estadoActual.cancelar(this);
+        estadoActual.cancelar();
+    }
+
+    /**
+     * Cambia el estado actual de la venta.
+     * @param nuevoEstado Nuevo estado a establecer.
+     */
+    public void cambiarEstado(EstadoVenta nuevoEstado) {
+        this.estadoActual = nuevoEstado;
+        this.estado = nuevoEstado.getNombreEstado();
+        this.estadoActual.onEnterState();
+    }
+
+    /**
+     * Establece un nuevo estado por nombre y actualiza el estadoActual.
+     * @param nuevoEstado Nombre del nuevo estado.
+     */
+    public void setEstado(String nuevoEstado) {
+        this.estado = nuevoEstado;
+        this.estadoActual = EstadoFactory.getEstado(nuevoEstado, this);
+        this.estadoActual.onEnterState();
     }
 
     /**
@@ -113,18 +126,11 @@ public class Venta {
      * @return Nombre del estado actual.
      */
     public String getEstadoActual() {
-        if (estadoActual == null) {
-            estadoActual = EstadoFactory.getEstado(this.estado);
-        }
         return estadoActual.getNombreEstado();
     }
 
-    /**
-     * Establece un nuevo estado y actualiza el estadoActual.
-     * @param nuevoEstado Nombre del nuevo estado.
-     */
-    public void setEstado(String nuevoEstado) {
-        this.estado = nuevoEstado;
-        this.estadoActual = EstadoFactory.getEstado(nuevoEstado);
+    @Override
+    public String toString() {
+        return "Venta #" + idVenta;
     }
 }

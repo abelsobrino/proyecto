@@ -29,11 +29,6 @@ public class VentaServiceImpl implements VentaService {
 
     private final VentaRepository ventaRepository;
 
-    /**
-     * Guarda una nueva venta.
-     * @param venta Datos de la venta.
-     * @return Venta guardada.
-     */
     @Override
     @Transactional
     public Venta guardarVenta(Venta venta) {
@@ -42,7 +37,7 @@ public class VentaServiceImpl implements VentaService {
             if (venta.getEstado() == null || venta.getEstado().isEmpty()) {
                 venta.setEstado("PENDIENTE");
             }
-            venta.setEstadoActual(EstadoFactory.getEstado(venta.getEstado()));
+            venta.setEstadoActual(EstadoFactory.getEstado(venta.getEstado(), venta));
             return ventaRepository.save(venta);
         } catch (Exception e) {
             log.error("Error al guardar venta: {}", e.getMessage());
@@ -50,17 +45,12 @@ public class VentaServiceImpl implements VentaService {
         }
     }
 
-    /**
-     * Busca una venta por su ID.
-     * @param id ID de la venta.
-     * @return Optional con la venta encontrada.
-     */
     @Override
     public Optional<Venta> obtenerVentaPorId(Integer id) {
         try {
             log.debug("Buscando venta con ID: {}", id);
             Optional<Venta> ventaOpt = ventaRepository.findById(id);
-            ventaOpt.ifPresent(v -> v.setEstadoActual(EstadoFactory.getEstado(v.getEstado())));
+            ventaOpt.ifPresent(v -> v.setEstadoActual(EstadoFactory.getEstado(v.getEstado(), v)));
             return ventaOpt;
         } catch (Exception e) {
             log.error("Error al buscar venta: {}", e.getMessage());
@@ -68,16 +58,12 @@ public class VentaServiceImpl implements VentaService {
         }
     }
 
-    /**
-     * Obtiene todas las ventas.
-     * @return Lista de ventas.
-     */
     @Override
     public List<Venta> obtenerTodasLasVentas() {
         try {
             log.info("Obteniendo todas las ventas");
             List<Venta> ventas = ventaRepository.findAll();
-            ventas.forEach(v -> v.setEstadoActual(EstadoFactory.getEstado(v.getEstado())));
+            ventas.forEach(v -> v.setEstadoActual(EstadoFactory.getEstado(v.getEstado(), v)));
             return ventas;
         } catch (Exception e) {
             log.error("Error al obtener ventas: {}", e.getMessage());
@@ -85,12 +71,6 @@ public class VentaServiceImpl implements VentaService {
         }
     }
 
-    /**
-     * Actualiza una venta existente.
-     * @param id ID de la venta.
-     * @param venta Datos actualizados.
-     * @return Venta actualizada.
-     */
     @Override
     @Transactional
     public Venta actualizarVenta(Integer id, Venta venta) {
@@ -106,7 +86,7 @@ public class VentaServiceImpl implements VentaService {
 
             if (venta.getEstado() != null && !venta.getEstado().isEmpty()) {
                 existente.setEstado(venta.getEstado());
-                existente.setEstadoActual(EstadoFactory.getEstado(venta.getEstado()));
+                existente.setEstadoActual(EstadoFactory.getEstado(venta.getEstado(), existente));
             }
 
             return ventaRepository.save(existente);
@@ -118,10 +98,6 @@ public class VentaServiceImpl implements VentaService {
         }
     }
 
-    /**
-     * Elimina una venta.
-     * @param id ID de la venta a eliminar.
-     */
     @Override
     @Transactional
     public void eliminarVenta(Integer id) {
@@ -139,11 +115,7 @@ public class VentaServiceImpl implements VentaService {
         }
     }
 
-    /**
-     * Obtiene ventas por estado.
-     * @param estado Estado de la venta.
-     * @return Lista de ventas.
-     */
+    @Override
     public List<Venta> obtenerVentasPorEstado(String estado) {
         try {
             log.info("Obteniendo ventas por estado: {}", estado);
@@ -151,7 +123,7 @@ public class VentaServiceImpl implements VentaService {
                     .stream()
                     .filter(v -> v.getEstado() != null && v.getEstado().equalsIgnoreCase(estado))
                     .toList();
-            ventas.forEach(v -> v.setEstadoActual(EstadoFactory.getEstado(v.getEstado())));
+            ventas.forEach(v -> v.setEstadoActual(EstadoFactory.getEstado(v.getEstado(), v)));
             return ventas;
         } catch (Exception e) {
             log.error("Error al obtener ventas por estado: {}", e.getMessage());
@@ -159,11 +131,6 @@ public class VentaServiceImpl implements VentaService {
         }
     }
 
-    /**
-     * Calcula el total de una venta.
-     * @param id ID de la venta.
-     * @return Total de la venta.
-     */
     @Override
     public Double calcularTotalVenta(Integer id) {
         try {
@@ -178,12 +145,10 @@ public class VentaServiceImpl implements VentaService {
         }
     }
 
+    // =============================================
+    // METODOS DEL PATRON STATE
+    // =============================================
 
-    /**
-     * Cambia el estado de la venta a PROCESANDO.
-     * @param id ID de la venta.
-     * @return Venta actualizada.
-     */
     @Override
     @Transactional
     public Venta procesarVenta(Integer id) {
@@ -192,7 +157,7 @@ public class VentaServiceImpl implements VentaService {
             Venta venta = ventaRepository.findById(id)
                     .orElseThrow(() -> new BusinessException(MENSAJE_VENTA_NO_ENCONTRADA + id));
 
-            venta.setEstadoActual(EstadoFactory.getEstado(venta.getEstado()));
+            venta.setEstadoActual(EstadoFactory.getEstado(venta.getEstado(), venta));
             venta.procesar();
 
             log.info("Venta {} procesada. Nuevo estado: {}", id, venta.getEstado());
@@ -205,11 +170,6 @@ public class VentaServiceImpl implements VentaService {
         }
     }
 
-    /**
-     * Cambia el estado de la venta a COMPLETADA.
-     * @param id ID de la venta.
-     * @return Venta actualizada.
-     */
     @Override
     @Transactional
     public Venta completarVenta(Integer id) {
@@ -218,7 +178,7 @@ public class VentaServiceImpl implements VentaService {
             Venta venta = ventaRepository.findById(id)
                     .orElseThrow(() -> new BusinessException(MENSAJE_VENTA_NO_ENCONTRADA + id));
 
-            venta.setEstadoActual(EstadoFactory.getEstado(venta.getEstado()));
+            venta.setEstadoActual(EstadoFactory.getEstado(venta.getEstado(), venta));
             venta.completar();
 
             log.info("Venta {} completada. Nuevo estado: {}", id, venta.getEstado());
@@ -231,11 +191,6 @@ public class VentaServiceImpl implements VentaService {
         }
     }
 
-    /**
-     * Cambia el estado de la venta a CANCELADA.
-     * @param id ID de la venta.
-     * @return Venta actualizada.
-     */
     @Override
     @Transactional
     public Venta cancelarVenta(Integer id) {
@@ -244,7 +199,7 @@ public class VentaServiceImpl implements VentaService {
             Venta venta = ventaRepository.findById(id)
                     .orElseThrow(() -> new BusinessException(MENSAJE_VENTA_NO_ENCONTRADA + id));
 
-            venta.setEstadoActual(EstadoFactory.getEstado(venta.getEstado()));
+            venta.setEstadoActual(EstadoFactory.getEstado(venta.getEstado(), venta));
             venta.cancelar();
 
             log.info("Venta {} cancelada. Nuevo estado: {}", id, venta.getEstado());

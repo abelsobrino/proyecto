@@ -13,33 +13,29 @@ import pe.edu.utp.proyecto.modelo.ventas.Venta;
 @Slf4j
 public class EstadoCancelada implements EstadoVenta {
 
-    /**
-     * No permite procesar una venta cancelada.
-     * @param venta Venta a procesar.
-     * @throws BusinessException si se intenta procesar.
-     */
+    private final Venta venta;
+
+    public EstadoCancelada(Venta venta) {
+        this.venta = venta;
+    }
+
     @Override
-    public void procesar(Venta venta) {
+    public void onEnterState() {
+        log.info("{} esta CANCELADA.", venta);
+    }
+
+    @Override
+    public void procesar() {
         throw new BusinessException("No se puede procesar una venta cancelada");
     }
 
-    /**
-     * No permite completar una venta cancelada.
-     * @param venta Venta a completar.
-     * @throws BusinessException si se intenta completar.
-     */
     @Override
-    public void completar(Venta venta) {
+    public void completar() {
         throw new BusinessException("No se puede completar una venta cancelada");
     }
 
-    /**
-     * No permite cancelar una venta ya cancelada.
-     * @param venta Venta a cancelar.
-     * @throws BusinessException si se intenta cancelar.
-     */
     @Override
-    public void cancelar(Venta venta) {
+    public void cancelar() {
         throw new BusinessException("La venta ya esta cancelada");
     }
 

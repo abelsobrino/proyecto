@@ -13,33 +13,29 @@ import pe.edu.utp.proyecto.modelo.ventas.Venta;
 @Slf4j
 public class EstadoCompletada implements EstadoVenta {
 
-    /**
-     * No permite procesar una venta completada.
-     * @param venta Venta a procesar.
-     * @throws BusinessException si se intenta procesar.
-     */
+    private final Venta venta;
+
+    public EstadoCompletada(Venta venta) {
+        this.venta = venta;
+    }
+
     @Override
-    public void procesar(Venta venta) {
+    public void onEnterState() {
+        log.info("{} esta COMPLETADA.", venta);
+    }
+
+    @Override
+    public void procesar() {
         throw new BusinessException("No se puede procesar una venta completada");
     }
 
-    /**
-     * No permite completar una venta ya completada.
-     * @param venta Venta a completar.
-     * @throws BusinessException si se intenta completar.
-     */
     @Override
-    public void completar(Venta venta) {
+    public void completar() {
         throw new BusinessException("La venta ya esta completada");
     }
 
-    /**
-     * No permite cancelar una venta completada.
-     * @param venta Venta a cancelar.
-     * @throws BusinessException si se intenta cancelar.
-     */
     @Override
-    public void cancelar(Venta venta) {
+    public void cancelar() {
         throw new BusinessException("No se puede cancelar una venta completada");
     }
 

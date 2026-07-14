@@ -4,32 +4,33 @@ import pe.edu.utp.proyecto.modelo.ventas.Venta;
 
 /**
  * Interfaz que define el comportamiento de los estados de una venta (State Pattern).
- * Cada estado concreto implementa las transiciones permitidas.
  *
  * @author Sistema de Ventas UTP
  */
 public interface EstadoVenta {
 
     /**
-     * Cambia el estado de la venta a PROCESANDO.
-     * @param venta Venta a procesar.
+     * Accion que se ejecuta al entrar al estado.
      */
-    void procesar(Venta venta);
+    void onEnterState();
 
     /**
-     * Cambia el estado de la venta a COMPLETADA.
-     * @param venta Venta a completar.
+     * Procesa la venta en el estado actual.
      */
-    void completar(Venta venta);
+    void procesar();
 
     /**
-     * Cambia el estado de la venta a CANCELADA.
-     * @param venta Venta a cancelar.
+     * Completa la venta en el estado actual.
      */
-    void cancelar(Venta venta);
+    void completar();
 
     /**
-     * Obtiene el nombre del estado actual.
+     * Cancela la venta en el estado actual.
+     */
+    void cancelar();
+
+    /**
+     * Obtiene el nombre del estado.
      * @return Nombre del estado.
      */
     String getNombreEstado();

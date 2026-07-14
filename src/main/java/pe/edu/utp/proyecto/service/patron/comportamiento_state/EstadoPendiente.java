@@ -13,34 +13,33 @@ import pe.edu.utp.proyecto.modelo.ventas.Venta;
 @Slf4j
 public class EstadoPendiente implements EstadoVenta {
 
-    /**
-     * Cambia la venta de PENDIENTE a PROCESANDO.
-     * @param venta Venta a procesar.
-     */
-    @Override
-    public void procesar(Venta venta) {
-        log.info("Venta {}: PASANDO DE PENDIENTE A PROCESANDO", venta.getIdVenta());
-        venta.setEstado("PROCESANDO");
+    private final Venta venta;
+
+    public EstadoPendiente(Venta venta) {
+        this.venta = venta;
     }
 
-    /**
-     * Cambia la venta de PENDIENTE a COMPLETADA.
-     * @param venta Venta a completar.
-     */
     @Override
-    public void completar(Venta venta) {
-        log.info("Venta {}: PASANDO DE PENDIENTE A COMPLETADA", venta.getIdVenta());
-        venta.setEstado("COMPLETADA");
+    public void onEnterState() {
+        log.info("{} esta PENDIENTE.", venta);
     }
 
-    /**
-     * Cambia la venta de PENDIENTE a CANCELADA.
-     * @param venta Venta a cancelar.
-     */
     @Override
-    public void cancelar(Venta venta) {
-        log.info("Venta {}: PASANDO DE PENDIENTE A CANCELADA", venta.getIdVenta());
-        venta.setEstado("CANCELADA");
+    public void procesar() {
+        log.info("{}: PASANDO DE PENDIENTE A PROCESANDO", venta);
+        venta.cambiarEstado(new EstadoProcesando(venta));
+    }
+
+    @Override
+    public void completar() {
+        log.info("{}: PASANDO DE PENDIENTE A COMPLETADA", venta);
+        venta.cambiarEstado(new EstadoCompletada(venta));
+    }
+
+    @Override
+    public void cancelar() {
+        log.info("{}: PASANDO DE PENDIENTE A CANCELADA", venta);
+        venta.cambiarEstado(new EstadoCancelada(venta));
     }
 
     @Override
