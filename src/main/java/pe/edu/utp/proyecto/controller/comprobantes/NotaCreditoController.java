@@ -11,16 +11,11 @@ import org.springframework.web.bind.annotation.*;
 import pe.edu.utp.proyecto.dto.ApiResponse;
 import pe.edu.utp.proyecto.modelo.comprobantes.NotaCredito;
 import pe.edu.utp.proyecto.service.comprobantes.NotaCreditoService;
+import pe.edu.utp.proyecto.service.patron.estructural_decorator.ComprobanteConPDF;
+import pe.edu.utp.proyecto.service.patron.estructural_decorator.ComprobanteConQR;
 
 import java.util.List;
 
-/**
- * Controlador REST para la gestion de notas de credito.
- * Expone endpoints para operaciones CRUD y consultas especializadas.
- *
- * @author Sistema de Ventas UTP
- * @version 1.0.0
- */
 @RestController
 @RequestMapping("/comprobantes/notas-credito")
 @Tag(name = "Notas de Credito", description = "Gestion de notas de credito")
@@ -30,11 +25,7 @@ public class NotaCreditoController {
 
     private final NotaCreditoService notaCreditoService;
 
-    /**
-     * Crea una nueva nota de credito en el sistema.
-     * @param notaCredito Datos de la nota de credito a crear.
-     * @return Nota de credito creada con su ID generado.
-     */
+    /** Registra una nueva nota de credito */
     @Operation(summary = "Crear una nueva nota de credito")
     @PostMapping
     public ResponseEntity<ApiResponse<NotaCredito>> crearNotaCredito(@Valid @RequestBody NotaCredito notaCredito) {
@@ -44,11 +35,7 @@ public class NotaCreditoController {
                 .body(ApiResponse.success(creada, "Nota de credito creada exitosamente"));
     }
 
-    /**
-     * Obtiene una nota de credito por su ID.
-     * @param id ID de la nota de credito.
-     * @return Nota de credito encontrada o 404 Not Found.
-     */
+    /** Busca una nota de credito por su ID */
     @Operation(summary = "Obtener una nota de credito por su ID")
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<NotaCredito>> obtenerNotaCredito(@PathVariable Long id) {
@@ -58,10 +45,7 @@ public class NotaCreditoController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    /**
-     * Lista todas las notas de credito registradas.
-     * @return Lista de notas de credito.
-     */
+    /** Lista todas las notas de credito */
     @Operation(summary = "Obtener todas las notas de credito")
     @GetMapping
     public ResponseEntity<ApiResponse<List<NotaCredito>>> obtenerTodasNotasCredito() {
@@ -70,12 +54,7 @@ public class NotaCreditoController {
         return ResponseEntity.ok(ApiResponse.success(notas));
     }
 
-    /**
-     * Actualiza una nota de credito existente.
-     * @param id ID de la nota de credito a actualizar.
-     * @param notaCredito Datos actualizados.
-     * @return Nota de credito actualizada.
-     */
+    /** Actualiza una nota de credito existente */
     @Operation(summary = "Actualizar una nota de credito existente")
     @PutMapping("/{id}")
     public ResponseEntity<ApiResponse<NotaCredito>> actualizarNotaCredito(
@@ -86,10 +65,7 @@ public class NotaCreditoController {
         return ResponseEntity.ok(ApiResponse.success(actualizada, "Nota de credito actualizada exitosamente"));
     }
 
-    /**
-     * Elimina una nota de credito por su ID.
-     * @param id ID de la nota de credito a eliminar.
-     */
+    /** Elimina una nota de credito por su ID */
     @Operation(summary = "Eliminar una nota de credito por su ID")
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse<Void>> eliminarNotaCredito(@PathVariable Long id) {
@@ -98,11 +74,11 @@ public class NotaCreditoController {
         return ResponseEntity.ok(ApiResponse.success(null, "Nota de credito eliminada exitosamente"));
     }
 
-    /**
-     * Busca notas de credito por motivo.
-     * @param motivo Texto a buscar en el motivo.
-     * @return Lista de notas de credito.
-     */
+    // =============================================
+    // CONSULTAS ESPECIALIZADAS
+    // =============================================
+
+    /** Busca notas de credito por motivo */
     @Operation(summary = "Buscar notas de credito por motivo")
     @GetMapping("/motivo/{motivo}")
     public ResponseEntity<ApiResponse<List<NotaCredito>>> buscarPorMotivo(@PathVariable String motivo) {
@@ -111,16 +87,38 @@ public class NotaCreditoController {
         return ResponseEntity.ok(ApiResponse.success(notas));
     }
 
-    /**
-     * Busca notas de credito con total mayor al especificado.
-     * @param total Valor minimo del total.
-     * @return Lista de notas de credito.
-     */
+    /** Busca notas de credito con total mayor a un valor */
     @Operation(summary = "Buscar notas de credito con total mayor a")
     @GetMapping("/total-mayor/{total}")
     public ResponseEntity<ApiResponse<List<NotaCredito>>> buscarPorTotalMayor(@PathVariable double total) {
         log.info("GET /comprobantes/notas-credito/total-mayor/{} - Buscando por total", total);
         List<NotaCredito> notas = notaCreditoService.buscarPorTotalMayor(total);
         return ResponseEntity.ok(ApiResponse.success(notas));
+    }
+
+    // =============================================
+    // PATRON DECORATOR
+    // =============================================
+
+    /** Emite una nota de credito agregando generacion de codigo QR */
+    @Operation(summary = "Emitir nota de credito con codigo QR")
+    @PostMapping("/emitir-con-qr")
+    public ResponseEntity<ApiResponse<String>> emitirNotaCreditoConQR(@Valid @RequestBody NotaCredito nota) {
+        log.info("POST /comprobantes/notas-credito/emitir-con-qr - Emitiendo nota de credito con QR");
+        ComprobanteConQR notaConQR = new ComprobanteConQR(nota);
+        notaConQR.emitir();
+        notaCreditoService.guardarNotaCredito(nota);
+        return ResponseEntity.ok(ApiResponse.success("Nota de credito emitida con QR", "Serie: " + nota.getSerie()));
+    }
+
+    /** Emite una nota de credito agregando exportacion a PDF */
+    @Operation(summary = "Emitir nota de credito con exportacion a PDF")
+    @PostMapping("/emitir-con-pdf")
+    public ResponseEntity<ApiResponse<String>> emitirNotaCreditoConPDF(@Valid @RequestBody NotaCredito nota) {
+        log.info("POST /comprobantes/notas-credito/emitir-con-pdf - Emitiendo nota de credito con PDF");
+        ComprobanteConPDF notaConPDF = new ComprobanteConPDF(nota);
+        notaConPDF.emitir();
+        notaCreditoService.guardarNotaCredito(nota);
+        return ResponseEntity.ok(ApiResponse.success("Nota de credito emitida con PDF", "Serie: " + nota.getSerie()));
     }
 }
