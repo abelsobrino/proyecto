@@ -21,12 +21,6 @@ import java.util.List;
  * Controlador REST para la gestion de pagos.
  * Utiliza el patron Factory Method para crear diferentes tipos de pago.
  *
- * <p>Este controller equivale al main() del ejemplo del profesor:
- * <pre>
- * Logistica logisticaTerrestre = new LogisticaTerrestre();
- * logisticaTerrestre.planificarEntrega();
- * </pre>
- * </p>
  *
  * @author Sistema de Ventas UTP
  * @version 1.0.0
@@ -57,17 +51,9 @@ public class PagoController {
     /**
      * Procesa un pago segun el tipo (EFECTIVO/TARJETA).
      *
-     * <p>Este metodo es el equivalente al main() del ejemplo del profesor.
      * Demuestra el uso del patron Factory Method:
      * 1. Se crea una fabrica concreta segun el tipo
      * 2. Se llama al metodo procesar() que internamente usa el Factory Method
-     *
-     * <p>Equivale a:
-     * <pre>
-     * Logistica logisticaTerrestre = new LogisticaTerrestre();
-     * logisticaTerrestre.planificarEntrega();
-     * </pre>
-     * </p>
      *
      * @param tipo Tipo de pago: EFECTIVO o TARJETA.
      * @return Mensaje de confirmacion del pago procesado.

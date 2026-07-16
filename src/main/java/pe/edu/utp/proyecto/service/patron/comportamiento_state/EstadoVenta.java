@@ -1,7 +1,5 @@
 package pe.edu.utp.proyecto.service.patron.comportamiento_state;
 
-import pe.edu.utp.proyecto.modelo.ventas.Venta;
-
 /**
  * Interfaz que define el comportamiento de los estados de una venta (State Pattern).
  *
