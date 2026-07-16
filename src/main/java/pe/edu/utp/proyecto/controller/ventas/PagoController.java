@@ -63,9 +63,6 @@ public class PagoController {
     public ResponseEntity<ApiResponse<String>> procesarPago(@RequestParam String tipo) {
         log.info("POST /ventas/pagos/procesar - Procesando pago tipo: {}", tipo);
 
-        // === USO DEL PATRON FACTORY METHOD ===
-        // 1. Crear la fabrica concreta segun el tipo de pago
-        //    Equivale a: Logistica logistica = new LogisticaTerrestre();
         ProcesadorPagoFactory factory;
         if ("TARJETA".equalsIgnoreCase(tipo)) {
             factory = new PagoTarjetaFactory();
@@ -73,10 +70,9 @@ public class PagoController {
             factory = new PagoEfectivoFactory();
         }
 
-        // 2. Procesar el pago usando la fabrica (Template Method)
-        //    Equivale a: logistica.planificarEntrega();
+
         factory.procesar();
-        // === FIN FACTORY METHOD ===
+
 
         return ResponseEntity.ok(ApiResponse.success("Pago procesado correctamente", "Tipo: " + tipo));
     }
