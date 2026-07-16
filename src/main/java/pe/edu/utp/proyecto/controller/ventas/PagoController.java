@@ -17,14 +17,6 @@ import pe.edu.utp.proyecto.service.ventas.PagoService;
 
 import java.util.List;
 
-/**
- * Controlador REST para la gestion de pagos.
- * Utiliza el patron Factory Method para crear diferentes tipos de pago.
- *
- *
- * @author Sistema de Ventas UTP
- * @version 1.0.0
- */
 @RestController
 @RequestMapping("/ventas/pagos")
 @Tag(name = "Pagos", description = "Gestion de pagos")
@@ -34,11 +26,6 @@ public class PagoController {
 
     private final PagoService pagoService;
 
-    /**
-     * Registra un nuevo pago en el sistema.
-     * @param pago Datos del pago a registrar.
-     * @return Pago registrado con su ID generado.
-     */
     @Operation(summary = "Registrar un nuevo pago")
     @PostMapping
     public ResponseEntity<ApiResponse<Pago>> crearPago(@Valid @RequestBody Pago pago) {
@@ -48,16 +35,6 @@ public class PagoController {
                 .body(ApiResponse.success(creado, "Pago registrado exitosamente"));
     }
 
-    /**
-     * Procesa un pago segun el tipo (EFECTIVO/TARJETA).
-     *
-     * Demuestra el uso del patron Factory Method:
-     * 1. Se crea una fabrica concreta segun el tipo
-     * 2. Se llama al metodo procesar() que internamente usa el Factory Method
-     *
-     * @param tipo Tipo de pago: EFECTIVO o TARJETA.
-     * @return Mensaje de confirmacion del pago procesado.
-     */
     @Operation(summary = "Procesar un pago segun el tipo (EFECTIVO/TARJETA) - Factory Method")
     @PostMapping("/procesar")
     public ResponseEntity<ApiResponse<String>> procesarPago(@RequestParam String tipo) {
@@ -69,19 +46,11 @@ public class PagoController {
         } else {
             factory = new PagoEfectivoFactory();
         }
-
-
         factory.procesar();
-
 
         return ResponseEntity.ok(ApiResponse.success("Pago procesado correctamente", "Tipo: " + tipo));
     }
 
-    /**
-     * Obtiene un pago por su ID.
-     * @param id ID del pago.
-     * @return Pago encontrado o 404 Not Found.
-     */
     @Operation(summary = "Obtener un pago por su ID")
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<Pago>> obtenerPago(@PathVariable Integer id) {
@@ -91,10 +60,6 @@ public class PagoController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    /**
-     * Lista todos los pagos registrados.
-     * @return Lista de pagos.
-     */
     @Operation(summary = "Obtener todos los pagos")
     @GetMapping
     public ResponseEntity<ApiResponse<List<Pago>>> obtenerTodosPagos() {
@@ -103,12 +68,6 @@ public class PagoController {
         return ResponseEntity.ok(ApiResponse.success(pagos));
     }
 
-    /**
-     * Actualiza un pago existente.
-     * @param id ID del pago a actualizar.
-     * @param pago Datos actualizados.
-     * @return Pago actualizado.
-     */
     @Operation(summary = "Actualizar un pago existente")
     @PutMapping("/{id}")
     public ResponseEntity<ApiResponse<Pago>> actualizarPago(
@@ -119,10 +78,6 @@ public class PagoController {
         return ResponseEntity.ok(ApiResponse.success(actualizado, "Pago actualizado exitosamente"));
     }
 
-    /**
-     * Elimina un pago por su ID.
-     * @param id ID del pago a eliminar.
-     */
     @Operation(summary = "Eliminar un pago por su ID")
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse<Void>> eliminarPago(@PathVariable Integer id) {
@@ -131,11 +86,6 @@ public class PagoController {
         return ResponseEntity.ok(ApiResponse.success(null, "Pago eliminado exitosamente"));
     }
 
-    /**
-     * Busca pagos con monto mayor o igual al especificado.
-     * @param montoMinimo Monto minimo.
-     * @return Lista de pagos que coinciden.
-     */
     @Operation(summary = "Buscar pagos por monto minimo")
     @GetMapping("/monto-minimo/{montoMinimo}")
     public ResponseEntity<ApiResponse<List<Pago>>> obtenerPagosPorMonto(@PathVariable Double montoMinimo) {
@@ -144,10 +94,6 @@ public class PagoController {
         return ResponseEntity.ok(ApiResponse.success(pagos));
     }
 
-    /**
-     * Calcula el monto total de todos los pagos.
-     * @return Suma de todos los montos.
-     */
     @Operation(summary = "Calcular monto total de todos los pagos")
     @GetMapping("/total")
     public ResponseEntity<ApiResponse<Double>> calcularTotalPagos() {
